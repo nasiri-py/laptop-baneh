@@ -9,3 +9,6 @@ class RegisterForm(UserCreationForm):
         model = get_user_model()
         fields = ['phone_number', 'username', 'password1', 'password2']
 
+
+class VerifyForm(forms.Form):
+    code = forms.IntegerField()
