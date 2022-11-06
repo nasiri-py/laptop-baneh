@@ -8,13 +8,10 @@
     <title>Document</title>
 </head>
 <body>
-{% if user.is_authenticated %}
-    {{ user.username }}
-{% endif %}
  <form action="" method="post">
      {% csrf_token %}
      {{ form }}
-     <button type="submit">Verify</button>
+     <button type="submit">Send Code</button>
  </form>
 </body>
 </html>

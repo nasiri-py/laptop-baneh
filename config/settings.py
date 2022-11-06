@@ -127,6 +127,12 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# backends
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'accounts.backends.PhoneNumberBackend',
+]
+
 # custom user
 AUTH_USER_MODEL = 'accounts.User'
 

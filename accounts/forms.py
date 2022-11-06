@@ -10,5 +10,5 @@ class RegisterForm(UserCreationForm):
         fields = ['phone_number', 'username', 'password1', 'password2']
 
 
-class VerifyForm(forms.Form):
-    code = forms.IntegerField()
+class OtpCodeLoginForm(forms.Form):
+    phone_number = forms.CharField(max_length=11)
