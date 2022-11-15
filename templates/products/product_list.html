@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    {% for product in products %}
+        {{ product.title }}
+        <img src="{{ product.cover.url }}" alt="" style="width: 300px; height: 200px;">
+        <div style="display: flex;">{% for clr in product.color.all %}
+            <div style="height: 20px; width: 20px; background-color: {{ clr.color }};
+                    border-radius: 50%; border: 2px #bab5b5 solid; padding: 5px;
+                    margin-left: 5px"></div>
+        {% endfor %}
+        </div>
+        {% for img in product.images.all %}
+            <div style="border: 1px lightcoral">
+                <img src="{{ img.image.url }}" alt="" style="width: 300px; height: 200px;">
+            </div>
+        {% endfor %}
+    {% endfor %}
+</body>
+</html>
