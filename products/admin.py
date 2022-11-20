@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Product, Color, Image, Category
+from .models import Product, Color, Image, Category, Brand, Specification
 
 
 def make_available(modeladmin, request, queryset):
@@ -26,6 +26,10 @@ def make_unavailable(modeladmin, request, queryset):
 make_unavailable.short_description = "ناموجود شدن لپ تاپ های انتخاب شده"
 
 
+class SpecificationInline(admin.StackedInline):
+    model = Specification
+
+
 class ProductAdmin(admin.ModelAdmin):
     list_display = ['title', 'cover_tag', 'category_to_str', 'number', 'available', 'price', 'discount']
     prepopulated_fields = {'slug': ('title',)}
@@ -34,6 +38,7 @@ class ProductAdmin(admin.ModelAdmin):
     search_fields = ('title', 'brand')
     ordering = ['-created', '-available']
     actions = [make_available, make_unavailable]
+    inlines = [SpecificationInline]
 
 
 class ImageAdmin(admin.ModelAdmin):
@@ -48,7 +53,13 @@ class CategoryAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('title',)}
 
 
+class BrandAdmin(admin.ModelAdmin):
+    prepopulated_fields = {'slug': ('name',)}
+
+
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Image, ImageAdmin)
 admin.site.register(Color, ColorAdmin)
 admin.site.register(Category, CategoryAdmin)
+admin.site.register(Brand, BrandAdmin)
+admin.site.register(Specification)

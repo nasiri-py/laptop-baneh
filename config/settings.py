@@ -147,10 +147,3 @@ LOGOUT_REDIRECT_URL = ''
 # media
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR.joinpath('media')
-
-# ckeditor
-CKEDITOR_CONFIGS = {
-    'default': {
-        'toolbar': 'full',
-    },
-}
