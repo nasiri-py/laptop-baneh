@@ -1,0 +1,863 @@
+{% extends 'base.html' %}
+{% load base_tags %}
+
+{% block title %}
+    Stoke Laptop Store
+{% endblock %}
+
+{% block content %}
+    <!-- Open Content -->
+    <section class="bg-light">
+        <div class="container pb-5">
+            <div class="row">
+                <div class="col-lg-5 mt-5" style="height: 100% !important;">
+                    <div class="card mb-3">
+                        <img class="card-img img-fluid product-cover" src="{{ product.cover.url }}" alt="{{ product.title }}" id="product-detail">
+                    </div>
+                    <!--Start Carousel Wrapper-->
+                    <div class="carousel-inner product-links-wap position-relative" role="listbox">
+                        <i class="fas fa-chevron-right detail-right-slide position-absolute end-0 h3"
+                           style="color: #bc1f69 !important;z-index: 2;top: 41% !important;"></i>
+                        <div class="swiper-container" id="detail-swiper-container">
+                            <ul class="swiper-wrapper">
+                                <li class="swiper-slide detail-swiper-slide">
+                                    <a href="#">
+                                        <img class="card-img img-fluid" src="{{ product.cover.url }}" alt="{{ product.title }}">
+                                    </a>
+                                </li>
+                                {% for img in product.images.all %}
+                                    <li class="swiper-slide detail-swiper-slide">
+                                        <a href="#">
+                                            <img class="card-img img-fluid" src="{{ img.image.url }}" alt="Product Image">
+                                        </a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <i class="fas fa-chevron-left detail-left-slide position-absolute start-0 h3"
+                           style="color: #bc1f69 !important;z-index: 2;top: 41% !important;"></i>
+                    </div>
+                    <!--End Carousel Wrapper-->
+                </div>
+                <!-- col end -->
+                <div class="col-lg-7 card-detail">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="h5 border-bottom pb-3 mb-3">{{ product.title }}</h5>
+                            <p class="pt-2 mb-5">
+                                <i class="fa fa-star text-warning"></i>
+                                <i class="fa fa-star text-warning"></i>
+                                <i class="fa fa-star text-warning"></i>
+                                <i class="fa fa-star text-warning"></i>
+                                <i class="fa fa-star text-secondary"></i>
+                                <span class="list-inline-item text-dark">امتیاز 4.8 | 36 نظر</span>
+                            </p>
+                            <ul class="list-inline p-0 mb-3">
+                                <li class="list-inline-item m-0">
+                                    <h6>قیمت:</h6>
+                                </li>
+                                <li class="list-inline-item">
+                                    {% if product.discount %}
+                                        <ul class="list-unstyled d-flex justify-content-between align-items-center p-0">
+                                            <li class="text-start text-muted text-decoration-line-through ms-5">{{ product.price }}</li>
+                                            <li class="text-start price position-relative">{{ product.discount }} تومان
+                                                <span class="discount-percent position-absolute">{{ product.discount_percent }}%</span>
+                                        </li>
+                                    </ul>
+                                    {% else %}
+                                        <p class="price">{{ product.price }} تومان</p>
+                                    {% endif %}
+                                </li>
+                            </ul>
+                            <ul class="list-inline p-0 mb-3">
+                                <li class="list-inline-item m-0">
+                                    <h6>برند :</h6>
+                                </li>
+                                <li class="list-inline-item">
+                                    <img src="{{ product.brand.cover.url }}" alt="{{ product.brand.name }}" width="50" height="50">
+                                </li>
+                            </ul>
+                            <ul class="list-inline p-0 mb-3">
+                                <li class="list-inline-item m-0">
+                                    <h6>گرید :</h6>
+                                </li>
+                                <li class="list-inline-item">
+                                    <h5 class="text-success mb-2">{{ product.grade_choice }}</h5>
+                                </li>
+                            </ul>
+
+                            <div class="detail-forms d-flex justify-content-between align-items-end">
+                                <form action="" method="GET" class="shopping-form mt-3">
+                                    <input type="hidden" name="product-title" value="Activewear">
+                                    <div class="row flex-column mx-1">
+                                        <div class="col-auto p-0">
+                                            <ul class="list-inline pb-3 px-0">
+                                                <li class="list-inline-item m-0">رنگ :
+                                                    <input type="hidden" name="product-size" id="product-size"
+                                                           value="S">
+                                                </li>
+                                                {% for clr in product.color.all %}
+                                                    <li class="list-inline-item m-1"><span class="btn btn-color p-1"
+                                                                                           style="background-color: {{ clr.color }};"></span>
+                                                    </li>
+                                                {% endfor %}
+                                            </ul>
+                                        </div>
+                                        <div class="col-auto p-0">
+                                            <ul class="list-inline pb-3 px-0">
+                                                <li class="list-inline-item m-0 text-right">
+                                                    تعداد :
+                                                    <input type="hidden" name="product-quanity" id="product-quanity"
+                                                           value="1">
+                                                </li>
+                                                <li class="list-inline-item m-0"><span
+                                                        class="btn btn-success btn-buy py-0" id="btn-minus">-</span>
+                                                </li>
+                                                <li class="list-inline-item m-0"><span class="badge bg-secondary"
+                                                                                       id="var-value">1</span></li>
+                                                <li class="list-inline-item m-0"><span
+                                                        class="btn btn-success btn-buy py-0" id="btn-plus">+</span></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="row pb-3">
+                                        <div class="col d-grid">
+                                            <button type="submit" class="btn btn-success btn-buy btn-lg px-3"
+                                                    name="submit" value="addtocard"><i class="fa fa-shopping-bag"
+                                                                                       aria-hidden="true"></i> افزودن به
+                                                سبد خرید
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                                <form action="" method="get" class="compare-form pb-3 mx-5">
+                                    <button type="submit" class="btn btn-secondary btn-lg" name="submit"
+                                            value="addtocard"><i class="fa fa-random" aria-hidden="true"></i> مقایسه کن
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Close Content -->
+
+    <section class="dynamic-tab">
+        <div class="container">
+            <div class="product-info-tabs">
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item">
+                        <a class="text-center text-dark h4 nav-link active" id="description-tab" data-toggle="tab"
+                           href="#description" role="tab"
+                           aria-controls="description" aria-selected="true">معرفی</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="text-center text-dark h4 nav-link" id="specification-tab" data-toggle="tab"
+                           href="#specification" role="tab"
+                           aria-controls="specification" aria-selected="true">مشخصات</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="text-center text-dark h4 nav-link" id="review-tab" data-toggle="tab" href="#review"
+                           role="tab"
+                           aria-controls="review" aria-selected="false">نظرات (2)</a>
+                    </li>
+                </ul>
+                <div class="tab-content rounded" id="myTabContent">
+                    <div class="tab-pane fade show active p-4" id="description" role="tabpanel"
+                         aria-labelledby="description-tab">
+                        {{ product.description|safe }}
+                    </div>
+                    <div class="tab-pane fadee" id="specification" role="tabpanel"
+                         aria-labelledby="specification-tab">
+                        <section class="specification mt-4">
+                            <h5 class="specification-header mb-3"><i class="fa fa-window-minimize"
+                                                                     aria-hidden="true"></i> مشخصات فیزیکی</h5>
+                            <ul class="list-inline pe-4 mb-1">
+                                <li class="row m-0 list-inline-item specification-title">
+                                    <div class="col-6 col-md-2 mb-1 ms-1 specification-caption"><h6 class="m-0 p-2">
+                                        مدل</h6></div>
+                                    <div class="col-12 col-md-9 mb-1 specification-value">
+                                        <p class="m-0 p-2 pe-3">{{ product.specs.name }}</p>
+                                    </div>
+                                </li>
+                            </ul>
+                            <ul class="list-inline pe-4 mb-1">
+                                <li class="row m-0 list-inline-item specification-title">
+                                    <div class="col-6 col-md-2 mb-1 ms-1 specification-caption"><h6 class="m-0 p-2">
+                                        ابعاد</h6></div>
+                                    <div class="col-12 col-md-9 mb-1 specification-value">
+                                        <p class="m-0 p-2 pe-3">{{ product.specs.size }}</p>
+                                    </div>
+                                </li>
+                            </ul>
+                            <ul class="list-inline pe-4 mb-1">
+                                <li class="row m-0 list-inline-item specification-title">
+                                    <div class="col-6 col-md-2 mb-1 ms-1 specification-caption"><h6 class="m-0 p-2">
+                                        وزن</h6></div>
+                                    <div class="col-12 col-md-9 mb-1 specification-value">
+                                        <p class="m-0 p-2 pe-3">{{ product.specs.weight }} کیلوگرم</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </section>
+                        <section class="specification mt-4">
+                            <h5 class="specification-header mb-3"><i class="fa fa-window-minimize"
+                                                                     aria-hidden="true"></i> صفحه نمایش</h5>
+                            <ul class="list-inline pe-4 mb-1">
+                                <li class="row m-0 list-inline-item specification-title">
+                                    <div class="col-6 col-md-2 mb-1 ms-1 specification-caption"><h6 class="m-0 p-2">
+                                        اندازه صفحه نمایش</h6></div>
+                                    <div class="col-12 col-md-9 mb-1 specification-value">
+                                        <p class="m-0 p-2 pe-3">{{ product.specs.screen_size }} اینچ</p>
+                                    </div>
+                                </li>
+                            </ul>
+                            <ul class="list-inline pe-4 mb-1">
+                                <li class="row m-0 list-inline-item specification-title">
+                                    <div class="col-6 col-md-2 mb-1 ms-1 specification-caption"><h6 class="m-0 p-2">
+                                        نوع صفحه نمایش</h6></div>
+                                    <div class="col-12 col-md-9 mb-1 specification-value">
+                                        <p class="m-0 p-2 pe-3">{{ product.specs.screen_type }}</p>
+                                    </div>
+                                </li>
+                            </ul>
+                            <ul class="list-inline pe-4 mb-1">
+                                <li class="row m-0 list-inline-item specification-title">
+                                    <div class="col-6 col-md-2 mb-1 ms-1 specification-caption"><h6 class="m-0 p-2">
+                                        رزولوشن</h6></div>
+                                    <div class="col-12 col-md-9 mb-1 specification-value">
+                                        <p class="m-0 p-2 pe-3">{{ product.specs.screen_resolution }}</p>
+                                    </div>
+                                </li>
+                            </ul>
+                            <ul class="list-inline pe-4 mb-1">
+                                <li class="row m-0 list-inline-item specification-title">
+                                    <div class="col-6 col-md-2 mb-1 ms-1 specification-caption"><h6 class="m-0 p-2">
+                                        صفحه نمایش مات</h6></div>
+                                    <div class="col-12 col-md-9 mb-1 specification-value">
+                                        <p class="m-0 p-2 pe-3">{% boolean_icon product.specs.screen_matte %}</p>
+                                    </div>
+                                </li>
+                            </ul>
+                            <ul class="list-inline pe-4 mb-1">
+                                <li class="row m-0 list-inline-item specification-title">
+                                    <div class="col-6 col-md-2 mb-1 ms-1 specification-caption"><h6 class="m-0 p-2">
+                                        صفحه نمایش لمسی</h6></div>
+                                    <div class="col-12 col-md-9 mb-1 specification-value">
+                                        <p class="m-0 p-2 pe-3">{% boolean_icon product.specs.screen_touch %}</p>
+                                    </div>
+                                </li>
+                            </ul>
+                            {% if product.specs.screen_description %}
+                                <ul class="list-inline pe-4 mb-1">
+                                <li class="row m-0 list-inline-item specification-title">
+                                    <div class="col-6 col-md-2 mb-1 ms-1 specification-caption"><h6 class="m-0 p-2">
+                                        توضیحات صفحه نمایش</h6></div>
+                                    <div class="col-12 col-md-9 mb-1 specification-value">
+                                        <p class="m-0 p-2 pe-3">{{ product.specs.screen_description }}</p>
+                                    </div>
+                                </li>
+                            </ul>
+                            {% endif %}
+                        </section>
+                        <section class="specification mt-4">
+                            <h5 class="specification-header mb-3"><i class="fa fa-window-minimize"
+                                                                     aria-hidden="true"></i> پردازنده</h5>
+                            <ul class="list-inline pe-4 mb-1">
+                                <li class="row m-0 list-inline-item specification-title">
+                                    <div class="col-6 col-md-2 mb-1 ms-1 specification-caption"><h6 class="m-0 p-2">
+                                        سازنده</h6></div>
+                                    <div class="col-12 col-md-9 mb-1 specification-value">
+                                        <p class="m-0 p-2 pe-3">{{ product.specs.cpu_maker }}</p>
+                                    </div>
+                                </li>
+                            </ul>
+                            <ul class="list-inline pe-4 mb-1">
+                                <li class="row m-0 list-inline-item specification-title">
+                                    <div class="col-6 col-md-2 mb-1 ms-1 specification-caption"><h6 class="m-0 p-2">
+                                        سری پردازنده</h6></div>
+                                    <div class="col-12 col-md-9 mb-1 specification-value">
+                                        <p class="m-0 p-2 pe-3">{{ product.specs.cpu_series }}</p>
+                                    </div>
+                                </li>
+                            </ul>
+                            <ul class="list-inline pe-4 mb-1">
+                                <li class="row m-0 list-inline-item specification-title">
+                                    <div class="col-6 col-md-2 mb-1 ms-1 specification-caption"><h6 class="m-0 p-2">
+                                        مدل</h6></div>
+                                    <div class="col-12 col-md-9 mb-1 specification-value">
+                                        <p class="m-0 p-2 pe-3">{{ product.specs.cpu_model }}</p>
+                                    </div>
+                                </li>
+                            </ul>
+                            {% if product.specs.cpu_description %}
+                                <ul class="list-inline pe-4 mb-1">
+                                <li class="row m-0 list-inline-item specification-title">
+                                    <div class="col-6 col-md-2 mb-1 ms-1 specification-caption"><h6 class="m-0 p-2">
+                                        توضیحات پردازنده</h6></div>
+                                    <div class="col-12 col-md-9 mb-1 specification-value">
+                                        <p class="m-0 p-2 pe-3">{{ product.specs.cpu_description }}</p>
+                                    </div>
+                                </li>
+                            </ul>
+                            {% endif %}
+                        </section>
+                        <section class="specification mt-4">
+                            <h5 class="specification-header mb-3"><i class="fa fa-window-minimize"
+                                                                     aria-hidden="true"></i> پردازنده گرافیکی</h5>
+                            <ul class="list-inline pe-4 mb-1">
+                                <li class="row m-0 list-inline-item specification-title">
+                                    <div class="col-6 col-md-2 mb-1 ms-1 specification-caption"><h6 class="m-0 p-2">
+                                        گرافیک خارجی</h6></div>
+                                    <div class="col-12 col-md-9 mb-1 specification-value">
+                                        <p class="m-0 p-2 pe-3">{% boolean_icon product.specs.has_gpu %}</p>
+                                    </div>
+                                </li>
+                            </ul>
+                            <ul class="list-inline pe-4 mb-1">
+                                <li class="row m-0 list-inline-item specification-title">
+                                    <div class="col-6 col-md-2 mb-1 ms-1 specification-caption"><h6 class="m-0 p-2">
+                                        سازنده</h6></div>
+                                    <div class="col-12 col-md-9 mb-1 specification-value">
+                                        <p class="m-0 p-2 pe-3">{{ product.specs.gpu_maker }}</p>
+                                    </div>
+                                </li>
+                            </ul>
+                            <ul class="list-inline pe-4 mb-1">
+                                <li class="row m-0 list-inline-item specification-title">
+                                    <div class="col-6 col-md-2 mb-1 ms-1 specification-caption"><h6 class="m-0 p-2">
+                                        مدل</h6></div>
+                                    <div class="col-12 col-md-9 mb-1 specification-value">
+                                        <p class="m-0 p-2 pe-3">{{ product.specs.gpu_model }}</p>
+                                    </div>
+                                </li>
+                            </ul>
+                            <ul class="list-inline pe-4 mb-1">
+                                <li class="row m-0 list-inline-item specification-title">
+                                    <div class="col-6 col-md-2 mb-1 ms-1 specification-caption"><h6 class="m-0 p-2">
+                                        حافظه گرافیکی</h6></div>
+                                    <div class="col-12 col-md-9 mb-1 specification-value">
+                                        <p class="m-0 p-2 pe-3">{{ product.specs.gpu_memory }} گیگابایت</p>
+                                    </div>
+                                </li>
+                            </ul>
+                            {% if product.specs.gpu_description %}
+                                <ul class="list-inline pe-4 mb-1">
+                                <li class="row m-0 list-inline-item specification-title">
+                                    <div class="col-6 col-md-2 mb-1 ms-1 specification-caption"><h6 class="m-0 p-2">
+                                        توضیحات کارت گرافیک</h6></div>
+                                    <div class="col-12 col-md-9 mb-1 specification-value">
+                                        <p class="m-0 p-2 pe-3">{{ product.specs.gpu_description }}</p>
+                                    </div>
+                                </li>
+                            </ul>
+                            {% endif %}
+                        </section>
+                        <section class="specification mt-4">
+                            <h5 class="specification-header mb-3"><i class="fa fa-window-minimize"
+                                                                     aria-hidden="true"></i> رم</h5>
+                            <ul class="list-inline pe-4 mb-1">
+                                <li class="row m-0 list-inline-item specification-title">
+                                    <div class="col-6 col-md-2 mb-1 ms-1 specification-caption"><h6 class="m-0 p-2">
+                                        حافظه رم</h6></div>
+                                    <div class="col-12 col-md-9 mb-1 specification-value">
+                                        <p class="m-0 p-2 pe-3">{{ product.specs.ram_capacity }} گیگابایت</p>
+                                    </div>
+                                </li>
+                            </ul>
+                            <ul class="list-inline pe-4 mb-1">
+                                <li class="row m-0 list-inline-item specification-title">
+                                    <div class="col-6 col-md-2 mb-1 ms-1 specification-caption"><h6 class="m-0 p-2">
+                                        نوع رم</h6></div>
+                                    <div class="col-12 col-md-9 mb-1 specification-value">
+                                        <p class="m-0 p-2 pe-3">{{ product.specs.ram_type }}</p>
+                                    </div>
+                                </li>
+                            </ul>
+                            {% if product.specs.ram_description %}
+                                <ul class="list-inline pe-4 mb-1">
+                                <li class="row m-0 list-inline-item specification-title">
+                                    <div class="col-6 col-md-2 mb-1 ms-1 specification-caption"><h6 class="m-0 p-2">
+                                        توضیحات رم</h6></div>
+                                    <div class="col-12 col-md-9 mb-1 specification-value">
+                                        <p class="m-0 p-2 pe-3">{{ product.specs.ram_description }}</p>
+                                    </div>
+                                </li>
+                            </ul>
+                            {% endif %}
+                        </section>
+                        <section class="specification mt-4">
+                            <h5 class="specification-header mb-3"><i class="fa fa-window-minimize"
+                                                                     aria-hidden="true"></i> هارد دیسک</h5>
+                            <ul class="list-inline pe-4 mb-1">
+                                <li class="row m-0 list-inline-item specification-title">
+                                    <div class="col-6 col-md-2 mb-1 ms-1 specification-caption"><h6 class="m-0 p-2">
+                                        هارد HDD</h6></div>
+                                    <div class="col-12 col-md-9 mb-1 specification-value">
+                                        <p class="m-0 p-2 pe-3">{% boolean_icon product.specs.has_hdd %}</p>
+                                    </div>
+                                </li>
+                            </ul>
+                            {% if product.specs.has_hdd %}
+                                <ul class="list-inline pe-4 mb-1">
+                                <li class="row m-0 list-inline-item specification-title">
+                                    <div class="col-6 col-md-2 mb-1 ms-1 specification-caption"><h6 class="m-0 p-2">
+                                        ظرفیت هارد HDD</h6></div>
+                                    <div class="col-12 col-md-9 mb-1 specification-value">
+                                        <p class="m-0 p-2 pe-3">{{ product.specs.hdd_capacity }}</p>
+                                    </div>
+                                </li>
+                            </ul>
+                            {% endif %}
+                            <ul class="list-inline pe-4 mb-1">
+                                <li class="row m-0 list-inline-item specification-title">
+                                    <div class="col-6 col-md-2 mb-1 ms-1 specification-caption"><h6 class="m-0 p-2">
+                                        هارد SSD</h6></div>
+                                    <div class="col-12 col-md-9 mb-1 specification-value">
+                                        <p class="m-0 p-2 pe-3">{% boolean_icon product.specs.has_ssd %}</p>
+                                    </div>
+                                </li>
+                            </ul>
+                            {% if product.specs.has_ssd %}
+                                <ul class="list-inline pe-4 mb-1">
+                                <li class="row m-0 list-inline-item specification-title">
+                                    <div class="col-6 col-md-2 mb-1 ms-1 specification-caption"><h6 class="m-0 p-2">
+                                        ظرفیت هارد SSD</h6></div>
+                                    <div class="col-12 col-md-9 mb-1 specification-value">
+                                        <p class="m-0 p-2 pe-3">{{ product.specs.ssd_capacity }}</p>
+                                    </div>
+                                </li>
+                            </ul>
+                            {% endif %}
+                            {% if product.specs.hard_description %}
+                                <ul class="list-inline pe-4 mb-1">
+                                <li class="row m-0 list-inline-item specification-title">
+                                    <div class="col-6 col-md-2 mb-1 ms-1 specification-caption"><h6 class="m-0 p-2">
+                                        توضیحات هارد دیسک</h6></div>
+                                    <div class="col-12 col-md-9 mb-1 specification-value">
+                                        <p class="m-0 p-2 pe-3">{{ product.specs.hard_description }}</p>
+                                    </div>
+                                </li>
+                            </ul>
+                            {% endif %}
+                        </section>
+                        <section class="specification mt-4">
+                            <h5 class="specification-header mb-3"><i class="fa fa-window-minimize"
+                                                                     aria-hidden="true"></i> پورت ها، اتصالات و امکانات</h5>
+                            <ul class="list-inline pe-4 mb-1">
+                                <li class="row m-0 list-inline-item specification-title">
+                                    <div class="col-6 col-md-2 mb-1 ms-1 specification-caption"><h6 class="m-0 p-2">
+                                        درایو نوری</h6></div>
+                                    <div class="col-12 col-md-9 mb-1 specification-value">
+                                        <p class="m-0 p-2 pe-3">{% boolean_icon product.specs.optical_drive %}</p>
+                                    </div>
+                                </li>
+                            </ul>
+                            <ul class="list-inline pe-4 mb-1">
+                                <li class="row m-0 list-inline-item specification-title">
+                                    <div class="col-6 col-md-2 mb-1 ms-1 specification-caption"><h6 class="m-0 p-2">
+                                        وبکم</h6></div>
+                                    <div class="col-12 col-md-9 mb-1 specification-value">
+                                        <p class="m-0 p-2 pe-3">{{ product.specs.webcam}}</p>
+                                    </div>
+                                </li>
+                            </ul>
+                            <ul class="list-inline pe-4 mb-1">
+                                <li class="row m-0 list-inline-item specification-title">
+                                    <div class="col-6 col-md-2 mb-1 ms-1 specification-caption"><h6 class="m-0 p-2">
+                                        مشخصات تاچ پد</h6></div>
+                                    <div class="col-12 col-md-9 mb-1 specification-value">
+                                        <p class="m-0 p-2 pe-3">{{ product.specs.touchpad_specs }}</p>
+                                    </div>
+                                </li>
+                            </ul>
+                            <ul class="list-inline pe-4 mb-1">
+                                <li class="row m-0 list-inline-item specification-title">
+                                    <div class="col-6 col-md-2 mb-1 ms-1 specification-caption"><h6 class="m-0 p-2">
+                                        نور پس زمینه کیبورد</h6></div>
+                                    <div class="col-12 col-md-9 mb-1 specification-value">
+                                        <p class="m-0 p-2 pe-3">{{ product.specs.keyboard_backlight }}</p>
+                                    </div>
+                                </li>
+                            </ul>
+                            <ul class="list-inline pe-4 mb-1">
+                                <li class="row m-0 list-inline-item specification-title">
+                                    <div class="col-6 col-md-2 mb-1 ms-1 specification-caption"><h6 class="m-0 p-2">
+                                        حسگر اثر انگشت</h6></div>
+                                    <div class="col-12 col-md-9 mb-1 specification-value">
+                                        <p class="m-0 p-2 pe-3">{% boolean_icon product.specs.fingerprint %}</p>
+                                    </div>
+                                </li>
+                            </ul>
+                            <ul class="list-inline pe-4 mb-1">
+                                <li class="row m-0 list-inline-item specification-title">
+                                    <div class="col-6 col-md-2 mb-1 ms-1 specification-caption"><h6 class="m-0 p-2">
+                                        کارت خوان</h6></div>
+                                    <div class="col-12 col-md-9 mb-1 specification-value">
+                                        <p class="m-0 p-2 pe-3">{% boolean_icon product.specs.sd_card %}</p>
+                                    </div>
+                                </li>
+                            </ul>
+                            <ul class="list-inline pe-4 mb-1">
+                                <li class="row m-0 list-inline-item specification-title">
+                                    <div class="col-6 col-md-2 mb-1 ms-1 specification-caption"><h6 class="m-0 p-2">
+                                        اتصال Wi-Fi</h6></div>
+                                    <div class="col-12 col-md-9 mb-1 specification-value">
+                                        <p class="m-0 p-2 pe-3">{{ product.specs.wifi }}</p>
+                                    </div>
+                                </li>
+                            </ul>
+                            <ul class="list-inline pe-4 mb-1">
+                                <li class="row m-0 list-inline-item specification-title">
+                                    <div class="col-6 col-md-2 mb-1 ms-1 specification-caption"><h6 class="m-0 p-2">
+                                        اتصال Bluetooth</h6></div>
+                                    <div class="col-12 col-md-9 mb-1 specification-value">
+                                        <p class="m-0 p-2 pe-3">{{ product.specs.bluetooth }}</p>
+                                    </div>
+                                </li>
+                            </ul>
+                            <ul class="list-inline pe-4 mb-1">
+                                <li class="row m-0 list-inline-item specification-title">
+                                    <div class="col-6 col-md-2 mb-1 ms-1 specification-caption"><h6 class="m-0 p-2">
+                                        پورت شبکه</h6></div>
+                                    <div class="col-12 col-md-9 mb-1 specification-value">
+                                        <p class="m-0 p-2 pe-3">{% boolean_icon product.specs.ethernet %}</p>
+                                    </div>
+                                </li>
+                            </ul>
+                            <ul class="list-inline pe-4 mb-1">
+                                <li class="row m-0 list-inline-item specification-title">
+                                    <div class="col-6 col-md-2 mb-1 ms-1 specification-caption"><h6 class="m-0 p-2">
+                                        درگاه VGA</h6></div>
+                                    <div class="col-12 col-md-9 mb-1 specification-value">
+                                        <p class="m-0 p-2 pe-3">{% boolean_icon product.specs.vga %}</p>
+                                    </div>
+                                </li>
+                            </ul>
+                            <ul class="list-inline pe-4 mb-1">
+                                <li class="row m-0 list-inline-item specification-title">
+                                    <div class="col-6 col-md-2 mb-1 ms-1 specification-caption"><h6 class="m-0 p-2">
+                                       درگاه HDMI</h6></div>
+                                    <div class="col-12 col-md-9 mb-1 specification-value">
+                                        <p class="m-0 p-2 pe-3">{% boolean_icon product.specs.hdmi %}</p>
+                                    </div>
+                                </li>
+                            </ul>
+                            {% if product.specs.usb2_num %}
+                                <ul class="list-inline pe-4 mb-1">
+                                <li class="row m-0 list-inline-item specification-title">
+                                    <div class="col-6 col-md-2 mb-1 ms-1 specification-caption"><h6 class="m-0 p-2">
+                                        درگاه USB 2.0</h6></div>
+                                    <div class="col-12 col-md-9 mb-1 specification-value">
+                                        <p class="m-0 p-2 pe-3">{{ product.specs.usb2_num }} درگاه</p>
+                                    </div>
+                                </li>
+                            </ul>
+                            {% endif %}
+                            {% if product.specs.usb3_num %}
+                                <ul class="list-inline pe-4 mb-1">
+                                <li class="row m-0 list-inline-item specification-title">
+                                    <div class="col-6 col-md-2 mb-1 ms-1 specification-caption"><h6 class="m-0 p-2">
+                                        درگاه USB 3.0</h6></div>
+                                    <div class="col-12 col-md-9 mb-1 specification-value">
+                                        <p class="m-0 p-2 pe-3">{{ product.specs.usb3_num }} درگاه</p>
+                                    </div>
+                                </li>
+                            </ul>
+                            {% endif %}
+                            {% if product.specs.type_c %}
+                                <ul class="list-inline pe-4 mb-1">
+                                <li class="row m-0 list-inline-item specification-title">
+                                    <div class="col-6 col-md-2 mb-1 ms-1 specification-caption"><h6 class="m-0 p-2">
+                                        درگاه تایپ C</h6></div>
+                                    <div class="col-12 col-md-9 mb-1 specification-value">
+                                        <p class="m-0 p-2 pe-3">{{ product.specs.type_c }} درگاه</p>
+                                    </div>
+                                </li>
+                            </ul>
+                            {% endif %}
+                            {% if product.specs.thunderbolt %}
+                                <ul class="list-inline pe-4 mb-1">
+                                <li class="row m-0 list-inline-item specification-title">
+                                    <div class="col-6 col-md-2 mb-1 ms-1 specification-caption"><h6 class="m-0 p-2">
+                                        درگاه thunderbolt</h6></div>
+                                    <div class="col-12 col-md-9 mb-1 specification-value">
+                                        <p class="m-0 p-2 pe-3">{% boolean_icon product.specs.thunderbolt %}</p>
+                                    </div>
+                                </li>
+                            </ul>
+                            {% endif %}
+                            <ul class="list-inline pe-4 mb-1">
+                                <li class="row m-0 list-inline-item specification-title">
+                                    <div class="col-6 col-md-2 mb-1 ms-1 specification-caption"><h6 class="m-0 p-2">
+                                       جک 3.5 میلیمتری</h6></div>
+                                    <div class="col-12 col-md-9 mb-1 specification-value">
+                                        <p class="m-0 p-2 pe-3">{% boolean_icon product.specs.jack_3 %}</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </section>
+                        <section class="specification my-4">
+                            <h5 class="specification-header mb-3"><i class="fa fa-window-minimize"
+                                                                     aria-hidden="true"></i> سایر ویژگی ها</h5>
+                            <ul class="list-inline pe-4 mb-1">
+                                <li class="row m-0 list-inline-item specification-title">
+                                    <div class="col-6 col-md-2 mb-1 ms-1 specification-caption"><h6 class="m-0 p-2">
+                                       سیستم عامل</h6></div>
+                                    <div class="col-12 col-md-9 mb-1 specification-value">
+                                        <p class="m-0 p-2 pe-3">{{ product.specs.os }}</p>
+                                    </div>
+                                </li>
+                            </ul>
+                            <ul class="list-inline pe-4 mb-1">
+                                <li class="row m-0 list-inline-item specification-title">
+                                    <div class="col-6 col-md-2 mb-1 ms-1 specification-caption"><h6 class="m-0 p-2">
+                                        اقلام همراه</h6></div>
+                                    <div class="col-12 col-md-9 mb-1 specification-value">
+                                        <p class="m-0 p-2 pe-3">{{ product.specs.include_items }}</p>
+                                    </div>
+                                </li>
+                            </ul>
+                            <ul class="list-inline pe-4 mb-1">
+                                <li class="row m-0 list-inline-item specification-title">
+                                    <div class="col-6 col-md-2 mb-1 ms-1 specification-caption"><h6 class="m-0 p-2">
+                                        مشخصات باتری</h6></div>
+                                    <div class="col-12 col-md-9 mb-1 specification-value">
+                                        <p class="m-0 p-2 pe-3">{{ product.specs.battery }}</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </section>
+                    </div>
+                    <div class="tab-pane fade" id="review" role="tabpanel" aria-labelledby="review-tab">
+                        <div class="review-heading">REVIEWS</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Start Article -->
+    <section class="py-4 dynamic-tab">
+        <div class="container position-relative">
+            <i class="fas fa-chevron-right right-slide2 position-absolute top-50 end-0 h3 chevron-slider"></i>
+            <div class="py-2 d-flex justify-content-between align-items-baseline">
+                <h4 class="h4 w-50 mb-1">محصولات مشابه</h4>
+            </div>
+            <div class="swiper-container" id="swiper-container2">
+                <ul class="swiper-wrapper">
+                    <li class="mb-4 swiper-slide">
+                        <a href="shop-single.html" class="text-dark text-decoration-none">
+                            <div class="card h-100 border-0 shadow">
+                                <div class="card">
+                                    <img class="card-img rounded-0 rounded-top img-fluid" src="./l1.jpg">
+                                </div>
+                                <div class="card-body">
+                                    <ul class="list-unstyled p-0">
+                                        <li class="mb-1 product-title">لپ تاپ 15.6 اینچ Razer Blade 15 i7/16GB/1TB
+                                            SSD/6GB
+                                        </li>
+                                        <li>
+                                            <ul class="list-unstyled d-flex flex-column justify-content-between p-0">
+                                                <li class="text-start discount py-2">55,000,000 تومان</li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="mb-4 swiper-slide">
+                        <a href="shop-single.html" class="text-dark text-decoration-none">
+                            <div class="card h-100 border-0 shadow">
+                                <div class="card">
+                                    <img class="card-img rounded-0 rounded-top img-fluid" src="./l1.jpg">
+                                </div>
+                                <div class="card-body">
+                                    <ul class="list-unstyled p-0">
+                                        <li class="mb-1 product-title">لپ تاپ 15.6 اینچ Razer Blade 15 i7/16GB/1TB
+                                            SSD/6GB
+                                        </li>
+                                    </ul>
+                                    <div class="w-100 unavailable">ناموجود</div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="mb-4 swiper-slide">
+                        <a href="shop-single.html" class="text-dark text-decoration-none">
+                            <div class="card h-100 border-0 shadow">
+                                <div class="card">
+                                    <img class="card-img rounded-0 rounded-top img-fluid" src="./l1.jpg">
+                                </div>
+                                <div class="card-body">
+                                    <ul class="list-unstyled p-0">
+                                        <li class="mb-1 product-title">لپ تاپ 15.6 اینچ Razer Blade 15 i7/16GB/1TB
+                                            SSD/6GB
+                                        </li>
+                                        <li>
+                                            <ul class="list-unstyled d-flex flex-column justify-content-between p-0">
+                                                <li class="text-start discount py-2">55,000,000 تومان</li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="mb-4 swiper-slide">
+                        <a href="shop-single.html" class="text-dark text-decoration-none">
+                            <div class="card h-100 border-0 shadow">
+                                <div class="card">
+                                    <img class="card-img rounded-0 rounded-top img-fluid" src="./l1.jpg">
+                                </div>
+                                <div class="card-body">
+                                    <ul class="list-unstyled p-0">
+                                        <li class="mb-1 product-title">لپ تاپ 15.6 اینچ Razer Blade 15 i7/16GB/1TB
+                                            SSD/6GB
+                                        </li>
+                                        <li>
+                                            <ul class="list-unstyled d-flex flex-column justify-content-between p-0">
+                                                <li class="text-start discount py-2">55,000,000 تومان</li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="mb-4 swiper-slide">
+                        <a href="shop-single.html" class="text-dark text-decoration-none">
+                            <div class="card h-100 border-0 shadow">
+                                <div class="card">
+                                    <img class="card-img rounded-0 rounded-top img-fluid" src="./l1.jpg">
+                                </div>
+                                <div class="card-body">
+                                    <ul class="list-unstyled p-0">
+                                        <li class="mb-1 product-title">لپ تاپ 15.6 اینچ Razer Blade 15 i7/16GB/1TB
+                                            SSD/6GB
+                                        </li>
+                                        <li>
+                                            <ul class="list-unstyled d-flex flex-column justify-content-between p-0">
+                                                <li class="text-start discount py-2">55,000,000 تومان</li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="mb-4 swiper-slide">
+                        <a href="shop-single.html" class="text-dark text-decoration-none">
+                            <div class="card h-100 border-0 shadow">
+                                <div class="card">
+                                    <img class="card-img rounded-0 rounded-top img-fluid" src="./l1.jpg">
+                                </div>
+                                <div class="card-body">
+                                    <ul class="list-unstyled p-0">
+                                        <li class="mb-1 product-title">لپ تاپ 15.6 اینچ Razer Blade 15 i7/16GB/1TB
+                                            SSD/6GB
+                                        </li>
+                                        <li>
+                                            <ul class="list-unstyled d-flex flex-column justify-content-between p-0">
+                                                <li class="text-start discount py-2">55,000,000 تومان</li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="mb-4 swiper-slide">
+                        <a href="shop-single.html" class="text-dark text-decoration-none">
+                            <div class="card h-100 border-0 shadow">
+                                <div class="card">
+                                    <img class="card-img rounded-0 rounded-top img-fluid" src="./l1.jpg">
+                                </div>
+                                <div class="card-body">
+                                    <ul class="list-unstyled p-0">
+                                        <li class="mb-1 product-title">لپ تاپ 15.6 اینچ Razer Blade 15 i7/16GB/1TB
+                                            SSD/6GB
+                                        </li>
+                                        <li>
+                                            <ul class="list-unstyled d-flex flex-column justify-content-between p-0">
+                                                <li class="text-start discount py-2">55,000,000 تومان</li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="mb-4 swiper-slide">
+                        <a href="shop-single.html" class="text-dark text-decoration-none">
+                            <div class="card h-100 border-0 shadow">
+                                <div class="card">
+                                    <img class="card-img rounded-0 rounded-top img-fluid" src="./l1.jpg">
+                                </div>
+                                <div class="card-body">
+                                    <ul class="list-unstyled p-0">
+                                        <li class="mb-1 product-title">لپ تاپ 15.6 اینچ Razer Blade 15 i7/16GB/1TB
+                                            SSD/6GB
+                                        </li>
+                                        <li>
+                                            <ul class="list-unstyled d-flex flex-column justify-content-between p-0">
+                                                <li class="text-start discount py-2">55,000,000 تومان</li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="mb-4 swiper-slide">
+                        <a href="shop-single.html" class="text-dark text-decoration-none">
+                            <div class="card h-100 border-0 shadow">
+                                <div class="card">
+                                    <img class="card-img rounded-0 rounded-top img-fluid" src="./l1.jpg">
+                                </div>
+                                <div class="card-body">
+                                    <ul class="list-unstyled p-0">
+                                        <li class="mb-1 product-title">لپ تاپ 15.6 اینچ Razer Blade 15 i7/16GB/1TB
+                                            SSD/6GB
+                                        </li>
+                                        <li>
+                                            <ul class="list-unstyled d-flex flex-column justify-content-between p-0">
+                                                <li class="text-start discount py-2">55,000,000 تومان</li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="mb-4 swiper-slide">
+                        <a href="shop-single.html" class="text-dark text-decoration-none">
+                            <div class="card h-100 border-0 shadow">
+                                <div class="card">
+                                    <img class="card-img rounded-0 rounded-top img-fluid" src="./l1.jpg">
+                                </div>
+                                <div class="card-body">
+                                    <ul class="list-unstyled p-0">
+                                        <li class="mb-1 product-title">لپ تاپ 15.6 اینچ Razer Blade 15 i7/16GB/1TB
+                                            SSD/6GB
+                                        </li>
+                                        <li>
+                                            <ul class="list-unstyled d-flex flex-column justify-content-between p-0">
+                                                <li class="text-start discount py-2">55,000,000 تومان</li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <i class="fas fa-chevron-left left-slide2 position-absolute top-50 start-0 h3 chevron-slider"></i>
+        </div>
+    </section>
+    <!-- End Article -->
+{% endblock %}

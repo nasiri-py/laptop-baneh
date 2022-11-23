@@ -30,15 +30,18 @@ class SpecificationInline(admin.StackedInline):
     model = Specification
 
 
+class ImageInline(admin.StackedInline):
+    model = Image
+
+
 class ProductAdmin(admin.ModelAdmin):
     list_display = ['title', 'cover_tag', 'category_to_str', 'number', 'available', 'price', 'discount']
     prepopulated_fields = {'slug': ('title',)}
-    raw_id_fields = ['images']
     list_filter = (['brand', 'title', 'available'])
     search_fields = ('title', 'brand')
     ordering = ['-created', '-available']
     actions = [make_available, make_unavailable]
-    inlines = [SpecificationInline]
+    inlines = [ImageInline, SpecificationInline]
 
 
 class ImageAdmin(admin.ModelAdmin):

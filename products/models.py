@@ -1,4 +1,5 @@
 from django.db import models
+from django.shortcuts import reverse
 from colorfield.fields import ColorField
 from django.core.validators import MinValueValidator
 from django.utils.html import format_html
@@ -7,8 +8,6 @@ from ckeditor.fields import RichTextField
 
 class Category(models.Model):
     title = models.CharField(max_length=255)
-    parent = models.ForeignKey('self', default=None, null=True, blank=True, on_delete=models.SET_NULL,
-                               related_name='children')
     slug = models.SlugField(max_length=255, allow_unicode=True, unique=True)
 
     def __str__(self):
@@ -28,15 +27,6 @@ class Color(models.Model):
 
     color_tag.short_description = "color"
     color_tag.allow_tags = True
-
-
-class Image(models.Model):
-    image = models.ImageField(upload_to='products/images/%Y/%m/%d')
-
-    def image_tag(self):
-        return format_html(f"<img width=100 height=75 style='border-radius: 5px;' src='{self.image.url}'>")
-
-    image_tag.short_description = "image"
 
 
 class Brand(models.Model):
@@ -63,12 +53,15 @@ class Product(models.Model):
     description = RichTextField(blank=True, null=True)
     color = models.ManyToManyField(Color)
     cover = models.ImageField(upload_to='products/cover/%Y/%m/%d')
-    images = models.ManyToManyField(Image)
     available = models.BooleanField(default=True)
     number = models.PositiveIntegerField(validators=[MinValueValidator(1)])
     price = models.PositiveIntegerField()
     discount = models.PositiveIntegerField(blank=True, null=True)
+    discount_percent = models.PositiveIntegerField(blank=True, null=True)
     created = models.DateTimeField(auto_now=True)
+
+    def get_absolute_url(self):
+        return reverse('product:detail', args=[self.slug])
 
     def cover_tag(self):
         return format_html(f"<img width=100 height=75 style='border-radius: 5px;' src='{self.cover.url}'>")
@@ -80,20 +73,41 @@ class Product(models.Model):
 
     category_to_str.short_description = "category"
 
+    def grade_choice(self):
+        return [i[1] for i in self._meta.get_field('grade').choices if i[0] == self.grade][0]
+
+
+class Image(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='images')
+    image = models.ImageField(upload_to='products/images/%Y/%m/%d')
+
+    def image_tag(self):
+        return format_html(f"<img width=100 height=75 style='border-radius: 5px;' src='{self.image.url}'>")
+
+    image_tag.short_description = "image"
+
 
 class Specification(models.Model):
     product = models.OneToOneField(Product, on_delete=models.CASCADE, related_name='specs')
     name = models.CharField(max_length=255)
-    weight = models.DecimalField(max_digits=1, decimal_places=1)
+    weight = models.DecimalField(max_digits=2, decimal_places=1)
     size = models.CharField(max_length=255)
+    # screen
+    screen_size = models.DecimalField(max_digits=3, decimal_places=1)
+    screen_type = models.CharField(max_length=255)
+    screen_resolution = models.CharField(max_length=255)
+    screen_matte = models.BooleanField(default=False)
+    screen_touch = models.BooleanField(default=False)
+    screen_description = models.TextField(blank=True, null=True)
     # cpu
     cpu_maker = models.CharField(max_length=255)
+    cpu_series = models.CharField(max_length=255)
     cpu_model = models.CharField(max_length=255)
-    cpu_cache = models.PositiveIntegerField(null=True)
     cpu_description = models.TextField(blank=True, null=True)
     # gpu
     has_gpu = models.BooleanField(default=False)
-    gpu_model = models.CharField(max_length=255, blank=True, null=True)
+    gpu_maker = models.CharField(max_length=255)
+    gpu_model = models.CharField(max_length=255)
     gpu_memory = models.PositiveIntegerField(blank=True, null=True)
     gpu_description = models.TextField(blank=True, null=True)
     # ram
@@ -102,23 +116,17 @@ class Specification(models.Model):
     ram_description = models.TextField(blank=True, null=True)
     # hard
     has_hdd = models.BooleanField(default=False)
-    hdd_capacity = models.PositiveIntegerField(blank=True, null=True)
+    hdd_capacity = models.CharField(max_length=255, blank=True, null=True)
     has_ssd = models.BooleanField(default=False)
-    ssd_capacity = models.PositiveIntegerField(blank=True, null=True)
+    ssd_capacity = models.CharField(max_length=255, blank=True, null=True)
     hard_description = models.TextField(blank=True, null=True)
-    # screen
-    screen_size = models.DecimalField(max_digits=1, decimal_places=1)
-    screen_type = models.CharField(max_length=255)
-    screen_resolution = models.CharField(max_length=255)
-    screen_matte = models.BooleanField(default=False)
-    screen_touch = models.BooleanField(default=False)
-    screen_description = models.TextField(blank=True, null=True)
     # ports and facilities
     optical_drive = models.BooleanField(default=False)
     webcam = models.CharField(max_length=255)
     touchpad_specs = models.CharField(max_length=255)
     keyboard_backlight = models.CharField(max_length=255)
-    card_reader = models.BooleanField(default=False)
+    fingerprint = models.BooleanField(default=False)
+    sd_card = models.BooleanField(default=False)
     wifi = models.BooleanField(default=False)
     bluetooth = models.CharField(max_length=255)
     ethernet = models.BooleanField(default=False)
@@ -126,10 +134,10 @@ class Specification(models.Model):
     hdmi = models.BooleanField(default=False)
     usb2_num = models.PositiveIntegerField(blank=True, null=True)
     usb3_num = models.PositiveIntegerField(blank=True, null=True)
-    type_c = models.BooleanField(default=False)
+    type_c = models.PositiveIntegerField(blank=True, null=True)
     thunderbolt = models.BooleanField(default=False)
+    jack_3 = models.BooleanField(default=False)
     # other
-    cat = models.CharField(max_length=255)
     os = models.CharField(max_length=255)
     include_items = models.CharField(max_length=255)
     battery = models.CharField(max_length=255)
