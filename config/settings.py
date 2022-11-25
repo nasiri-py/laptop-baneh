@@ -41,6 +41,9 @@ INSTALLED_APPS = [
     # third-party apps
     'colorfield',
     'ckeditor',
+    'star_ratings',
+    'crispy_forms',
+    "crispy_bootstrap5",
 
     # my apps
     'accounts.apps.AccountsConfig',
@@ -55,6 +58,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'products.middleware.SaveIPAddressMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -147,3 +151,11 @@ LOGOUT_REDIRECT_URL = ''
 # media
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR.joinpath('media')
+
+
+# star ratings
+STAR_RATINGS_RERATE = False
+
+# crispy forms
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = 'bootstrap5'

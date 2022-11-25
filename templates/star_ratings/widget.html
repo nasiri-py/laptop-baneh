@@ -1,0 +1,8 @@
+{% extends "star_ratings/widget_base.html" %}
+
+{% block rating_detail %}
+    <p class="pt-2 mb-1">
+        <span class="badge badge-success">{{ rating.average|floatformat:"-2" }}</span>
+        <span class="h6 text-muted">{{ rating.count }} نفر</span>
+    </p>
+{% endblock %}

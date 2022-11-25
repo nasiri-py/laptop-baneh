@@ -21,9 +21,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.3.1/css/swiper.min.css">
 
     <!-- Load fonts style after rendering the layout styles -->
-{#    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">#}
+    {#    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">#}
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css">
-{#    <link rel="stylesheet" href="{% static 'products/css/fontawesome.min.css' %}">#}
+    {#    <link rel="stylesheet" href="{% static 'products/css/fontawesome.min.css' %}">#}
 </head>
 
 <body>
@@ -56,7 +56,8 @@
     <div class="container d-flex justify-content-between align-items-center">
 
         <a class="navbar-brand text-success h1 align-self-center" href="index.html">
-            <img class="logo" src="{% static 'base/img/stoke_laptop_center.jpg' %}" alt="Stoke Laptop Store" style="font-size: 1rem">
+            <img class="logo" src="{% static 'base/img/stoke_laptop_center.jpg' %}" alt="Stoke Laptop Store"
+                 style="font-size: 1rem">
         </a>
 
         <div class="align-self-center collapse navbar-collapse flex-fill  d-lg-flex justify-content-lg-between"
@@ -285,6 +286,62 @@
             prevEl: '.detail-right-slide',
         },
     });
+</script>
+<script>
+    const one_star = document.getElementById('1star')
+    const two_star = document.getElementById('2star')
+    const three_star = document.getElementById('3star')
+    const four_star = document.getElementById('4star')
+    const five_star = document.getElementById('5star')
+
+    const handleSelect = (selection) => {
+        switch (selection) {
+            case '1star': {
+                one_star.classList.add('text-warning')
+                two_star.classList.remove('text-warning')
+                three_star.classList.remove('text-warning')
+                four_star.classList.remove('text-warning')
+                five_star.classList.remove('text-warning')
+                return
+            }
+            case '2star': {
+                one_star.classList.add('text-warning')
+                two_star.classList.add('text-warning')
+                three_star.classList.remove('text-warning')
+                four_star.classList.remove('text-warning')
+                five_star.classList.remove('text-warning')
+                return
+            }
+            case '3star': {
+                one_star.classList.add('text-warning')
+                two_star.classList.add('text-warning')
+                three_star.classList.add('text-warning')
+                four_star.classList.remove('text-warning')
+                five_star.classList.remove('text-warning')
+                return
+            }
+            case '4star': {
+                one_star.classList.add('text-warning')
+                two_star.classList.add('text-warning')
+                three_star.classList.add('text-warning')
+                four_star.classList.add('text-warning')
+                five_star.classList.remove('text-warning')
+                return
+            }
+            case '5star': {
+                one_star.classList.add('text-warning')
+                two_star.classList.add('text-warning')
+                three_star.classList.add('text-warning')
+                four_star.classList.add('text-warning')
+                five_star.classList.add('text-warning')
+                return
+            }
+        }
+    }
+    const arr = [one_star, two_star, three_star, four_star, five_star]
+    arr.forEach(item=> item.addEventListener('mouseover', (event)=> {
+        handleSelect(event.target.id)
+    }))
 </script>
 <!-- End Script -->
 </body>

@@ -1,8 +1,8 @@
 from django import forms
-from .models import Product
+from .models import Comment
 
 
-class ProductForm(forms.ModelForm):
+class CommentForm(forms.ModelForm):
     class Meta:
-        model = Product
-        exclude = ['slug']
+        model = Comment
+        fields = ['body']

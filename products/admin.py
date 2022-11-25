@@ -1,5 +1,14 @@
 from django.contrib import admin
-from .models import Product, Color, Image, Category, Brand, Specification
+from .models import (
+    Product,
+    Color,
+    Image,
+    Category,
+    Brand,
+    Specification,
+    Comment,
+    IPAddress,
+)
 
 
 def make_available(modeladmin, request, queryset):
@@ -60,9 +69,16 @@ class BrandAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('name',)}
 
 
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ['product', 'user', 'body', 'is_reply', 'reply']
+    raw_id_fields = ['reply']
+
+
 admin.site.register(Product, ProductAdmin)
+admin.site.register(Specification)
 admin.site.register(Image, ImageAdmin)
 admin.site.register(Color, ColorAdmin)
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Brand, BrandAdmin)
-admin.site.register(Specification)
+admin.site.register(Comment, CommentAdmin)
+admin.site.register(IPAddress)

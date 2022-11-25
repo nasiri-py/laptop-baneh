@@ -1,9 +1,14 @@
 from django.db import models
+from django.contrib.auth import get_user_model
 from django.shortcuts import reverse
 from colorfield.fields import ColorField
-from django.core.validators import MinValueValidator
 from django.utils.html import format_html
 from ckeditor.fields import RichTextField
+from django.core.validators import MinValueValidator
+
+
+class IPAddress(models.Model):
+    ip_address = models.GenericIPAddressField()
 
 
 class Category(models.Model):
@@ -32,7 +37,7 @@ class Color(models.Model):
 class Brand(models.Model):
     name = models.CharField(max_length=255)
     slug = models.SlugField(max_length=255, allow_unicode=True, unique=True)
-    cover = models.ImageField(upload_to='brands/%Y/%m/%d')
+    cover = models.ImageField(upload_to='brands')
 
     def __str__(self):
         return self.name
@@ -59,6 +64,10 @@ class Product(models.Model):
     discount = models.PositiveIntegerField(blank=True, null=True)
     discount_percent = models.PositiveIntegerField(blank=True, null=True)
     created = models.DateTimeField(auto_now=True)
+    hits = models.ManyToManyField(IPAddress, through="ArticleHit", blank=True, related_name='hits')
+
+    def __str__(self):
+        return self.title
 
     def get_absolute_url(self):
         return reverse('product:detail', args=[self.slug])
@@ -144,3 +153,21 @@ class Specification(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Comment(models.Model):
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='comments')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='comments')
+    body = models.TextField(verbose_name='Your Comment')
+    reply = models.ForeignKey('self', on_delete=models.CASCADE, related_name='comments', blank=True, null=True)
+    is_reply = models.BooleanField(default=False)
+    created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.product.title
+
+
+class ArticleHit(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    ip_address = models.ForeignKey(IPAddress, on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now_add=True)
