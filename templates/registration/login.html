@@ -12,8 +12,8 @@
             {% csrf_token %}
             <h2>ورود به استوک لپ تاپ استور</h2>
             <div class="form-input-material">
-                {% render_field form.username|append_attr:"required:required" type="number" id="phone_number" placeholder=" " autocomplete="off" class="no-arrow form-control-material" %}
-                <label for="phone_number">شماره موبایل</label>
+                {% render_field form.username|append_attr:"required:required" type="text" id="phone_number" placeholder=" " autocomplete="off" class="no-arrow form-control-material" %}
+                <label for="phone_number">شماره موبایل یا نام کاربری</label>
             </div>
             {% for error in form.username.errors %}
                 <p class="error">{{ error }}</p>
@@ -25,7 +25,7 @@
             {% for error in form.username.errors %}
                 <p class="error">{{ error }}</p>
             {% endfor %}
-            <a href="" class="password-reset">فراموشی گذرواژه</a>
+            <a href="{% url 'accounts:password-reset' %}" class="password-reset">فراموشی گذرواژه</a>
             <button type="submit" class="btn btn-ghost"><h6>ورود</h6></button>
         </form>
         <a href="{% url 'accounts:otp-code-login' %}" class="otp-code-link">ورود از طریق کد یکبار مصرف</a>

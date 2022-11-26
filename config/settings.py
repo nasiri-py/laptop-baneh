@@ -146,8 +146,8 @@ AUTHENTICATION_BACKENDS = [
 # custom user
 AUTH_USER_MODEL = 'accounts.User'
 
-# logout
-LOGOUT_REDIRECT_URL = ''
+# login
+LOGIN_REDIRECT_URL = 'product:list'
 
 # media
 MEDIA_URL = '/media/'

@@ -11,4 +11,6 @@ urlpatterns = [
     path('login/', LoginView.as_view(), name='login'),
     path('otp-code-login/', views.OtpCodeLoginView.as_view(), name='otp-code-login'),
     path('logout/', views.Logout.as_view(), name='logout'),
+    path('password_reset/', views.PasswordResetView.as_view(), name='password-reset'),
+    path('reset/<uidb64>/<token>/', views.PasswordResetConfirm.as_view(), name='password_reset_confirm')
 ]

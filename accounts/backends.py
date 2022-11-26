@@ -4,7 +4,7 @@ from .models import User
 class PhoneNumberBackend:
     def authenticate(self, request, username=None, password=None):
         try:
-            user = User.objects.get(phone_number=username)
+            user = User.objects.get(username=username) or User.objects.get(phone_number=username)
             if user.check_password(password):
                 return user
             return None

@@ -1,15 +1,20 @@
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, reverse
 from .models import User
 from django.views import generic, View
 from .forms import RegisterForm, OtpCodeLoginForm
 from django.contrib.auth import login
-from django.contrib.auth.views import LogoutView
+from django.contrib.auth.views import LogoutView, PasswordResetConfirmView
 import random
 from utils import send_sms, send_otp_code
 from .models import OtpCode
 from django.contrib import messages
 from datetime import datetime, timedelta
 import pytz
+from django.template.loader import render_to_string
+from django.contrib.sites.shortcuts import get_current_site
+from django.utils.http import urlsafe_base64_encode
+from django.utils.encoding import force_bytes
+from django.contrib.auth.tokens import PasswordResetTokenGenerator
 
 
 class RegisterView(generic.CreateView):
@@ -64,7 +69,7 @@ class VerifyView(generic.CreateView):
                     if user is not None:
                         user.backend = 'django.contrib.auth.backends.ModelBackend'
                         login(self.request, user)
-                        return redirect('accounts:profile')
+                        return redirect('product:list')
         except Exception:
             # messages.error(self.request, 'This code is expired!', 'danger')
             return redirect('accounts:verify')
@@ -107,3 +112,44 @@ class Logout(LogoutView):
     def setup(self, request, *args, **kwargs):
         super().setup(request, *args, **kwargs)
         self.next_page = request.GET.get('next')
+
+
+class PasswordResetView(View):
+    form_class = OtpCodeLoginForm
+    token_generator = PasswordResetTokenGenerator
+
+    def get(self, request):
+        form = self.form_class()
+        return render(request, 'registration/password_reset.html', {'form': form})
+
+    def post(self, request):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            phone_number = form.cleaned_data['phone_number']
+            try:
+                user = User.objects.get(phone_number=phone_number)
+            except User.DoesNotExist:
+                messages.error(request, 'User with this phone number does not exist', 'danger')
+                return redirect('accounts:password-reset')
+            current_site = get_current_site(self.request)
+            token_generator = self.token_generator()
+            message = render_to_string('registration/password_reset_sms.html', {
+                'user': user,
+                'domain': current_site.domain,
+                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                'token': token_generator.make_token(user),
+            })
+            print(message)
+            send_sms(phone_number, message)
+            request.session['password_reset'] = {
+                'phone_number': phone_number,
+            }
+            # messages.success(request, f'We send you a password reset link to {phone_number}.', 'success')
+            return redirect('accounts:login')
+        # return redirect('home:home')
+
+
+class PasswordResetConfirm(PasswordResetConfirmView):
+    def get_success_url(self):
+        # messages.success(self.request, 'Your password has been changed successfully.', 'success')
+        return reverse('accounts:login')
