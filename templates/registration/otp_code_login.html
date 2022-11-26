@@ -1,17 +1,25 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
- <form action="" method="post">
-     {% csrf_token %}
-     {{ form }}
-     <button type="submit">Send Code</button>
- </form>
-</body>
-</html>
+{% extends 'registration/base_registration.html' %}
+
+{% load widget_tweaks %}
+
+{% block r_title %}
+    <title>ورود به سایت | استوک لپ تاپ استور</title>
+{% endblock %}
+
+{% block r_content %}
+    <div class="login-form">
+        <form action="" method="post">
+            {% csrf_token %}
+            <h2>ورود به استوک لپ تاپ استور</h2>
+            <div class="form-input-material">
+                {% render_field form.phone_number|append_attr:"required:required" type="number" id="phone_number" placeholder=" " autocomplete="off" class="no-arrow form-control-material" %}
+                <label for="phone_number">شماره موبایل</label>
+            </div>
+            {% for error in form.username.errors %}
+                <p class="error">{{ error }}</p>
+            {% endfor %}
+            <button type="submit" class="btn btn-ghost"><h6>ارسال کد تائید</h6></button>
+        </form>
+        <a href="{% url 'accounts:login' %}" class="otp-code-link">ورود با گذر واژه</a>
+    </div>
+{% endblock %}

@@ -1,18 +1,24 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
- <form action="" method="post">
-     {% csrf_token %}
-     {{ form }}
-     <button type="submit">Verify</button>
-     <a href="{% url 'accounts:resend-code' %}">Resend code</a>
- </form>
-</body>
-</html>
+{% extends 'registration/base_registration.html' %}
+
+{% load widget_tweaks %}
+
+{% block r_title %}
+    <title>تائید شماره موبایل | استوک لپ تاپ استور</title>
+{% endblock %}
+
+{% block r_content %}
+    <div class="login-form">
+        <form action="" method="post">
+            {% csrf_token %}
+            <h2>تائید شماره موبایل</h2>
+            <div class="form-input-material">
+                {% render_field form.code|append_attr:"required:required" type="number" id="code" placeholder=" " autocomplete="off" class="no-arrow form-control-material" %}
+                <label for="code">کد تائید</label>
+            </div>
+            {% for error in form.username.errors %}
+                <p class="error">{{ error }}</p>
+            {% endfor %}
+            <button type="submit" class="btn btn-ghost"><h6>ورود</h6></button>
+        </form>
+    </div>
+{% endblock %}

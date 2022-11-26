@@ -1,0 +1,32 @@
+{% load static %}
+
+<!doctype html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="{% static 'base/img/stoke_laptop_center.jpg' %}" type="image/x-icon"/>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="{% static 'registration/css/style.css' %}">
+    {% block r_title %}
+
+    {% endblock %}
+</head>
+<body>
+<div>
+    {% if form.non_field_errors %}
+        {% for error in form.non_field_errors %}
+            <div class="non-field error">
+                {{ error }}
+            </div>
+        {% endfor %}
+    {% endif %}
+</div>
+
+{% block r_content %}
+
+{% endblock %}
+
+</body>
+</html>

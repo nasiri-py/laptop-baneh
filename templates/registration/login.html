@@ -1,17 +1,35 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
- <form action="" method="post">
-     {% csrf_token %}
-     {{ form }}
-     <button type="submit">Verify</button>
- </form>
-</body>
-</html>
+{% extends 'registration/base_registration.html' %}
+
+{% load widget_tweaks %}
+
+{% block r_title %}
+    <title>ورود به سایت | استوک لپ تاپ استور</title>
+{% endblock %}
+
+{% block r_content %}
+    <div class="login-form">
+        <form action="" method="post">
+            {% csrf_token %}
+            <h2>ورود به استوک لپ تاپ استور</h2>
+            <div class="form-input-material">
+                {% render_field form.username|append_attr:"required:required" type="number" id="phone_number" placeholder=" " autocomplete="off" class="no-arrow form-control-material" %}
+                <label for="phone_number">شماره موبایل</label>
+            </div>
+            {% for error in form.username.errors %}
+                <p class="error">{{ error }}</p>
+            {% endfor %}
+            <div class="form-input-material">
+                {% render_field form.password|append_attr:"required:required" type="password" id="password" placeholder=" " autocomplete="off" class="form-control-material" %}
+                <label for="password">گذر واژه</label>
+            </div>
+            {% for error in form.username.errors %}
+                <p class="error">{{ error }}</p>
+            {% endfor %}
+            <a href="" class="password-reset">فراموشی گذرواژه</a>
+            <button type="submit" class="btn btn-ghost"><h6>ورود</h6></button>
+        </form>
+        <a href="{% url 'accounts:otp-code-login' %}" class="otp-code-link">ورود از طریق کد یکبار مصرف</a>
+        <p class="login-register">کاربر جدید هستید؟ <a href="{% url 'accounts:register' %}" class="login-register-link">ثبت
+            نام</a></p>
+    </div>
+{% endblock %}
