@@ -5,6 +5,8 @@ from colorfield.fields import ColorField
 from django.utils.html import format_html
 from ckeditor.fields import RichTextField
 from django.core.validators import MinValueValidator
+from star_ratings.models import Rating
+from django.contrib.contenttypes.fields import GenericRelation
 
 
 class IPAddress(models.Model):
@@ -38,6 +40,7 @@ class Brand(models.Model):
     name = models.CharField(max_length=255)
     slug = models.SlugField(max_length=255, allow_unicode=True, unique=True)
     cover = models.ImageField(upload_to='brands')
+    ratings = GenericRelation(Rating)
 
     def __str__(self):
         return self.name
@@ -64,6 +67,7 @@ class Product(models.Model):
     discount = models.PositiveIntegerField(blank=True, null=True)
     discount_percent = models.PositiveIntegerField(blank=True, null=True)
     created = models.DateTimeField(auto_now=True)
+    ratings = GenericRelation(Rating)
     hits = models.ManyToManyField(IPAddress, through="ArticleHit", blank=True, related_name='hits')
 
     def __str__(self):

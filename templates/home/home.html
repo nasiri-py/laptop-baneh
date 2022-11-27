@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
 {% block title %}
     Stoke Laptop Store
 {% endblock %}
@@ -17,7 +19,7 @@
                 <div class="container">
                     <div class="row p-5">
                         <div class="mx-auto col-md-8 col-lg-6 order-lg-last">
-                            <img class="img-fluid" src="./laptop1.png" alt="">
+                            <img class="img-fluid" src="{% static 'home/img/laptop1.png' %}" alt="">
                         </div>
                         <div class="col-lg-6 mb-0 d-flex align-items-center">
                             <div class="text-align-left align-self-center">
@@ -35,7 +37,7 @@
                 <div class="container">
                     <div class="row p-5">
                         <div class="mx-auto col-md-8 col-lg-6 order-lg-last">
-                            <img class="img-fluid" src="./laptop3.jpg" alt="">
+                            <img class="img-fluid" src="{% static 'home/img/laptop2.jpg' %}" alt="">
                         </div>
                         <div class="col-lg-6 mb-0 d-flex align-items-center">
                             <div class="text-align-left">
@@ -52,7 +54,7 @@
                 <div class="container">
                     <div class="row p-5">
                         <div class="mx-auto col-md-8 col-lg-6 order-lg-last">
-                            <img class="img-fluid" src="./laptop4.png" alt="">
+                            <img class="img-fluid" src="{% static 'home/img/laptop3.png' %}" alt="">
                         </div>
                         <div class="col-lg-6 mb-0 d-flex align-items-center">
                             <div class="text-align-left">
@@ -88,128 +90,25 @@
                     <i class="fas fa-chevron-left left-slide1 h3" style="color: #fff !important;"></i>
                 </div>
             </div>
-            <ul class="swiper-wrapper">
-                <li class="swiper-slide">
-                    <a href="shop-single.html" class="text-dark text-decoration-none card-body p-0">
-                        <div class="card h-100 border-0 shadow">
-                            <div class="card">
-                                <img class="card-img rounded-0 rounded-top img-fluid" src="./l1.jpg">
+            <ul class="swiper-wrapper pb-4">
+                {% for product in product_discount %}
+                    <li class="swiper-slide">
+                        <a href="{{ product.get_absolute_url }}" class="text-dark text-decoration-none card-body p-0">
+                            <div class="card h-100 border-0 shadow">
+                                <div class="card">
+                                    <img class="card-img rounded-0 rounded-top img-fluid m-auto" src="{{ product.cover.url }}">
+                                </div>
+                                <ul class="list-unstyled d-flex flex-column justify-content-between p-0 my-3">
+                                    <li class="text-center discount"><span class="mx-1 px-1 discount-percent">{{ product.discount_percent }}%</span>
+                                        {{ product.discount }} تومان
+                                    </li>
+                                    <li class="text-center text-muted text-decoration-line-through price">{{ product.price }}</li>
+                                </ul>
                             </div>
-                            <ul class="list-unstyled d-flex flex-column justify-content-between p-0 my-3">
-                                <li class="text-center discount"><span class="mx-1 px-1 discount-percent">56%</span>
-                                    55,000,000 تومان
-                                </li>
-                                <li class="text-center text-muted text-decoration-line-through price">125,000,000</li>
-                            </ul>
-                        </div>
-                    </a>
-                </li>
-                <li class="swiper-slide">
-                    <a href="shop-single.html" class="text-dark text-decoration-none card-body p-0">
-                        <div class="card h-100 border-0 shadow">
-                            <div class="card">
-                                <img class="card-img rounded-0 rounded-top img-fluid" src="./l1.jpg">
-                            </div>
-                            <ul class="list-unstyled d-flex flex-column justify-content-between p-0 my-3">
-                                <li class="text-center discount"><span class="mx-1 px-1 discount-percent">56%</span>
-                                    55,000,000 تومان
-                                </li>
-                                <li class="text-center text-muted text-decoration-line-through price">125,000,000</li>
-                            </ul>
-                        </div>
-                    </a>
-                </li>
-                <li class="swiper-slide">
-                    <a href="shop-single.html" class="text-dark text-decoration-none card-body p-0">
-                        <div class="card h-100 border-0 shadow">
-                            <div class="card">
-                                <img class="card-img rounded-0 rounded-top img-fluid" src="./l1.jpg">
-                            </div>
-                            <ul class="list-unstyled d-flex flex-column justify-content-between p-0 my-3">
-                                <li class="text-center discount"><span class="mx-1 px-1 discount-percent">56%</span>
-                                    55,000,000 تومان
-                                </li>
-                                <li class="text-center text-muted text-decoration-line-through price">125,000,000</li>
-                            </ul>
-                        </div>
-                    </a>
-                </li>
-                <li class="swiper-slide">
-                    <a href="shop-single.html" class="text-dark text-decoration-none card-body p-0">
-                        <div class="card h-100 border-0 shadow">
-                            <div class="card">
-                                <img class="card-img rounded-0 rounded-top img-fluid" src="./l1.jpg">
-                            </div>
-                            <ul class="list-unstyled d-flex flex-column justify-content-between p-0 my-3">
-                                <li class="text-center discount"><span class="mx-1 px-1 discount-percent">56%</span>
-                                    55,000,000 تومان
-                                </li>
-                                <li class="text-center text-muted text-decoration-line-through price">125,000,000</li>
-                            </ul>
-                        </div>
-                    </a>
-                </li>
-                <li class="swiper-slide">
-                    <a href="shop-single.html" class="text-dark text-decoration-none card-body p-0">
-                        <div class="card h-100 border-0 shadow">
-                            <div class="card">
-                                <img class="card-img rounded-0 rounded-top img-fluid" src="./l1.jpg">
-                            </div>
-                            <ul class="list-unstyled d-flex flex-column justify-content-between p-0 my-3">
-                                <li class="text-center discount"><span class="mx-1 px-1 discount-percent">56%</span>
-                                    55,000,000 تومان
-                                </li>
-                                <li class="text-center text-muted text-decoration-line-through price">125,000,000</li>
-                            </ul>
-                        </div>
-                    </a>
-                </li>
-                <li class="swiper-slide">
-                    <a href="shop-single.html" class="text-dark text-decoration-none card-body p-0">
-                        <div class="card h-100 border-0 shadow">
-                            <div class="card">
-                                <img class="card-img rounded-0 rounded-top img-fluid" src="./l1.jpg">
-                            </div>
-                            <ul class="list-unstyled d-flex flex-column justify-content-between p-0 my-3">
-                                <li class="text-center discount"><span class="mx-1 px-1 discount-percent">56%</span>
-                                    55,000,000 تومان
-                                </li>
-                                <li class="text-center text-muted text-decoration-line-through price">125,000,000</li>
-                            </ul>
-                        </div>
-                    </a>
-                </li>
-                <li class="swiper-slide">
-                    <a href="shop-single.html" class="text-dark text-decoration-none card-body p-0">
-                        <div class="card h-100 border-0 shadow">
-                            <div class="card">
-                                <img class="card-img rounded-0 rounded-top img-fluid" src="./l1.jpg">
-                            </div>
-                            <ul class="list-unstyled d-flex flex-column justify-content-between p-0 my-3">
-                                <li class="text-center discount"><span class="mx-1 px-1 discount-percent">56%</span>
-                                    55,000,000 تومان
-                                </li>
-                                <li class="text-center text-muted text-decoration-line-through price">125,000,000</li>
-                            </ul>
-                        </div>
-                    </a>
-                </li>
-                <li class="swiper-slide">
-                    <a href="shop-single.html" class="text-dark text-decoration-none card-body p-0">
-                        <div class="card h-100 border-0 shadow">
-                            <div class="card">
-                                <img class="card-img rounded-0 rounded-top img-fluid" src="./l1.jpg">
-                            </div>
-                            <ul class="list-unstyled d-flex flex-column justify-content-between p-0 my-3">
-                                <li class="text-center discount"><span class="mx-1 px-1 discount-percent">56%</span>
-                                    55,000,000 تومان
-                                </li>
-                                <li class="text-center text-muted text-decoration-line-through price">125,000,000</li>
-                            </ul>
-                        </div>
-                    </a>
-                </li>
-                <a class="more-detail p-2 text-decoration-none text-black d-flex align-items-end swiper-slide m-0"
+                        </a>
+                    </li>
+                {% endfor %}
+                <a class="more-detail p-2 text-decoration-none text-black d-flex align-items-end swiper-slide me-1"
                    href="">
                     <span class="my-auto">مشاهده همه</span><i class="fa fa-arrow-left m-2" aria-hidden="true"></i>
                 </a>
@@ -222,17 +121,17 @@
     <section class="my-5 container">
         <div class="row justify-content-around align-items-baseline">
             <a href="" class="col-12 col-lg-6 p-0 adds-item">
-                <img src="./lap1.jpg" class="shadow-lg img-fluid border rounded">
+                <img src="{% static 'home/img/lap1.jpg' %}" class="shadow-lg img-fluid border rounded">
             </a>
             <a href="" class="col-12 col-lg-6 p-0 adds-item">
-                <img src="./lap2.jpg" class="shadow-lg img-fluid border rounded">
+                <img src="{% static 'home/img/lap2.jpg' %}" class="shadow-lg img-fluid border rounded">
             </a>
         </div>
     </section>
     <!-- End Adds -->
 
     <!-- Start Categories of The Month -->
-    <section class="mb-5">
+    <section class="mb-5 new-section">
         <div class="container position-relative">
             <i class="fas fa-chevron-right right-slide2 position-absolute top-50 end-0 h3"
                style="color: #bc1f69 !important; z-index: 2;"></i>
@@ -244,170 +143,31 @@
             </div>
             <div class="swiper-container" id="swiper-container2">
                 <ul class="swiper-wrapper">
-                    <li class="mb-4 swiper-slide">
-                        <a href="shop-single.html" class="text-dark text-decoration-none">
+                    {% for product in product_newest %}
+                        <li class="mb-4 swiper-slide">
+                        <a href="{{ product.get_absolute_url }}" class="text-dark text-decoration-none">
                             <div class="card h-100 border-0 shadow">
                                 <div class="card">
-                                    <img class="card-img rounded-0 rounded-top img-fluid" src="./l1.jpg">
+                                    <img class="card-img rounded-0 rounded-top img-fluid" src="{{ product.cover.url }}">
                                 </div>
                                 <div class="card-body">
                                     <ul class="list-unstyled p-0">
-                                        <li class="mb-1 product-title">لپ تاپ 15.6 اینچ Razer Blade 15 i7/16GB/1TB
-                                            SSD/6GB
-                                        </li>
+                                        <li class="mb-1 product-title">{{ product.title|truncatewords:6 }}</li>
                                         <li>
-                                            <ul class="list-unstyled d-flex flex-column justify-content-between p-0">
-                                                <li class="text-start discount py-2">55,000,000 تومان</li>
-                                            </ul>
+                                            {% if product.available %}
+                                                <ul class="list-unstyled d-flex flex-column justify-content-between p-0">
+                                                    <li class="text-start discount py-2">{{ product.price }} تومان</li>
+                                                </ul>
+                                            {% else %}
+                                                <div class="w-100 unavailable">ناموجود</div>
+                                            {% endif %}
                                         </li>
                                     </ul>
                                 </div>
                             </div>
                         </a>
                     </li>
-                    <li class="mb-4 swiper-slide">
-                        <a href="shop-single.html" class="text-dark text-decoration-none">
-                            <div class="card h-100 border-0 shadow">
-                                <div class="card">
-                                    <img class="card-img rounded-0 rounded-top img-fluid" src="./l1.jpg">
-                                </div>
-                                <div class="card-body">
-                                    <ul class="list-unstyled p-0">
-                                        <li class="mb-1 product-title">لپ تاپ 15.6 اینچ Razer Blade 15 i7/16GB/1TB
-                                            SSD/6GB
-                                        </li>
-                                    </ul>
-                                    <div class="w-100 unavailable">ناموجود</div>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="mb-4 swiper-slide">
-                        <a href="shop-single.html" class="text-dark text-decoration-none">
-                            <div class="card h-100 border-0 shadow">
-                                <div class="card">
-                                    <img class="card-img rounded-0 rounded-top img-fluid" src="./l1.jpg">
-                                </div>
-                                <div class="card-body">
-                                    <ul class="list-unstyled p-0">
-                                        <li class="mb-1 product-title">لپ تاپ 15.6 اینچ Razer Blade 15 i7/16GB/1TB
-                                            SSD/6GB
-                                        </li>
-                                        <li>
-                                            <ul class="list-unstyled d-flex flex-column justify-content-between p-0">
-                                                <li class="text-start discount py-2">55,000,000 تومان</li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="mb-4 swiper-slide">
-                        <a href="shop-single.html" class="text-dark text-decoration-none">
-                            <div class="card h-100 border-0 shadow">
-                                <div class="card">
-                                    <img class="card-img rounded-0 rounded-top img-fluid" src="./l1.jpg">
-                                </div>
-                                <div class="card-body">
-                                    <ul class="list-unstyled p-0">
-                                        <li class="mb-1 product-title">لپ تاپ 15.6 اینچ Razer Blade 15 i7/16GB/1TB
-                                            SSD/6GB
-                                        </li>
-                                        <li>
-                                            <ul class="list-unstyled d-flex flex-column justify-content-between p-0">
-                                                <li class="text-start discount py-2">55,000,000 تومان</li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="mb-4 swiper-slide">
-                        <a href="shop-single.html" class="text-dark text-decoration-none">
-                            <div class="card h-100 border-0 shadow">
-                                <div class="card">
-                                    <img class="card-img rounded-0 rounded-top img-fluid" src="./l1.jpg">
-                                </div>
-                                <div class="card-body">
-                                    <ul class="list-unstyled p-0">
-                                        <li class="mb-1 product-title">لپ تاپ 15.6 اینچ Razer Blade 15 i7/16GB/1TB
-                                            SSD/6GB
-                                        </li>
-                                        <li>
-                                            <ul class="list-unstyled d-flex flex-column justify-content-between p-0">
-                                                <li class="text-start discount py-2">55,000,000 تومان</li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="mb-4 swiper-slide">
-                        <a href="shop-single.html" class="text-dark text-decoration-none">
-                            <div class="card h-100 border-0 shadow">
-                                <div class="card">
-                                    <img class="card-img rounded-0 rounded-top img-fluid" src="./l1.jpg">
-                                </div>
-                                <div class="card-body">
-                                    <ul class="list-unstyled p-0">
-                                        <li class="mb-1 product-title">لپ تاپ 15.6 اینچ Razer Blade 15 i7/16GB/1TB
-                                            SSD/6GB
-                                        </li>
-                                        <li>
-                                            <ul class="list-unstyled d-flex flex-column justify-content-between p-0">
-                                                <li class="text-start discount py-2">55,000,000 تومان</li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="mb-4 swiper-slide">
-                        <a href="shop-single.html" class="text-dark text-decoration-none">
-                            <div class="card h-100 border-0 shadow">
-                                <div class="card">
-                                    <img class="card-img rounded-0 rounded-top img-fluid" src="./l1.jpg">
-                                </div>
-                                <div class="card-body">
-                                    <ul class="list-unstyled p-0">
-                                        <li class="mb-1 product-title">لپ تاپ 15.6 اینچ Razer Blade 15 i7/16GB/1TB
-                                            SSD/6GB
-                                        </li>
-                                        <li>
-                                            <ul class="list-unstyled d-flex flex-column justify-content-between p-0">
-                                                <li class="text-start discount py-2">55,000,000 تومان</li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="mb-4 swiper-slide">
-                        <a href="shop-single.html" class="text-dark text-decoration-none">
-                            <div class="card h-100 border-0 shadow">
-                                <div class="card">
-                                    <img class="card-img rounded-0 rounded-top img-fluid" src="./l1.jpg">
-                                </div>
-                                <div class="card-body">
-                                    <ul class="list-unstyled p-0">
-                                        <li class="mb-1 product-title">لپ تاپ 15.6 اینچ Razer Blade 15 i7/16GB/1TB
-                                            SSD/6GB
-                                        </li>
-                                        <li>
-                                            <ul class="list-unstyled d-flex flex-column justify-content-between p-0">
-                                                <li class="text-start discount py-2">55,000,000 تومان</li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
+                    {% endfor %}
                 </ul>
             </div>
             <i class="fas fa-chevron-left left-slide2 position-absolute top-50 start-0 h3"
@@ -429,170 +189,31 @@
             </div>
             <div class="swiper-container" id="swiper-container3">
                 <ul class="swiper-wrapper">
-                    <li class="mb-4 swiper-slide">
-                        <a href="shop-single.html" class="text-dark text-decoration-none">
+                    {% for product in product_popular %}
+                        <li class="mb-4 swiper-slide">
+                        <a href="{{ product.get_absolute_url }}" class="text-dark text-decoration-none">
                             <div class="card h-100 border-0 shadow">
                                 <div class="card">
-                                    <img class="card-img rounded-0 rounded-top img-fluid" src="./l1.jpg">
+                                    <img class="card-img rounded-0 rounded-top img-fluid" src="{{ product.cover.url }}">
                                 </div>
                                 <div class="card-body">
                                     <ul class="list-unstyled p-0">
-                                        <li class="mb-1 product-title">لپ تاپ 15.6 اینچ Razer Blade 15 i7/16GB/1TB
-                                            SSD/6GB
-                                        </li>
+                                        <li class="mb-1 product-title">{{ product.title|truncatewords:6 }}</li>
                                         <li>
-                                            <ul class="list-unstyled d-flex flex-column justify-content-between p-0">
-                                                <li class="text-start discount py-2">55,000,000 تومان</li>
-                                            </ul>
+                                            {% if product.available %}
+                                                <ul class="list-unstyled d-flex flex-column justify-content-between p-0">
+                                                    <li class="text-start discount py-2">{{ product.price }} تومان</li>
+                                                </ul>
+                                            {% else %}
+                                                <div class="w-100 unavailable">ناموجود</div>
+                                            {% endif %}
                                         </li>
                                     </ul>
                                 </div>
                             </div>
                         </a>
                     </li>
-                    <li class="mb-4 swiper-slide">
-                        <a href="shop-single.html" class="text-dark text-decoration-none">
-                            <div class="card h-100 border-0 shadow">
-                                <div class="card">
-                                    <img class="card-img rounded-0 rounded-top img-fluid" src="./l1.jpg">
-                                </div>
-                                <div class="card-body">
-                                    <ul class="list-unstyled p-0">
-                                        <li class="mb-1 product-title">لپ تاپ 15.6 اینچ Razer Blade 15 i7/16GB/1TB
-                                            SSD/6GB
-                                        </li>
-                                    </ul>
-                                    <div class="w-100 unavailable">ناموجود</div>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="mb-4 swiper-slide">
-                        <a href="shop-single.html" class="text-dark text-decoration-none">
-                            <div class="card h-100 border-0 shadow">
-                                <div class="card">
-                                    <img class="card-img rounded-0 rounded-top img-fluid" src="./l1.jpg">
-                                </div>
-                                <div class="card-body">
-                                    <ul class="list-unstyled p-0">
-                                        <li class="mb-1 product-title">لپ تاپ 15.6 اینچ Razer Blade 15 i7/16GB/1TB
-                                            SSD/6GB
-                                        </li>
-                                        <li>
-                                            <ul class="list-unstyled d-flex flex-column justify-content-between p-0">
-                                                <li class="text-start discount py-2">55,000,000 تومان</li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="mb-4 swiper-slide">
-                        <a href="shop-single.html" class="text-dark text-decoration-none">
-                            <div class="card h-100 border-0 shadow">
-                                <div class="card">
-                                    <img class="card-img rounded-0 rounded-top img-fluid" src="./l1.jpg">
-                                </div>
-                                <div class="card-body">
-                                    <ul class="list-unstyled p-0">
-                                        <li class="mb-1 product-title">لپ تاپ 15.6 اینچ Razer Blade 15 i7/16GB/1TB
-                                            SSD/6GB
-                                        </li>
-                                        <li>
-                                            <ul class="list-unstyled d-flex flex-column justify-content-between p-0">
-                                                <li class="text-start discount py-2">55,000,000 تومان</li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="mb-4 swiper-slide">
-                        <a href="shop-single.html" class="text-dark text-decoration-none">
-                            <div class="card h-100 border-0 shadow">
-                                <div class="card">
-                                    <img class="card-img rounded-0 rounded-top img-fluid" src="./l1.jpg">
-                                </div>
-                                <div class="card-body">
-                                    <ul class="list-unstyled p-0">
-                                        <li class="mb-1 product-title">لپ تاپ 15.6 اینچ Razer Blade 15 i7/16GB/1TB
-                                            SSD/6GB
-                                        </li>
-                                        <li>
-                                            <ul class="list-unstyled d-flex flex-column justify-content-between p-0">
-                                                <li class="text-start discount py-2">55,000,000 تومان</li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="mb-4 swiper-slide">
-                        <a href="shop-single.html" class="text-dark text-decoration-none">
-                            <div class="card h-100 border-0 shadow">
-                                <div class="card">
-                                    <img class="card-img rounded-0 rounded-top img-fluid" src="./l1.jpg">
-                                </div>
-                                <div class="card-body">
-                                    <ul class="list-unstyled p-0">
-                                        <li class="mb-1 product-title">لپ تاپ 15.6 اینچ Razer Blade 15 i7/16GB/1TB
-                                            SSD/6GB
-                                        </li>
-                                        <li>
-                                            <ul class="list-unstyled d-flex flex-column justify-content-between p-0">
-                                                <li class="text-start discount py-2">55,000,000 تومان</li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="mb-4 swiper-slide">
-                        <a href="shop-single.html" class="text-dark text-decoration-none">
-                            <div class="card h-100 border-0 shadow">
-                                <div class="card">
-                                    <img class="card-img rounded-0 rounded-top img-fluid" src="./l1.jpg">
-                                </div>
-                                <div class="card-body">
-                                    <ul class="list-unstyled p-0">
-                                        <li class="mb-1 product-title">لپ تاپ 15.6 اینچ Razer Blade 15 i7/16GB/1TB
-                                            SSD/6GB
-                                        </li>
-                                        <li>
-                                            <ul class="list-unstyled d-flex flex-column justify-content-between p-0">
-                                                <li class="text-start discount py-2">55,000,000 تومان</li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="mb-4 swiper-slide">
-                        <a href="shop-single.html" class="text-dark text-decoration-none">
-                            <div class="card h-100 border-0 shadow">
-                                <div class="card">
-                                    <img class="card-img rounded-0 rounded-top img-fluid" src="./l1.jpg">
-                                </div>
-                                <div class="card-body">
-                                    <ul class="list-unstyled p-0">
-                                        <li class="mb-1 product-title">لپ تاپ 15.6 اینچ Razer Blade 15 i7/16GB/1TB
-                                            SSD/6GB
-                                        </li>
-                                        <li>
-                                            <ul class="list-unstyled d-flex flex-column justify-content-between p-0">
-                                                <li class="text-start discount py-2">55,000,000 تومان</li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
+                    {% endfor %}
                 </ul>
             </div>
             <i class="fas fa-chevron-left left-slide3 position-absolute top-50 start-0 h3"
@@ -608,31 +229,13 @@
                 <h3 class="h3">محبوب ترین برندها</h3>
             </div>
         </div>
-        <div class="row">
-            <a href="" class="text-dark text-decoration-none brands col-6 col-lg-2 col-sm-4 p-5">
-                <img src="./brands/Asus.png" class="rounded-circle img-fluid border">
-                <h5 class="text-center mt-3 mb-3">Asus</h5>
-            </a>
-            <a href="" class="text-dark text-decoration-none brands col-6 col-lg-2 col-sm-4 p-5">
-                <img src="./brands/HP.png" class="rounded-circle img-fluid border">
-                <h5 class="h5 text-center mt-3 mb-3">HP</h5>
-            </a>
-            <a href="" class="text-dark text-decoration-none brands col-6 col-lg-2 col-sm-4 p-5">
-                <img src="./brands/Apple.png" class="rounded-circle img-fluid border">
-                <h5 class="h5 text-center mt-3 mb-3">Apple</h5>
-            </a>
-            <a href="" class="text-dark text-decoration-none brands col-6 col-lg-2 col-sm-4 p-5">
-                <img src="./brands/Dell.png" class="rounded-circle img-fluid border">
-                <h5 class="h5 text-center mt-3 mb-3">Dell</h5>
-            </a>
-            <a href="" class="text-dark text-decoration-none brands col-6 col-lg-2 col-sm-4 p-5">
-                <img src="./brands/Microsoft.png" class="rounded-circle img-fluid border">
-                <h5 class="h5 text-center mt-3 mb-3">Microsoft</h5>
-            </a>
-            <a href="" class="text-dark text-decoration-none brands col-6 col-lg-2 col-sm-4 p-5">
-                <img src="./brands/Lenovo.png" class="rounded-circle img-fluid border">
-                <h5 class="h5 text-center mt-3 mb-3">Lenovo</h5>
-            </a>
+        <div class="row justify-content-center">
+            {% for brand in brand_hot %}
+                <a href="" class="text-dark text-decoration-none brands col-6 col-lg-2 col-sm-4 p-5">
+                    <img src="{{ brand.cover.url }}" class="rounded-circle img-fluid border">
+                    <h5 class="text-center mt-3 mb-3">{{ brand.name }}</h5>
+                </a>
+            {% endfor %}
         </div>
     </section>
     <!-- End Categories of The Papular -->

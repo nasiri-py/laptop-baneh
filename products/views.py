@@ -6,10 +6,13 @@ from .forms import CommentForm
 
 
 class ProductListView(generic.ListView):
-    model = Product
     paginate_by = 16
     template_name = 'products/product_list.html'
     context_object_name = 'products'
+
+    def get_queryset(self):
+        products = Product.objects.all().order_by('-available', '-created')
+        return products
 
 
 class ProductDetailView(generic.DetailView):

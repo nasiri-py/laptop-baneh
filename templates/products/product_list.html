@@ -11,7 +11,7 @@
             <div class="col-lg-3 border rounded h-100">
                 <div class="d-flex justify-content-between align-items-baseline pt-3 pb-2">
                     <p><i class="fa fa-filter"></i> فیلتر</p>
-                    <a href="" class="text-decoration-none">حذف فیلترها</a>
+                    <a href="{% url 'product:list' %}" class="text-decoration-none">حذف فیلترها</a>
                 </div>
                 <div class="accordion accordion-flush" id="accordionFlushExample">
                     <div class="accordion-item pt-3">
@@ -218,28 +218,32 @@
                 </div>
                 <div class="row">
                     {% for product in products %}
-                        <div class="mb-4 col-12 col-sm-6 col-md-4">
+                        <div class="mb-4 col-12 col-sm-6 col-md-4 product-list">
                         <a href="{{ product.get_absolute_url }}" class="text-dark text-decoration-none">
                             <div class="product-wap card h-100 border-0 shadow">
                                 <div class="card">
-                                    <img class="card-img rounded-0 rounded-top img-fluid" src="{{ product.cover.url }}" alt="{{ product.title }}">
+                                    <img class="card-img rounded-0 rounded-top img-fluid m-auto" src="{{ product.cover.url }}" alt="{{ product.title }}">
                                 </div>
                                 <div class="card-body">
                                     <ul class="list-unstyled p-0">
                                         <li class="mb-5 product-title">{{ product.title }}</li>
                                         <li>
-                                            <ul class="list-unstyled d-flex flex-column justify-content-between p-0">
-                                                {% if product.discount %}
-                                                    <li class="text-start discount"><span
-                                                            class="mx-1 px-1 discount-percent">56%</span> 55,000,000 تومان
-                                                    </li>
-                                                    <li class="text-start text-muted text-decoration-line-through price">
-                                                        125,000,000
-                                                    </li>
-                                                {% else %}
-                                                    <li class="text-start discount">55,000,000 تومان</li>
-                                                {% endif %}
-                                            </ul>
+                                        {% if product.available %}
+                                             <ul class="list-unstyled d-flex flex-column justify-content-between p-0">
+                                                 {% if product.discount %}
+                                                     <li class="text-start discount"><span
+                                                             class="mx-1 px-1 discount-percent">{{ product.discount_percent }}%</span> {{ product.discount }} تومان
+                                                     </li>
+                                                     <li class="text-start text-muted text-decoration-line-through price">
+                                                            {{ product.price }}
+                                                     </li>
+                                                 {% else %}
+                                                     <li class="text-start discount">{{ product.price }} تومان</li>
+                                                 {% endif %}
+                                             </ul>
+                                        {% else %}
+                                            <div class="w-100 unavailable">ناموجود</div>
+                                        {% endif %}
                                         </li>
                                     </ul>
                                 </div>
