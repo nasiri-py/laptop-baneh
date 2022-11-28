@@ -77,7 +77,7 @@ class Product(models.Model):
         return reverse('product:detail', args=[self.slug])
 
     def cover_tag(self):
-        return format_html(f"<img width=100 height=75 style='border-radius: 5px;' src='{self.cover.url}'>")
+        return format_html(f"<img width=100 height=75 style='border-radius: 5px; object-fit: contain;' src='{self.cover.url}'>")
 
     cover_tag.short_description = "cover"
 
@@ -95,7 +95,7 @@ class Image(models.Model):
     image = models.ImageField(upload_to='products/images/%Y/%m/%d')
 
     def image_tag(self):
-        return format_html(f"<img width=100 height=75 style='border-radius: 5px;' src='{self.image.url}'>")
+        return format_html(f"<img width=100 height=75 style='border-radius: 5px; object-fit: contain;' src='{self.image.url}'>")
 
     image_tag.short_description = "image"
 

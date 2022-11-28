@@ -6,7 +6,7 @@ from .forms import CommentForm
 
 
 class ProductListView(generic.ListView):
-    paginate_by = 16
+    paginate_by = 1
     template_name = 'products/product_list.html'
     context_object_name = 'products'
 

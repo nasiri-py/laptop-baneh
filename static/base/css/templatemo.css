@@ -283,6 +283,11 @@ padding: 0;
   color: #212934;
   transition: .5s;
 }
+/*Pagination*/
+.pagination .pag-item .pag-link {padding: 4px 10px 2px; border: none; color: #1d242d; text-decoration: none;}
+.pagination .active .pag-link {background-color: #bc1f69; border-color: #bc1f69; color: #e8e8e8; border-radius: 10px;}
+.pagination .pag-item span {color: #1d242d;}
+
 #tempaltemo_footer .border-light { border-color: #2d343f !important;}
 /*
 // Extra small devices (portrait phones, less than 576px)
@@ -305,6 +310,7 @@ padding: 0;
 }
 @media (max-width: 768px) {
   .swiper-slide {width: 30% !important;}
+  .pagination {justify-content: center !important;}
 }
 @media (max-width: 576px) {
   .navbar-toggler {position: absolute; left: 5%;}
