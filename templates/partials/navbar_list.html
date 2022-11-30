@@ -1,0 +1,62 @@
+
+<div class="nav-item dropdown position-static">
+    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href=""> دسته بندی
+        محصولات </a>
+    <div class="dropdown-menu dropdown-menu-end position-absolute w-100 py-4 px-3 border-0">
+        <form action="">
+            <ul class="d-flex justify-content-between list-unstyled px-3 text-end">
+                <li>
+                    <p class="dropdown-item-header">براساس شرکت سازنده</p>
+                    <ul class="list-unstyled p-0">
+                        {% for brand in brands %}
+                            <li class="dropdown-item-link"><a href="{% url 'product:list' %}?brand={{ brand.id }}">لپ تاپ {{ brand.name|title }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </li>
+                <li>
+                    <p class="dropdown-item-header">براساس گرید</p>
+                    <ul class="list-unstyled p-0">
+                        <li class="dropdown-item-link"><a href="{% url 'product:list' %}?grade=n">لپ تاپ آکبند</a></li>
+                        <li class="dropdown-item-link"><a href="{% url 'product:list' %}?grade=o">لپ تاپ اپن باکس</a></li>
+                        <li class="dropdown-item-link"><a href="{% url 'product:list' %}?grade=s">لپ تاپ استوک</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <p class="dropdown-item-header">براساس قیمت</p>
+                    <ul class="list-unstyled p-0">
+                        <li class="dropdown-item-link"><a href="{% url 'product:list' %}?price_lt=10000000">لپ تاپ تا 10 میلیون تومان</a></li>
+                        <li class="dropdown-item-link"><a href="{% url 'product:list' %}?price_lt=20000000">لپ تاپ تا 20 میلیون تومان</a></li>
+                        <li class="dropdown-item-link"><a href="{% url 'product:list' %}?price_lt=30000000">لپ تاپ تا 30 میلیون تومان</a></li>
+                        <li class="dropdown-item-link"><a href="{% url 'product:list' %}?price_lt=40000000">لپ تاپ تا 40 میلیون تومان</a></li>
+                        <li class="dropdown-item-link"><a href="{% url 'product:list' %}?price_lt=50000000">لپ تاپ تا 50 میلیون تومان</a></li>
+                        <li class="dropdown-item-link"><a href="{% url 'product:list' %}?price_gt=50000000">لپ تاپ بالای 50 میلیون تومان</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <p class="dropdown-item-header">براساس کاربری</p>
+                    <ul class="list-unstyled p-0">
+                        {% for category in categories %}
+                            <li class="dropdown-item-link"><a href="{% url 'product:list' %}?category={{ category.id }}">لپ تاپ {{ category.title }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </li>
+                <li>
+                    <p class="dropdown-item-header">براساس پردازنده</p>
+                    <ul class="list-unstyled p-0">
+                        {% for cpu in cpu_series %}
+                            <li class="dropdown-item-link"><a href="{% url 'product:list' %}?cpu_series={{ cpu.id }}">پردازنده {{ cpu.series|title }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </li>
+                <li>
+                    <p class="dropdown-item-header">براساس پردازنده گرافیکی</p>
+                    <ul class="list-unstyled p-0">
+                        {% for gpu in gpu_makers %}
+                            <li class="dropdown-item-link"><a href="{% url 'product:list' %}?gpu_maker={{ gpu.id }}">{{ gpu.maker|title }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </li>
+            </ul>
+        </form>
+    </div>
+</div>

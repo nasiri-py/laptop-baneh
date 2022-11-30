@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     "crispy_bootstrap5",
     'widget_tweaks',
+    'django_filters',
 
     # my apps
     'accounts.apps.AccountsConfig',

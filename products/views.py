@@ -3,16 +3,33 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import generic, View
 from .models import Product, Comment
 from .forms import CommentForm
+from .filters import ProductFilter
+from django.core.paginator import Paginator
+from django.db.models import Min, Max
+from urllib.parse import urlencode
 
 
-class ProductListView(generic.ListView):
-    paginate_by = 1
-    template_name = 'products/product_list.html'
-    context_object_name = 'products'
+def product_list_view(request):
+    products = Product.objects.all().order_by('-available')
+    mini = Product.objects.aggregate(m_price=Min('price'))
+    min_price = int(mini['m_price'])
+    maxi = Product.objects.aggregate(m_price=Max('price'))
+    max_price = int(maxi['m_price'])
 
-    def get_queryset(self):
-        products = Product.objects.all().order_by('-available', '-created')
-        return products
+    filter_object = ProductFilter(request.GET, queryset=products)
+    products = filter_object.qs
+
+    paginator = Paginator(products, 1)
+    page_number = request.GET.get('page')
+    data = request.GET.copy()
+    if 'page' in data:
+        del data['page']
+    page_obj = paginator.get_page(page_number)
+
+    context = {'products': products, 'filter': filter_object, 'page_obj': page_obj,
+               'min_price': min_price, 'max_price': max_price, 'data': urlencode(data)}
+
+    return render(request, 'products/product_list.html', context)
 
 
 class ProductDetailView(generic.DetailView):

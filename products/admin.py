@@ -8,6 +8,8 @@ from .models import (
     Specification,
     Comment,
     IPAddress,
+    CPUSeries,
+    GPUMaker,
 )
 
 
@@ -51,6 +53,7 @@ class ProductAdmin(admin.ModelAdmin):
     ordering = ['-created', '-available']
     actions = [make_available, make_unavailable]
     inlines = [ImageInline, SpecificationInline]
+    exclude = ("sell",)
 
 
 class ImageAdmin(admin.ModelAdmin):
@@ -61,24 +64,18 @@ class ColorAdmin(admin.ModelAdmin):
     list_display = ['title', 'color_tag']
 
 
-class CategoryAdmin(admin.ModelAdmin):
-    prepopulated_fields = {'slug': ('title',)}
-
-
-class BrandAdmin(admin.ModelAdmin):
-    prepopulated_fields = {'slug': ('name',)}
-
-
 class CommentAdmin(admin.ModelAdmin):
     list_display = ['product', 'user', 'body', 'is_reply', 'reply']
     raw_id_fields = ['reply']
 
 
 admin.site.register(Product, ProductAdmin)
-admin.site.register(Specification)
+admin.site.register(Comment, CommentAdmin)
 admin.site.register(Image, ImageAdmin)
 admin.site.register(Color, ColorAdmin)
-admin.site.register(Category, CategoryAdmin)
-admin.site.register(Brand, BrandAdmin)
-admin.site.register(Comment, CommentAdmin)
+admin.site.register(Specification)
+admin.site.register(CPUSeries)
+admin.site.register(GPUMaker)
+admin.site.register(Category)
+admin.site.register(Brand)
 admin.site.register(IPAddress)

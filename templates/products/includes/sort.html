@@ -1,0 +1,23 @@
+<div class="d-flex me-3 sort-list">
+    <p><i class="fa fa-sort-amount-down"></i> مرتب سازی: </p>
+    <form class="list-unstyled d-flex justify-content-around w-50 p-0 me-4">
+        <input class="text-muted mb-4 mx-1 sort-icon" type="submit" name="create" value="جدید ترین">
+        <input class="text-muted mb-4 mx-1 sort-icon" type="submit" name="favourite" value="محبوب ترین">
+        <input class="text-muted mb-4 mx-1 sort-icon" type="submit" name="price" value="گران ترین">
+        <input class="text-muted mb-4 mx-1 sort-icon" type="submit" name="price" value="ارزان ترین">
+        <input class="text-muted mb-4 mx-1 sort-icon" type="submit" name="price" value="پرفروش ترین">
+        <div class="d-none">
+            {{ filter.form.price_gt }}
+            {{ filter.form.price_lt }}
+            {{ filter.form.brand }}
+            {{ filter.form.grade }}
+            {{ filter.form.category }}
+            {{ filter.form.screen_size }}
+            {{ filter.form.cpu_series }}
+            {{ filter.form.gpu_maker }}
+            {{ filter.form.gpu_memory }}
+            {{ filter.form.ram_capacity }}
+            {{ filter.form.ssd_capacity }}
+        </div>
+    </form>
+</div>

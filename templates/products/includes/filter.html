@@ -1,0 +1,225 @@
+
+<div class="col-lg-3 border rounded h-100">
+<form action="" method="get">
+    <div class="d-flex justify-content-between align-items-baseline pt-3 pb-2">
+        <p><i class="fa fa-filter"></i> فیلتر</p>
+        <a href="{% url 'product:list' %}" class="text-decoration-none">حذف فیلترها</a>
+    </div>
+    <div class="accordion accordion-flush" id="accordionFlushExample">
+        <div class="accordion-item pt-3">
+            <div class="accordion-header" id="flush-heading1">
+                <div class="d-flex justify-content-between align-items-baseline collapsed" type="button"
+                     data-bs-toggle="collapse" data-bs-target="#flush-collapse1" aria-expanded="false"
+                     aria-controls="flush-collapse1">
+                    <p>
+                        بر اساس قیمت
+                    </p>
+                    <i class="fa fa-angle-down" aria-hidden="true"></i>
+                </div>
+            </div>
+            <div id="flush-collapse1" class="accordion-collapse collapse" aria-labelledby="flush-heading1"
+                 data-bs-parent="#accordionFlushExample">
+                <div class="accordion-body">
+                    <label for="price"></label>
+                    <div class="price-range">
+                        <div class="container">
+                            <div class="slider-track"></div>
+                            <input type="range" name="price_gt" value="{{ min_price }}" step="1" oninput="slideOne()" max="{{ max_price }}" min="{{ min_price }}" id="slider-1">
+                            <input type="range" name="price_lt" value="{{ max_price }}" step="1" oninput="slideTwo()" max="{{ max_price }}" min="{{ min_price }}" id="slider-2">
+                        </div>
+                        <div class="values d-flex justify-content-between">
+                            <div>
+                                <span id="range1">
+                                      {{ min_price }}
+                                </span>
+                                <span>تومان</span>
+                            </div>
+                            <div>
+                                <span id="range2">
+                                      {{ max_price }}
+                                </span>
+                                <span>تومان</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item pt-3">
+            <div class="accordion-header" id="flush-heading2">
+                <div class="d-flex justify-content-between align-items-baseline collapsed" type="button"
+                     data-bs-toggle="collapse" data-bs-target="#flush-collapse2" aria-expanded="false"
+                     aria-controls="flush-collapse2">
+                    <p>
+                        شرکت سازنده
+                    </p>
+                    <i class="fa fa-angle-down" aria-hidden="true"></i>
+                </div>
+            </div>
+            <div id="flush-collapse2" class="accordion-collapse collapse" aria-labelledby="flush-heading2"
+                 data-bs-parent="#accordionFlushExample">
+                <div class="accordion-body">
+                    {{ filter.form.brand|title }}
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item pt-3">
+            <div class="accordion-header" id="flush-heading3">
+                <div class="d-flex justify-content-between align-items-baseline collapsed" type="button"
+                     data-bs-toggle="collapse" data-bs-target="#flush-collapse3" aria-expanded="false"
+                     aria-controls="flush-collapse3">
+                    <p>
+                        گرید
+                    </p>
+                    <i class="fa fa-angle-down" aria-hidden="true"></i>
+                </div>
+            </div>
+            <div id="flush-collapse3" class="accordion-collapse collapse" aria-labelledby="flush-heading3"
+                 data-bs-parent="#accordionFlushExample">
+                <div class="accordion-body">
+                    <div id="id_grade">
+                        <div><label for="id_grade_0"><input type="checkbox" name="grade" value="n" id="id_grade_0"> آکبند</label></div>
+                        <div><label for="id_grade_1"><input type="checkbox" name="grade" value="o" id="id_grade_1"> اپن باکس</label></div>
+                        <div><label for="id_grade_2"><input type="checkbox" name="grade" value="s" id="id_grade_2"> استوک</label></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item pt-3">
+            <div class="accordion-header" id="flush-heading4">
+                <div class="d-flex justify-content-between align-items-baseline collapsed" type="button"
+                     data-bs-toggle="collapse" data-bs-target="#flush-collapse4" aria-expanded="false"
+                     aria-controls="flush-collapse4">
+                    <p>
+                        رده کاری
+                    </p>
+                    <i class="fa fa-angle-down" aria-hidden="true"></i>
+                </div>
+            </div>
+            <div id="flush-collapse4" class="accordion-collapse collapse" aria-labelledby="flush-heading4"
+                 data-bs-parent="#accordionFlushExample">
+                <div class="accordion-body">
+                    {{ filter.form.category }}
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item pt-3">
+            <div class="accordion-header" id="flush-heading5">
+                <div class="d-flex justify-content-between align-items-baseline collapsed" type="button"
+                     data-bs-toggle="collapse" data-bs-target="#flush-collapse5" aria-expanded="false"
+                     aria-controls="flush-collapse5">
+                    <p>
+                        اندازه صفحه نمایش
+                    </p>
+                    <i class="fa fa-angle-down" aria-hidden="true"></i>
+                </div>
+            </div>
+            <div id="flush-collapse5" class="accordion-collapse collapse" aria-labelledby="flush-heading5"
+                 data-bs-parent="#accordionFlushExample">
+                <div class="accordion-body">
+                    {{ filter.form.screen_size }}
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item pt-3">
+            <div class="accordion-header" id="flush-heading6">
+                <div class="d-flex justify-content-between align-items-baseline collapsed" type="button"
+                     data-bs-toggle="collapse" data-bs-target="#flush-collapse6" aria-expanded="false"
+                     aria-controls="flush-collapse6">
+                    <p>
+                        سری پردازنده
+                    </p>
+                    <i class="fa fa-angle-down" aria-hidden="true"></i>
+                </div>
+            </div>
+            <div id="flush-collapse6" class="accordion-collapse collapse" aria-labelledby="flush-heading6"
+                 data-bs-parent="#accordionFlushExample">
+                <div class="accordion-body">
+                    {{ filter.form.cpu_series|title }}
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item pt-3">
+            <div class="accordion-header" id="flush-heading7">
+                <div class="d-flex justify-content-between align-items-baseline collapsed" type="button"
+                     data-bs-toggle="collapse" data-bs-target="#flush-collapse7" aria-expanded="false"
+                     aria-controls="flush-collapse7">
+                    <p>
+                        سازنده پردازنده گرافیکی
+                    </p>
+                    <i class="fa fa-angle-down" aria-hidden="true"></i>
+                </div>
+            </div>
+            <div id="flush-collapse7" class="accordion-collapse collapse" aria-labelledby="flush-heading7"
+                 data-bs-parent="#accordionFlushExample">
+                <div class="accordion-body">
+                    {{ filter.form.gpu_maker|title }}
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item pt-3">
+            <div class="accordion-header" id="flush-heading8">
+                <div class="d-flex justify-content-between align-items-baseline collapsed" type="button"
+                     data-bs-toggle="collapse" data-bs-target="#flush-collapse8" aria-expanded="false"
+                     aria-controls="flush-collapse8">
+                    <p>
+                        حافظه اختصاصی گرافیکی
+                    </p>
+                    <i class="fa fa-angle-down" aria-hidden="true"></i>
+                </div>
+            </div>
+            <div id="flush-collapse8" class="accordion-collapse collapse" aria-labelledby="flush-heading8"
+                 data-bs-parent="#accordionFlushExample">
+                <div class="accordion-body">
+                    {{ filter.form.gpu_memory }}
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item pt-3">
+            <div class="accordion-header" id="flush-heading9">
+                <div class="d-flex justify-content-between align-items-baseline collapsed" type="button"
+                     data-bs-toggle="collapse" data-bs-target="#flush-collapse9" aria-expanded="false"
+                     aria-controls="flush-collapse9">
+                    <p>
+                        حافظه رم
+                    </p>
+                    <i class="fa fa-angle-down" aria-hidden="true"></i>
+                </div>
+            </div>
+            <div id="flush-collapse9" class="accordion-collapse collapse" aria-labelledby="flush-heading9"
+                 data-bs-parent="#accordionFlushExample">
+                <div class="accordion-body">
+                    {{ filter.form.ram_capacity }}
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item pt-3">
+            <div class="accordion-header" id="flush-heading10">
+                <div class="d-flex justify-content-between align-items-baseline collapsed" type="button"
+                     data-bs-toggle="collapse" data-bs-target="#flush-collapse10" aria-expanded="false"
+                     aria-controls="flush-collapse10">
+                    <p>
+                        ظرفیت هارد دیسک
+                    </p>
+                    <i class="fa fa-angle-down" aria-hidden="true"></i>
+                </div>
+            </div>
+            <div id="flush-collapse10" class="accordion-collapse collapse" aria-labelledby="flush-heading10"
+                 data-bs-parent="#accordionFlushExample">
+                <div class="accordion-body">
+                    {{ filter.form.ssd_capacity }}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="py-3">
+        <button type="submit" class="btn btn-buy w-100">جستجو</button>
+    </div>
+    <div class="d-none">
+        {{ filter.form.price }}
+        {{ filter.form.create }}
+        {{ filter.form.favourite }}
+        {{ filter.form.sell }}
+    </div>
+</form>
+</div>

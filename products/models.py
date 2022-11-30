@@ -15,7 +15,6 @@ class IPAddress(models.Model):
 
 class Category(models.Model):
     title = models.CharField(max_length=255)
-    slug = models.SlugField(max_length=255, allow_unicode=True, unique=True)
 
     def __str__(self):
         return self.title
@@ -38,7 +37,6 @@ class Color(models.Model):
 
 class Brand(models.Model):
     name = models.CharField(max_length=255)
-    slug = models.SlugField(max_length=255, allow_unicode=True, unique=True)
     cover = models.ImageField(upload_to='brands')
     ratings = GenericRelation(Rating)
 
@@ -64,11 +62,13 @@ class Product(models.Model):
     available = models.BooleanField(default=True)
     number = models.PositiveIntegerField(validators=[MinValueValidator(1)])
     price = models.PositiveIntegerField()
+    has_discount = models.BooleanField(default=False)
     discount = models.PositiveIntegerField(blank=True, null=True)
     discount_percent = models.PositiveIntegerField(blank=True, null=True)
     created = models.DateTimeField(auto_now=True)
     ratings = GenericRelation(Rating)
     hits = models.ManyToManyField(IPAddress, through="ArticleHit", blank=True, related_name='hits')
+    sell = models.IntegerField(default=0)
 
     def __str__(self):
         return self.title
@@ -100,6 +100,20 @@ class Image(models.Model):
     image_tag.short_description = "image"
 
 
+class CPUSeries(models.Model):
+    series = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.series
+
+
+class GPUMaker(models.Model):
+    maker = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.maker
+
+
 class Specification(models.Model):
     product = models.OneToOneField(Product, on_delete=models.CASCADE, related_name='specs')
     name = models.CharField(max_length=255)
@@ -114,12 +128,12 @@ class Specification(models.Model):
     screen_description = models.TextField(blank=True, null=True)
     # cpu
     cpu_maker = models.CharField(max_length=255)
-    cpu_series = models.CharField(max_length=255)
+    cpu_series = models.ForeignKey(CPUSeries, on_delete=models.CASCADE, related_name='cpu_series')
     cpu_model = models.CharField(max_length=255)
     cpu_description = models.TextField(blank=True, null=True)
     # gpu
     has_gpu = models.BooleanField(default=False)
-    gpu_maker = models.CharField(max_length=255)
+    gpu_maker = models.ForeignKey(GPUMaker, on_delete=models.CASCADE, related_name='gpu_makers')
     gpu_model = models.CharField(max_length=255)
     gpu_memory = models.PositiveIntegerField(blank=True, null=True)
     gpu_description = models.TextField(blank=True, null=True)
