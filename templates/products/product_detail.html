@@ -2,7 +2,6 @@
 
 {% load base_tags %}
 {% load ratings %}
-{% load crispy_forms_tags %}
 
 {% block title %}
     Stoke Laptop Store
@@ -660,9 +659,11 @@
                     <div class="tab-pane fade" id="review" role="tabpanel" aria-labelledby="review-tab">
                         <div class="container my-5">
                             {% if user.is_authenticated %}
-                                <form action="{% url 'product:add-comment' product.id %}" method="post">
+                                <form class="comment-form" action="{% url 'product:add-comment' product.id %}"
+                                      method="post">
                                     {% csrf_token %}
-                                    {{ comment_form|crispy }}
+                                    <textarea class="w-100 rounded" name="body" cols="100" rows="6" required=""
+                                              id="id_body"></textarea>
                                     <button class="btn btn-comment" type="submit">ارسال نظر</button>
                                 </form>
                             {% else %}
@@ -677,55 +678,71 @@
                             {% for comment in product.comments.all %}
                                 {% if not comment.is_reply %}
                                     <div class="mt-4 p-4 comment">
-                                    <ul class="list-unstyled p-0 w-25">
-                                        <li><h5 class="comment-user m-0">{{ comment.user.username }}</h5></li>
-                                        <li><p class="comment-time text-muted">{{ comment.created }}</p></li>
-                                    </ul>
-                                    <p class="comment-body">{{ comment.body }}</p>
-                                    <div class="accordion-item pt-3">
-                                        <div class="accordion-header" id="flush-headingCommentReply{{ comment.id }}">
-                                            <div class="d-flex justify-content-between align-items-baseline collapsed"
-                                                 type="button"
-                                                 data-bs-toggle="collapse"
-                                                 data-bs-target="#flush-collapseCommentReply{{ comment.id }}"
-                                                 aria-expanded="false"
-                                                 aria-controls="flush-collapseCommentReply{{ comment.id }}">
-                                                <button class="btn btn-reply">ارسال پاسخ</button>
+                                        <ul class="list-unstyled p-0 w-25">
+                                            {% if user.is_staff %}
+                                                <li><h5 class="comment-user mb-1"
+                                                        style="color: #7803e2;">{{ comment.user.fist_name }}</h5></li>
+                                            {% else %}
+                                                <li><h5 class="comment-user m-0">{{ comment.user.username }}</h5></li>
+                                            {% endif %}
+                                            <li><p class="comment-time text-muted">{{ comment.created }}</p></li>
+                                        </ul>
+                                        <p class="comment-body">{{ comment.body }}</p>
+                                        <div class="accordion-item pt-3">
+                                            <div class="accordion-header"
+                                                 id="flush-headingCommentReply{{ comment.id }}">
+                                                <div class="d-flex justify-content-between align-items-baseline collapsed"
+                                                     type="button"
+                                                     data-bs-toggle="collapse"
+                                                     data-bs-target="#flush-collapseCommentReply{{ comment.id }}"
+                                                     aria-expanded="false"
+                                                     aria-controls="flush-collapseCommentReply{{ comment.id }}">
+                                                    <button class="btn btn-reply">ارسال پاسخ</button>
+                                                </div>
+                                            </div>
+                                            <div id="flush-collapseCommentReply{{ comment.id }}"
+                                                 class="accordion-collapse collapse"
+                                                 aria-labelledby="flush-headingCommentReply"
+                                                 data-bs-parent="#accordionFlushExample">
+                                                <div class="accordion-body mt-3">
+                                                    {% if user.is_authenticated %}
+                                                        <form class="comment-form"
+                                                              action="{% url 'product:add-reply' product.id comment.id %}"
+                                                              method="post">
+                                                            {% csrf_token %}
+                                                            <textarea class="w-100 rounded" name="body" cols="100"
+                                                                      rows="3" required="" id="id_body"></textarea>
+                                                            <button class="btn btn-comment" type="submit">ارسال</button>
+                                                        </form>
+                                                    {% else %}
+                                                        <div class="alert alert-info text-center" role="alert">
+                                                            برای ارسال پاسخ به نظرات لازم است وارد <a
+                                                                href="{% url 'accounts:login' %}"
+                                                                class="text-decoration-none">حساب کاربری</a> خود
+                                                            شوید
+                                                        </div>
+                                                    {% endif %}
+                                                </div>
                                             </div>
                                         </div>
-                                        <div id="flush-collapseCommentReply{{ comment.id }}"
-                                             class="accordion-collapse collapse"
-                                             aria-labelledby="flush-headingCommentReply"
-                                             data-bs-parent="#accordionFlushExample">
-                                            <div class="accordion-body mt-3">
-                                                {% if user.is_authenticated %}
-                                                    <form action="{% url 'product:add-reply' product.id comment.id %}"
-                                                          method="post">
-                                                        {% csrf_token %}
-                                                        {{ comment_form|crispy }}
-                                                        <button class="btn btn-comment" type="submit">ارسال نظر</button>
-                                                    </form>
-                                                {% else %}
-                                                    <div class="alert alert-info text-center" role="alert">
-                                                        برای ارسال پاسخ به نظرات لازم است وارد <a
-                                                            href="{% url 'accounts:login' %}"
-                                                            class="text-decoration-none">حساب کاربری</a> خود
-                                                        شوید
-                                                    </div>
-                                                {% endif %}
+                                        {% for cm in comment.comments.all %}
+                                            <div class="comment-reply mx-4 mt-3 p-4">
+                                                <ul class="list-unstyled p-0 w-25">
+                                                    {% if user.is_staff %}
+                                                        <li><h5 class="comment-user mb-1"
+                                                                style="color: #7803e2;">{{ comment.user.first_name }}</h5>
+                                                        </li>
+                                                    {% else %}
+                                                        <li>
+                                                            <h6 class="comment-user m-0">{{ comment.user.username }}</h6>
+                                                        </li>
+                                                    {% endif %}
+                                                    <li><p class="comment-time text-muted">{{ cm.created }}</p></li>
+                                                </ul>
+                                                <p class="comment-body">{{ cm.body }}</p>
                                             </div>
-                                        </div>
+                                        {% endfor %}
                                     </div>
-                                    {% for cm in comment.comments.all %}
-                                        <div class="comment-reply mx-4 mt-3 p-4">
-                                            <ul class="list-unstyled p-0 w-25">
-                                                <li><h6 class="comment-user m-0">{{ cm.user.username }}</h6></li>
-                                                <li><p class="comment-time text-muted">{{ cm.created }}</p></li>
-                                            </ul>
-                                            <p class="comment-body">{{ cm.body }}</p>
-                                        </div>
-                                    {% endfor %}
-                                </div>
                                 {% endif %}
                             {% endfor %}
                         </div>
@@ -736,7 +753,7 @@
     </section>
 
     <!-- Start Article -->
-    <section class="py-4 dynamic-tab">
+    <section class="py-4 dynamic-tab swiper-products-section">
         <div class="container position-relative">
             <i class="fas fa-chevron-right right-slide2 position-absolute top-50 end-0 h3 chevron-slider"></i>
             <div class="py-2 d-flex justify-content-between align-items-baseline">
@@ -744,212 +761,33 @@
             </div>
             <div class="swiper-container" id="swiper-container2">
                 <ul class="swiper-wrapper">
-                    <li class="mb-4 swiper-slide">
-                        <a href="shop-single.html" class="text-dark text-decoration-none">
-                            <div class="card h-100 border-0 shadow">
-                                <div class="card">
-                                    <img class="card-img rounded-0 rounded-top img-fluid" src="./l1.jpg">
+                    {% for product in similar_products %}
+                        <li class="mb-4 swiper-slide">
+                            <a href="{{ product.get_absolute_url }}" class="text-dark text-decoration-none">
+                                <div class="card h-100 border-0 shadow">
+                                    <div class="card">
+                                        <img class="card-img rounded-0 rounded-top img-fluid"
+                                             src="{{ product.cover.url }}">
+                                    </div>
+                                    <div class="card-body">
+                                        <ul class="list-unstyled p-0">
+                                            <li class="mb-1 product-title">{{ product.title|truncatewords:6 }}</li>
+                                            <li>
+                                                {% if product.available %}
+                                                    <ul class="list-unstyled d-flex flex-column justify-content-between p-0">
+                                                        <li class="text-start discount py-2">{{ product.price }} تومان
+                                                        </li>
+                                                    </ul>
+                                                {% else %}
+                                                    <div class="w-100 unavailable">ناموجود</div>
+                                                {% endif %}
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </div>
-                                <div class="card-body">
-                                    <ul class="list-unstyled p-0">
-                                        <li class="mb-1 product-title">لپ تاپ 15.6 اینچ Razer Blade 15 i7/16GB/1TB
-                                            SSD/6GB
-                                        </li>
-                                        <li>
-                                            <ul class="list-unstyled d-flex flex-column justify-content-between p-0">
-                                                <li class="text-start discount py-2">55,000,000 تومان</li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="mb-4 swiper-slide">
-                        <a href="shop-single.html" class="text-dark text-decoration-none">
-                            <div class="card h-100 border-0 shadow">
-                                <div class="card">
-                                    <img class="card-img rounded-0 rounded-top img-fluid" src="./l1.jpg">
-                                </div>
-                                <div class="card-body">
-                                    <ul class="list-unstyled p-0">
-                                        <li class="mb-1 product-title">لپ تاپ 15.6 اینچ Razer Blade 15 i7/16GB/1TB
-                                            SSD/6GB
-                                        </li>
-                                    </ul>
-                                    <div class="w-100 unavailable">ناموجود</div>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="mb-4 swiper-slide">
-                        <a href="shop-single.html" class="text-dark text-decoration-none">
-                            <div class="card h-100 border-0 shadow">
-                                <div class="card">
-                                    <img class="card-img rounded-0 rounded-top img-fluid" src="./l1.jpg">
-                                </div>
-                                <div class="card-body">
-                                    <ul class="list-unstyled p-0">
-                                        <li class="mb-1 product-title">لپ تاپ 15.6 اینچ Razer Blade 15 i7/16GB/1TB
-                                            SSD/6GB
-                                        </li>
-                                        <li>
-                                            <ul class="list-unstyled d-flex flex-column justify-content-between p-0">
-                                                <li class="text-start discount py-2">55,000,000 تومان</li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="mb-4 swiper-slide">
-                        <a href="shop-single.html" class="text-dark text-decoration-none">
-                            <div class="card h-100 border-0 shadow">
-                                <div class="card">
-                                    <img class="card-img rounded-0 rounded-top img-fluid" src="./l1.jpg">
-                                </div>
-                                <div class="card-body">
-                                    <ul class="list-unstyled p-0">
-                                        <li class="mb-1 product-title">لپ تاپ 15.6 اینچ Razer Blade 15 i7/16GB/1TB
-                                            SSD/6GB
-                                        </li>
-                                        <li>
-                                            <ul class="list-unstyled d-flex flex-column justify-content-between p-0">
-                                                <li class="text-start discount py-2">55,000,000 تومان</li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="mb-4 swiper-slide">
-                        <a href="shop-single.html" class="text-dark text-decoration-none">
-                            <div class="card h-100 border-0 shadow">
-                                <div class="card">
-                                    <img class="card-img rounded-0 rounded-top img-fluid" src="./l1.jpg">
-                                </div>
-                                <div class="card-body">
-                                    <ul class="list-unstyled p-0">
-                                        <li class="mb-1 product-title">لپ تاپ 15.6 اینچ Razer Blade 15 i7/16GB/1TB
-                                            SSD/6GB
-                                        </li>
-                                        <li>
-                                            <ul class="list-unstyled d-flex flex-column justify-content-between p-0">
-                                                <li class="text-start discount py-2">55,000,000 تومان</li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="mb-4 swiper-slide">
-                        <a href="shop-single.html" class="text-dark text-decoration-none">
-                            <div class="card h-100 border-0 shadow">
-                                <div class="card">
-                                    <img class="card-img rounded-0 rounded-top img-fluid" src="./l1.jpg">
-                                </div>
-                                <div class="card-body">
-                                    <ul class="list-unstyled p-0">
-                                        <li class="mb-1 product-title">لپ تاپ 15.6 اینچ Razer Blade 15 i7/16GB/1TB
-                                            SSD/6GB
-                                        </li>
-                                        <li>
-                                            <ul class="list-unstyled d-flex flex-column justify-content-between p-0">
-                                                <li class="text-start discount py-2">55,000,000 تومان</li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="mb-4 swiper-slide">
-                        <a href="shop-single.html" class="text-dark text-decoration-none">
-                            <div class="card h-100 border-0 shadow">
-                                <div class="card">
-                                    <img class="card-img rounded-0 rounded-top img-fluid" src="./l1.jpg">
-                                </div>
-                                <div class="card-body">
-                                    <ul class="list-unstyled p-0">
-                                        <li class="mb-1 product-title">لپ تاپ 15.6 اینچ Razer Blade 15 i7/16GB/1TB
-                                            SSD/6GB
-                                        </li>
-                                        <li>
-                                            <ul class="list-unstyled d-flex flex-column justify-content-between p-0">
-                                                <li class="text-start discount py-2">55,000,000 تومان</li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="mb-4 swiper-slide">
-                        <a href="shop-single.html" class="text-dark text-decoration-none">
-                            <div class="card h-100 border-0 shadow">
-                                <div class="card">
-                                    <img class="card-img rounded-0 rounded-top img-fluid" src="./l1.jpg">
-                                </div>
-                                <div class="card-body">
-                                    <ul class="list-unstyled p-0">
-                                        <li class="mb-1 product-title">لپ تاپ 15.6 اینچ Razer Blade 15 i7/16GB/1TB
-                                            SSD/6GB
-                                        </li>
-                                        <li>
-                                            <ul class="list-unstyled d-flex flex-column justify-content-between p-0">
-                                                <li class="text-start discount py-2">55,000,000 تومان</li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="mb-4 swiper-slide">
-                        <a href="shop-single.html" class="text-dark text-decoration-none">
-                            <div class="card h-100 border-0 shadow">
-                                <div class="card">
-                                    <img class="card-img rounded-0 rounded-top img-fluid" src="./l1.jpg">
-                                </div>
-                                <div class="card-body">
-                                    <ul class="list-unstyled p-0">
-                                        <li class="mb-1 product-title">لپ تاپ 15.6 اینچ Razer Blade 15 i7/16GB/1TB
-                                            SSD/6GB
-                                        </li>
-                                        <li>
-                                            <ul class="list-unstyled d-flex flex-column justify-content-between p-0">
-                                                <li class="text-start discount py-2">55,000,000 تومان</li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="mb-4 swiper-slide">
-                        <a href="shop-single.html" class="text-dark text-decoration-none">
-                            <div class="card h-100 border-0 shadow">
-                                <div class="card">
-                                    <img class="card-img rounded-0 rounded-top img-fluid" src="./l1.jpg">
-                                </div>
-                                <div class="card-body">
-                                    <ul class="list-unstyled p-0">
-                                        <li class="mb-1 product-title">لپ تاپ 15.6 اینچ Razer Blade 15 i7/16GB/1TB
-                                            SSD/6GB
-                                        </li>
-                                        <li>
-                                            <ul class="list-unstyled d-flex flex-column justify-content-between p-0">
-                                                <li class="text-start discount py-2">55,000,000 تومان</li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
+                            </a>
+                        </li>
+                    {% endfor %}
                 </ul>
             </div>
             <i class="fas fa-chevron-left left-slide2 position-absolute top-50 start-0 h3 chevron-slider"></i>

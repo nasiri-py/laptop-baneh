@@ -196,4 +196,20 @@ body {
 
 .error {
     color: #EE6983;
+    margin-bottom: 1rem;
+}
+
+.message-box {
+    position: relative
+}
+
+.message-chi {
+    position: absolute;
+    right: 16%; top: 5%;
+    color: #721c24;
+    cursor: pointer
+}
+
+.message-chi:focus .message-box {
+    display: none;
 }

@@ -7,6 +7,7 @@ from .filters import ProductFilter
 from django.core.paginator import Paginator
 from django.db.models import Min, Max
 from urllib.parse import urlencode
+from django.contrib import messages
 
 
 def product_list_view(request):
@@ -38,10 +39,12 @@ class ProductDetailView(generic.DetailView):
     form_class = CommentForm
 
     def get_object(self, queryset=None):
-        global comment_form
+        global comment_form, similar_products
         comment_form = CommentForm()
         slug = self.kwargs.get('slug')
         product = get_object_or_404(Product, slug=slug)
+        similar_products = Product.objects.filter(category__in=product.category.all()).exclude(id=product.id). \
+                               order_by('-available')[:10]
         ip_address = self.request.user.ip_address
         if ip_address not in product.hits.all():
             product.hits.add(ip_address)
@@ -51,6 +54,7 @@ class ProductDetailView(generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['comment_form'] = comment_form
+        context['similar_products'] = similar_products
         return context
 
 
@@ -67,6 +71,7 @@ class CommentView(LoginRequiredMixin, View):
             new_form.user = request.user
             new_form.product = product
             new_form.save()
+            messages.success(self.request, f'دیدگاه شما با موفقیت ثبت شد', 'success')
         return redirect('product:detail', product.slug)
 
 
@@ -87,4 +92,5 @@ class CommentReplyView(LoginRequiredMixin, View):
             new_form.reply = comment
             new_form.is_reply = True
             new_form.save()
+            messages.success(self.request, f'دیدگاه شما با موفقیت ثبت شد', 'success')
         return redirect('product:detail', product.slug)

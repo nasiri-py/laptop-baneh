@@ -2,6 +2,8 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from .models import User, OtpCode
 
+admin.site.site_header = 'استوک لپ تاپ استور'
+
 
 @admin.register(User)
 class CustomUserAdmin(UserAdmin):

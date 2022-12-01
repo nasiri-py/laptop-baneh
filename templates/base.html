@@ -103,16 +103,22 @@
                 </div>
                 <a class="nav-icon d-none d-lg-inline" href="#" data-bs-toggle="modal"
                    data-bs-target="#templatemo_search">
-                    <i class="fa fa-fw fa-search text-dark mr-2"></i>
+                    <i class="fa fa-fw fa-search mr-2"></i>
                 </a>
-                <a class="nav-icon position-relative text-decoration-none" href="#">
-                    <i class="fa fa-fw fa-user text-dark mr-3"></i>
-                </a>
+                {% if not user.is_authenticated %}
+                    <a class="nav-icon position-relative text-decoration-none" href="#">
+                        <i class="fa fa-fw fa-user mr-3"></i>
+                    </a>
+                {% else %}
+                    <a class="nav-icon position-relative text-decoration-none" href="#">
+
+                    </a>
+                {% endif %}
                 <span class="d-inline-block" tabindex="0" data-bs-toggle="popover" data-bs-placement="bottom"
                       data-bs-trigger="hover focus" data-bs-content="250,000,000 تومان">
                         <a class="nav-icon position-relative text-decoration-none" href="#">
                             <span class="position-absolute translate-middle badge bg-light text-dark">7</span>
-                            <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
+                            <i class="fa fa-fw fa-cart-arrow-down mr-1"></i>
                         </a>
                 </span>
             </div>
@@ -145,6 +151,7 @@
     </div>
 </div>
 {#Close Modal#}
+{% include 'includes/messages.html' %}
 
 {% block content %}
 

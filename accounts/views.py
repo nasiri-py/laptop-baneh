@@ -4,7 +4,6 @@ from django.views import generic, View
 from .forms import RegisterForm, OtpCodeLoginForm
 from django.contrib.auth import login
 from django.contrib.auth.views import LogoutView, PasswordResetConfirmView
-import random
 from utils import send_sms, send_otp_code
 from .models import OtpCode
 from django.contrib import messages
@@ -30,7 +29,7 @@ class RegisterView(generic.CreateView):
                 'username': cd['username'],
                 'password': cd['password1'],
             }
-            # messages.success(self.request, f'کد تایید به شماره {cd["phone_number"]} ارسال شد.', 'success')
+            messages.success(self.request, f'کد تائید به شماره {cd["phone_number"]} ارسال شد', 'success')
             return redirect('accounts:verify')
 
 
@@ -44,7 +43,7 @@ class VerifyView(generic.CreateView):
             self.user_session = self.request.session['user_registration']
             return super().dispatch(request, *args, **kwargs)
         except Exception:
-            # messages.error(self.request, 'You are not registered', 'danger')
+            messages.error(self.request, 'شما در سایت ثبت نام نکرده اید', 'danger')
             return redirect('accounts:register')
 
     def form_valid(self, form):
@@ -53,7 +52,7 @@ class VerifyView(generic.CreateView):
             print(code_instance)
             if code_instance.created + timedelta(minutes=2) < datetime.now(tz=pytz.timezone('Asia/Tehran')):
                 code_instance.delete()
-                # messages.error(self.request, 'This code is expired!', 'danger')
+                messages.error(self.request, 'کد وار شده منقضی شده است', 'danger')
                 return redirect('accounts:verify')
             if form.is_valid():
                 cd = form.cleaned_data
@@ -69,9 +68,10 @@ class VerifyView(generic.CreateView):
                     if user is not None:
                         user.backend = 'django.contrib.auth.backends.ModelBackend'
                         login(self.request, user)
-                        return redirect('product:list')
+                        messages.success(self.request, f'شما با موفقیت وارد شدید', 'success')
+                        return redirect('home:home')
         except Exception:
-            # messages.error(self.request, 'This code is expired!', 'danger')
+            messages.error(self.request, 'کد وار شده منقضی شده است', 'danger')
             return redirect('accounts:verify')
 
 
@@ -79,7 +79,7 @@ class ResendCodeView(View):
     def get(self, request):
         user_session = request.session['user_registration']
         send_otp_code(user_session['phone_number'])
-        # messages.success(request, f"We send you a verification code to {user_session['phone_number']}.", 'success')
+        messages.success(self.request, f'کد تائید به شماره {user_session["phone_number"]} ارسال شد', 'success')
         return redirect('accounts:verify')
 
 
@@ -101,10 +101,10 @@ class OtpCodeLoginView(View):
                 request.session['user_registration'] = {
                     'phone_number': cd['phone_number'],
                 }
-                # messages.success(self.request, f"We send you a verification code to {cd['phone_number']}.", 'success')
+                messages.success(self.request, f'کد تائید به شماره {cd["phone_number"]} ارسال شد', 'success')
                 return redirect('accounts:verify')
             except User.DoesNotExist:
-                # messages.error(self.request, f"User with this phone number does not exist.", 'danger')
+                messages.error(self.request, f"کاربری با شماره موبایل {cd['phone_number']} وجود ندارد", 'danger')
                 return redirect('accounts:otp-code-login')
 
 
@@ -129,7 +129,7 @@ class PasswordResetView(View):
             try:
                 user = User.objects.get(phone_number=phone_number)
             except User.DoesNotExist:
-                messages.error(request, 'User with this phone number does not exist', 'danger')
+                messages.error(self.request, f"کاربری با شماره موبایل {phone_number} وجود ندارد", 'danger')
                 return redirect('accounts:password-reset')
             current_site = get_current_site(self.request)
             token_generator = self.token_generator()
@@ -144,12 +144,12 @@ class PasswordResetView(View):
             request.session['password_reset'] = {
                 'phone_number': phone_number,
             }
-            # messages.success(request, f'We send you a password reset link to {phone_number}.', 'success')
+            messages.success(request, f'لینک بازیابی گذر واژه به شماره موبایل {phone_number} ارسال شد', 'success')
             return redirect('accounts:login')
-        # return redirect('home:home')
+        return redirect('home:home')
 
 
 class PasswordResetConfirm(PasswordResetConfirmView):
     def get_success_url(self):
-        # messages.success(self.request, 'Your password has been changed successfully.', 'success')
+        messages.success(self.request, 'گذر واژه شما با موفقیت تغییر یافت', 'success')
         return reverse('accounts:login')

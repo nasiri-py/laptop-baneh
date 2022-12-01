@@ -90,7 +90,8 @@ body, ul, li, p, a, label, input, div {
 }
 .btn:hover {opacity: .6 !important;}
 .btn-color {width: 30px; height: 30px; border-radius: 50%; border: 1px solid #6c757d;}
-.badge-success {background-color: #69bb7e !important; width: 40px !important;;}
+.badge-success {background-color: #69bb7e !important; width: 40px !important;}
+.badge-register {background-color: #3aa0cd !important;width: 55px !important;}
 .pagination .page-link:hover {color: #000;}
 .pagination .page-link:hover, .pagination .page-link.active {
   background-color: #69bb7e;
@@ -205,8 +206,7 @@ body, ul, li, p, a, label, input, div {
 .view-section {background-color: rgba(188, 31, 105, .2) !important;}
 .discount-section {background-color: #eb5151 !important; margin: auto; border-radius: 10px;}
 .discount-section .swiper-wrapper .card-img {height: 140px !important; object-fit: contain !important;}
-.new-section .swiper-wrapper .card-img {height: 165px !important; object-fit: contain !important;}
-.view-section .swiper-wrapper .card-img {height: 165px !important; object-fit: contain !important;}
+.swiper-products-section .swiper-wrapper .card-img {height: 165px !important; object-fit: contain !important;}
 .discount-section h3 {color: #fff !important; font-weight: bolder;line-height: 2;}
 .card {transform: scale(.95); transition: all .3s ease-out; font-size: .5rem !important;}
 .card:hover {transform: scale(1);}
@@ -337,7 +337,7 @@ input[type="checkbox"] {accent-color: #bc1f69;}
 .card-detail {margin-top: 2.7rem;}
 .card-detail .card-body .price {font-size: 1.2rem !important; font-weight:  600 !important; color: #ab59a0;}
 .compare-form {margin: 0 !important; width: 50%;}
-.card-detail .discount-percent {top: -1rem; right: -1.5rem; background-color: #ab59a0 !important;}
+.card-detail .discount-percent {top: -1rem; right: -1.5rem; background-color: #ab59a0 !important; width: 25px; text-align: center;}
 .review-content .comment {
     border-radius: 5px;
     background-color: #EFF5F5;
@@ -347,6 +347,13 @@ input[type="checkbox"] {accent-color: #bc1f69;}
     background-color: #D6E4E5;
 }
 .review-content .comment .comment-time {font-size: .7rem !important;}
+.comment-form textarea {
+    box-shadow: rgb(232 207 204) 3px 3px 6px 0 inset, rgb(255 255 255 / 50%) -3px -3px 6px 1px inset;
+    border: none;
+}
+.comment-form textarea:focus {
+    border: 1px salmon solid;
+}
 /* specification */
 .specification-header i {color: #bc1f69 !important;}
 .specification-caption {background-color: #7603e21a;}
@@ -383,7 +390,21 @@ input[type="checkbox"] {accent-color: #bc1f69;}
 .pagination .pag-item .pag-link {padding: 4px 10px 2px; border: none; color: #1d242d; text-decoration: none;}
 .pagination .active .pag-link {background-color: #bc1f69; border-color: #bc1f69; color: #e8e8e8; border-radius: 10px;}
 .pagination .pag-item span {color: #1d242d;}
+/*Messages*/
+.message-box {
+    position: relative
+}
 
+.message-chi {
+    position: absolute;
+    right: 16%; top: 5%;
+    color: #721c24;
+    cursor: pointer
+}
+
+.message-chi:focus .message-box {
+    display: none;
+}
 #tempaltemo_footer .border-light { border-color: #2d343f !important;}
 /*
 // Extra small devices (portrait phones, less than 576px)

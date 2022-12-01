@@ -1,0 +1,17 @@
+{% if messages %}
+    {% for message in messages %}
+        <div class="message-box" id="m-box">
+            <p class="alert alert-{{ message.tags }}"
+               style="text-align: center; width: 70%; border: none; margin: auto; margin-top: 1rem;"
+            >{{ message }}</p>
+        <div class="message-chi" id="m-chi">&Chi;</div>
+        </div>
+        <script>
+            function none_box() {
+                let box = document.getElementById('m-box')
+                box.style.display = "none"
+            }
+            document.getElementById('m-chi').addEventListener('click', none_box)
+        </script>
+    {% endfor %}
+{% endif %}
