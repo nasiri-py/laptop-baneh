@@ -8,6 +8,7 @@ from django.core.paginator import Paginator
 from django.db.models import Min, Max
 from urllib.parse import urlencode
 from django.contrib import messages
+from orders.forms import AddToCartForm
 
 
 def product_list_view(request):
@@ -27,7 +28,7 @@ def product_list_view(request):
         del data['page']
     page_obj = paginator.get_page(page_number)
 
-    context = {'products': products, 'filter': filter_object, 'page_obj': page_obj,
+    context = {'filter': filter_object, 'page_obj': page_obj,
                'min_price': min_price, 'max_price': max_price, 'data': urlencode(data)}
 
     return render(request, 'products/product_list.html', context)
@@ -36,15 +37,15 @@ def product_list_view(request):
 class ProductDetailView(generic.DetailView):
     template_name = 'products/product_detail.html'
     context_object_name = 'product'
-    form_class = CommentForm
 
     def get_object(self, queryset=None):
-        global comment_form, similar_products
-        comment_form = CommentForm()
         slug = self.kwargs.get('slug')
         product = get_object_or_404(Product, slug=slug)
-        similar_products = Product.objects.filter(category__in=product.category.all()).exclude(id=product.id). \
+        self.colors = product.colors.filter(available=True)
+        self.similar_products = Product.objects.filter(category__in=product.category.all()).exclude(id=product.id). \
                                order_by('-available')[:10]
+        product_id = {'product_id': product.id}
+        self.order_form = AddToCartForm(**product_id)
         ip_address = self.request.user.ip_address
         if ip_address not in product.hits.all():
             product.hits.add(ip_address)
@@ -53,8 +54,10 @@ class ProductDetailView(generic.DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['comment_form'] = comment_form
-        context['similar_products'] = similar_products
+        context['comment_form'] = CommentForm()
+        context['order_form'] = self.order_form
+        context['similar_products'] = self.similar_products
+        context['colors'] = self.colors
         return context
 
 
@@ -71,7 +74,7 @@ class CommentView(LoginRequiredMixin, View):
             new_form.user = request.user
             new_form.product = product
             new_form.save()
-            messages.success(self.request, f'دیدگاه شما با موفقیت ثبت شد', 'success')
+            messages.success(self.request, 'دیدگاه شما با موفقیت ثبت شد', 'success')
         return redirect('product:detail', product.slug)
 
 
@@ -92,5 +95,5 @@ class CommentReplyView(LoginRequiredMixin, View):
             new_form.reply = comment
             new_form.is_reply = True
             new_form.save()
-            messages.success(self.request, f'دیدگاه شما با موفقیت ثبت شد', 'success')
+            messages.success(self.request, 'دیدگاه شما با موفقیت ثبت شد', 'success')
         return redirect('product:detail', product.slug)

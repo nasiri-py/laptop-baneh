@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}
+    Stoke Laptop Store | cart
+{% endblock %}
+
+{% block css_link %}
+    <link rel="stylesheet" href="{% static 'orders/css/cart.css' %}">
+{% endblock %}
+
+{% block content %}
+    <section class="h-100 h-custom bg-light">
+        <div class="container py-5 h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-12">
+                    <div class="card card-registration card-registration-2" style="border-radius: 15px;">
+                        <div class="card-body p-0">
+                            <div class="row g-0">
+                                <div class="col-lg-8 {% if cart|length == 0 %} w-100 {% endif%}">
+                                    <div class="p-5">
+                                        <div class="d-flex justify-content-between align-items-center mb-5">
+                                            <h1 class="fw-bold mb-0 text-black">سبد خرید</h1>
+                                            {% if cart|length > 0 %}
+                                                <a class="text-decoration-none text-muted"
+                                                   href="{% url 'orders:cart-clear' %}">خالی کردن سبد خرید</a>
+                                            {% endif %}
+                                        </div>
+                                        <hr class="my-4">
+                                        {% for item in cart %}
+                                            <div class="row mb-4 d-flex justify-content-between align-items-center">
+                                                <a class="col-md-2 col-lg-2 col-xl-2"
+                                                   href="{% url 'product:detail' item.color.product.slug %}">
+                                                    <img
+                                                            src="{{ item.color.product.cover.url }}"
+                                                            class="img-fluid rounded-3" alt="{{ item.color.product.title }}">
+                                                </a>
+                                                <div class="col-md-4 col-lg-4 col-xl-4">
+                                                    <h6 class="text-black">{{ item.color.product.title }}</h6>
+                                                    <div class="d-flex align-items-center">
+                                                    <div>
+                                                        <h6 class="btn-color"
+                                                            style="background-color: {{ item.color.color }};"></h6>
+                                                    </div>
+                                                    <div class="mx-2"><h6 class="text-muted">{{ item.color.title }}</h6></div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-5 col-lg-5 col-xl-5 d-flex justify-content-between align-items-center">
+                                                    <div class="d-flex align-items-center">
+                                                    <a class="btn btn-buy px-1 py-0 m-1"
+                                                       href="{% url 'orders:cart-decrease' item.color.id %}"
+                                                       onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
+                                                        <i class="fas fa-minus"></i>
+                                                    </a>
+                                                    <span class="btn bg-secondary m-1 text-light">{{ item.quantity }}</span>
+                                                    <a class="btn btn-buy px-1 py-0 m-1"
+                                                       href="{% url 'orders:cart-increase' item.color.id %}"
+                                                       onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
+                                                        <i class="fas fa-plus"></i>
+                                                    </a>
+                                                </div>
+                                                    <div class="mx-2 p-0">
+                                                    <h6 class="mb-0">{{ item.total_price }} تومان</h6>
+                                                </div>
+                                                </div>
+                                                <div class="col-md-1 col-lg-1 col-xl-1 text-start">
+                                                    <a href="{% url 'orders:cart-remove' item.color.id %}"
+                                                       class="text-muted"><i class="fas fa-times"></i></a>
+                                                </div>
+                                            </div>
+                                            <hr class="my-4">
+                                        {% empty %}
+                                            <div class="text-muted text-center my-5">
+                                                <i class="fa fa-shopping-basket mb-4" style="font-size: 50px !important;"></i>
+                                                <h5 class="mb-4">سبد خرید شما خالی است</h5>
+                                                <a class="btn btn-success" href="{% url 'product:list' %}">بازگشت به فروشگاه</a>
+                                            </div>
+                                        {% endfor %}
+                                    {% if cart|length != 0 %}
+                                        <div class="pt-5 text-start">
+                                            <h6 class="mb-0"><a href="{% url 'product:list' %}" class="text-body text-decoration-none">ادامه
+                                                خرید <i
+                                                        class="fas fa-long-arrow-alt-left me-2"></i></a></h6>
+                                        </div>
+                                    {% endif %}
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 rounded-left cart-summary {% if cart|length == 0 %} d-none {% endif%}">
+                                    <div class="p-5 mt-5 text-start">
+                                        <h5 class="text-uppercase mt-5 mb-3 text-end">کد تخفیف:</h5>
+                                        <div class="mb-5">
+                                            <div class="form-outline">
+                                                <input type="text" id="form3Examplea2"
+                                                       class="form-control form-control-lg"
+                                                       placeholder="کد تخفیف خود را وارد کنید"/>
+                                            </div>
+                                        </div>
+                                        <hr class="my-4">
+                                        <div class="d-flex justify-content-between mb-3">
+                                            <h6 class="text-uppercase">تعداد محصولات:</h6>
+                                            <h6>{{ cart|length }} عدد</h6>
+                                        </div>
+                                        <div class="d-flex justify-content-between mb-3">
+                                            <h6 class="text-uppercase">جمع سبد خرید:</h6>
+                                            <h6>{{ cart.get_total_price }} تومان</h6>
+                                        </div>
+                                        {% if cart.total_discount > 0 %}
+                                            <div class="d-flex justify-content-between mb-5 cart-total_discount">
+                                                <h6 class="text-uppercase">سود شما:</h6>
+                                                <h6>({{ cart.total_discount_percent }}%) {{ cart.total_discount }} تومان</h6>
+                                            </div>
+                                        {% endif %}
+                                        <button type="button" class="btn btn-buy btn-lg"
+                                                data-mdb-ripple-color="dark">ثبت سفارش
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

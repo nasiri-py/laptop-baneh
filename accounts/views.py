@@ -3,7 +3,7 @@ from .models import User
 from django.views import generic, View
 from .forms import RegisterForm, OtpCodeLoginForm
 from django.contrib.auth import login
-from django.contrib.auth.views import LogoutView, PasswordResetConfirmView
+from django.contrib.auth.views import LoginView, LogoutView, PasswordResetConfirmView
 from utils import send_sms, send_otp_code
 from .models import OtpCode
 from django.contrib import messages
@@ -109,6 +109,12 @@ class OtpCodeLoginView(View):
 
 
 class Logout(LogoutView):
+    def setup(self, request, *args, **kwargs):
+        super().setup(request, *args, **kwargs)
+        self.next_page = request.GET.get('next')
+
+
+class Login(LoginView):
     def setup(self, request, *args, **kwargs):
         super().setup(request, *args, **kwargs)
         self.next_page = request.GET.get('next')

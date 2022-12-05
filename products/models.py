@@ -9,6 +9,11 @@ from star_ratings.models import Rating
 from django.contrib.contenttypes.fields import GenericRelation
 
 
+class ColorManager(models.Manager):
+    def is_available(self):
+        return self.objects.filter(available=True)
+
+
 class IPAddress(models.Model):
     ip_address = models.GenericIPAddressField(verbose_name='آدرس IP')
 
@@ -28,25 +33,6 @@ class Category(models.Model):
         return self.title
 
 
-class Color(models.Model):
-    title = models.CharField(max_length=255, verbose_name='عنوان')
-    color = ColorField(verbose_name='رنگ')
-
-    class Meta:
-        verbose_name = 'رنگ'
-        verbose_name_plural = 'رنگ ها'
-
-    def __str__(self):
-        return self.title
-
-    def color_tag(self):
-        return format_html(f"<div style='height:20px; width:20px; border: 2px solid #bab5b5;"
-                           f"border-radius: 50%; background-color:{self.color};'></div>")
-
-    color_tag.short_description = 'رنگ'
-    color_tag.allow_tags = True
-
-
 class Brand(models.Model):
     name = models.CharField(max_length=255, verbose_name='مدل')
     cover = models.ImageField(upload_to='brands', verbose_name='عکس کاور')
@@ -64,7 +50,7 @@ class Product(models.Model):
     GRADE_CHOICES = (
         ('n', 'آکبند'),
         ('o', 'اپن باکس'),
-        ('s', 'استوک')
+        ('s', 'استوک'),
     )
 
     brand = models.ForeignKey(Brand, on_delete=models.CASCADE, related_name='products', verbose_name='برند')
@@ -73,9 +59,8 @@ class Product(models.Model):
     grade = models.CharField(choices=GRADE_CHOICES, max_length=1, verbose_name='گرید')
     category = models.ManyToManyField(Category, related_name="products", verbose_name='کاربری')
     description = RichTextField(blank=True, null=True, verbose_name='توضیحات')
-    color = models.ManyToManyField(Color, verbose_name='رنگ')
     cover = models.ImageField(upload_to='products/cover/%Y/%m/%d', verbose_name='عکس کاور')
-    available = models.BooleanField(default=True, verbose_name='موجود است')
+    available = models.BooleanField(default=True, verbose_name='محصول موجود است')
     number = models.IntegerField(validators=[MinValueValidator(0)], verbose_name='تعداد موجودی')
     price = models.PositiveIntegerField(verbose_name='قیمت')
     has_discount = models.BooleanField(default=False, verbose_name='تخفیف دارد')
@@ -108,6 +93,30 @@ class Product(models.Model):
 
     def grade_choice(self):
         return [i[1] for i in self._meta.get_field('grade').choices if i[0] == self.grade][0]
+
+
+class Color(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='colors', verbose_name='محصول')
+    title = models.CharField(max_length=255, verbose_name='عنوان')
+    color = ColorField(verbose_name='رنگ')
+    available = models.BooleanField(default=True, verbose_name='این رنگ از محصول موجود است')
+    number = models.IntegerField(default=0, validators=[MinValueValidator(0)], verbose_name='تعداد موجودی این رنگ')
+
+    objects = ColorManager()
+
+    class Meta:
+        verbose_name = 'رنگ'
+        verbose_name_plural = 'رنگ ها'
+
+    def __str__(self):
+        return self.title
+
+    def color_tag(self):
+        return format_html(f"<div style='height:20px; width:20px; border: 2px solid #bab5b5;"
+                           f"border-radius: 50%; background-color:{self.color};'></div>")
+
+    color_tag.short_description = 'رنگ'
+    color_tag.allow_tags = True
 
 
 class Image(models.Model):

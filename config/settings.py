@@ -42,8 +42,6 @@ INSTALLED_APPS = [
     'colorfield',
     'ckeditor',
     'star_ratings',
-    'crispy_forms',
-    "crispy_bootstrap5",
     'widget_tweaks',
     'django_filters',
 
@@ -51,6 +49,7 @@ INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
     'products.apps.ProductsConfig',
     'home.apps.HomeConfig',
+    'orders.apps.OrdersConfig',
 ]
 
 MIDDLEWARE = [
@@ -77,6 +76,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                # custom context processor
+                'orders.context_processors.cart',
             ],
         },
     },
@@ -153,17 +154,9 @@ AUTHENTICATION_BACKENDS = [
 # custom user
 AUTH_USER_MODEL = 'accounts.User'
 
-# login
-LOGIN_REDIRECT_URL = 'product:list'
-
 # media
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR.joinpath('media')
 
-
 # star ratings
 STAR_RATINGS_RERATE = False
-
-# crispy forms
-CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
-CRISPY_TEMPLATE_PACK = 'bootstrap5'

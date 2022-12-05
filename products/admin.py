@@ -37,6 +37,10 @@ def make_unavailable(modeladmin, request, queryset):
 make_unavailable.short_description = "ناموجود شدن لپ تاپ های انتخاب شده"
 
 
+class ColorInline(admin.StackedInline):
+    model = Color
+
+
 class SpecificationInline(admin.StackedInline):
     model = Specification
 
@@ -52,7 +56,7 @@ class ProductAdmin(admin.ModelAdmin):
     search_fields = ('title', 'brand')
     ordering = ['-created', '-available']
     actions = [make_available, make_unavailable]
-    inlines = [ImageInline, SpecificationInline]
+    inlines = [ColorInline, ImageInline, SpecificationInline]
     exclude = ("sell",)
 
 
@@ -61,7 +65,7 @@ class ImageAdmin(admin.ModelAdmin):
 
 
 class ColorAdmin(admin.ModelAdmin):
-    list_display = ['title', 'color_tag']
+    list_display = ['title', 'product', 'color_tag']
 
 
 class CommentAdmin(admin.ModelAdmin):

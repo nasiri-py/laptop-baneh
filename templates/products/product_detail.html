@@ -90,36 +90,37 @@
                                     </li>
                                 </ul>
                                 <div class="detail-forms d-flex justify-content-between align-items-end">
-                                    <form action="" method="GET" class="shopping-form mt-3">
+                                {% for color in product.colors.all %}
+                                {% endfor %}
+                                    <form action="{% url 'orders:cart-add' product.id  %}" method="post" class="shopping-form mt-3">
+                                        {% csrf_token %}
                                         <input type="hidden" name="product-title" value="Activewear">
                                         <div class="row flex-column mx-1">
                                             <div class="col-auto p-0">
                                                 <ul class="list-inline pb-0 px-0">
-                                                    <li class="list-inline-item m-0">رنگ :
+                                                    <li class="list-inline-item m-0"><h6>رنگ:</h6>
                                                         <input type="hidden" name="product-size" id="product-size"
                                                                value="S">
                                                     </li>
-                                                    {% for clr in product.color.all %}
-                                                        <li class="list-inline-item m-1"><span class="btn btn-color p-1"
-                                                                                               style="background-color: {{ clr.color }};"></span>
-                                                        </li>
+                                                    {% for color in colors %}
+                                                        <label for="id_color_{{ color.id }}" class="btn btn-color" style="background-color: {{ color.color }};">
+                                                        <input class="d-none" type="radio" name="color" value="{{ color.id }}" required="" id="id_color_{{ color.id }}"></label>
                                                     {% endfor %}
                                                 </ul>
                                             </div>
                                             <div class="col-auto p-0">
                                                 <ul class="list-inline pb-0 px-0">
-                                                    <li class="list-inline-item m-0 text-right">
-                                                        تعداد :
-                                                        <input type="hidden" name="product-quanity" id="product-quanity"
-                                                               value="1">
+                                                    <label for="product-quantity"><h6>تعداد:</h6></label>
+                                                    <li class="btn btn-buy px-1 py-0 m-1"
+                                                        onclick="this.parentNode.querySelector('input[name=quantity]').stepDown()">
+                                                        <i class="fas fa-minus"></i>
                                                     </li>
-                                                    <li class="list-inline-item m-0"><span
-                                                            class="btn btn-success btn-buy py-0" id="btn-minus">-</span>
+                                                    <li class="list-inline-item m-0">
+                                                        <input class="btn bg-secondary text-light no-arrow" type="number" name="quantity" id="product-quantity" min="1" value="1" max="2">
                                                     </li>
-                                                    <li class="list-inline-item m-0"><span class="badge bg-secondary"
-                                                                                           id="var-value">1</span></li>
-                                                    <li class="list-inline-item m-0"><span
-                                                            class="btn btn-success btn-buy py-0" id="btn-plus">+</span>
+                                                    <li class="btn btn-buy px-1 py-0 m-1"
+                                                        onclick="this.parentNode.querySelector('input[name=quantity]').stepUp()">
+                                                        <i class="fas fa-plus"></i>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -764,8 +765,8 @@
                     {% for product in similar_products %}
                         <li class="mb-4 swiper-slide">
                             <a href="{{ product.get_absolute_url }}" class="text-dark text-decoration-none">
-                                <div class="card h-100 border-0 shadow">
-                                    <div class="card">
+                                <div class="card product-card h-100 border-0 shadow">
+                                    <div class="product-card card">
                                         <img class="card-img rounded-0 rounded-top img-fluid"
                                              src="{{ product.cover.url }}">
                                     </div>

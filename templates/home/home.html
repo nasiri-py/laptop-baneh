@@ -94,8 +94,8 @@
                 {% for product in product_discount %}
                     <li class="swiper-slide">
                         <a href="{{ product.get_absolute_url }}" class="text-dark text-decoration-none card-body p-0">
-                            <div class="card h-100 border-0 shadow">
-                                <div class="card">
+                            <div class="card product-card h-100 border-0 shadow">
+                                <div class="product-card card">
                                     <img class="card-img rounded-0 rounded-top img-fluid m-auto" src="{{ product.cover.url }}">
                                 </div>
                                 <ul class="list-unstyled d-flex flex-column justify-content-between p-0 my-3">
@@ -146,8 +146,8 @@
                     {% for product in product_newest %}
                         <li class="mb-4 swiper-slide">
                         <a href="{{ product.get_absolute_url }}" class="text-dark text-decoration-none">
-                            <div class="card h-100 border-0 shadow">
-                                <div class="card">
+                            <div class="card product-card h-100 border-0 shadow">
+                                <div class="product-card card">
                                     <img class="card-img rounded-0 rounded-top img-fluid" src="{{ product.cover.url }}">
                                 </div>
                                 <div class="card-body">
@@ -177,7 +177,7 @@
     <!-- End Categories of The Month -->
 
     <!-- Start Featured Product -->
-    <section class="mb-5 swiper-products-section">
+    <section class="mb-5 swiper-products-section view-section">
         <div class="container position-relative">
             <i class="fas fa-chevron-right right-slide3 position-absolute top-50 end-0 h3"
                style="color: #bc1f69 !important; z-index: 2;"></i>
@@ -192,8 +192,8 @@
                     {% for product in product_popular %}
                         <li class="mb-4 swiper-slide">
                         <a href="{{ product.get_absolute_url }}" class="text-dark text-decoration-none">
-                            <div class="card h-100 border-0 shadow">
-                                <div class="card">
+                            <div class="card product-card h-100 border-0 shadow">
+                                <div class="product-card card">
                                     <img class="card-img rounded-0 rounded-top img-fluid" src="{{ product.cover.url }}">
                                 </div>
                                 <div class="card-body">

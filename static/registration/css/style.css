@@ -205,9 +205,11 @@ body {
 
 .message-chi {
     position: absolute;
-    right: 16%; top: 5%;
-    color: #721c24;
-    cursor: pointer
+    right: 16%;
+    top: 5%;
+    color: #767676;
+    cursor: pointer;
+    font-weight: 500 !important;
 }
 
 .message-chi:focus .message-box {

@@ -67,9 +67,9 @@
                  style="font-size: 1rem">
         </a>
 
-        <div class="align-self-center collapse navbar-collapse flex-fill d-lg-flex justify-content-lg-between position-relative"
+        <div class="align-self-center collapse navbar-collapse flex-fill d-lg-flex justify-content-lg-between"
              id="templatemo_main_nav">
-            <div class="flex-fill">
+            <div class="flex-fill position-relative">
                 <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
                     <li class="nav-item">
                         {% navbar_list %}
@@ -101,26 +101,104 @@
                         </button>
                     </div>
                 </div>
-                <a class="nav-icon d-none d-lg-inline" href="#" data-bs-toggle="modal"
+                <a class="nav-icon d-none d-lg-inline m-0" href="#" data-bs-toggle="modal"
                    data-bs-target="#templatemo_search">
                     <i class="fa fa-fw fa-search mr-2"></i>
                 </a>
-                {% if not user.is_authenticated %}
-                    <a class="nav-icon position-relative text-decoration-none" href="#">
-                        <i class="fa fa-fw fa-user mr-3"></i>
+                {% if user.is_authenticated %}
+                    <a class="nav-icon position-relative text-decoration-none me-3" href="{% url 'accounts:logout' %}?next={{ request.path }}">
+                        <i class="fa fa-user"></i>
                     </a>
                 {% else %}
-                    <a class="nav-icon position-relative text-decoration-none" href="#">
-
+                    <div class="d-flex align-items-center p-1 rounded border me-3">
+                    <a class="nav-icon position-relative text-decoration-none text-link me-1" href="{% url 'accounts:login' %}?next={{ request.path }}">
+                        <h6 class="m-0">ورود | </h6>
+                    </a>
+                    <a class="nav-icon position-relative text-decoration-none text-link me-1" href="{% url 'accounts:register' %}">
+                        <h6 class="m-0 badge badge-link"> ثبت نام</h6>
+                    </a>
+                    </div>
+                {% endif %}
+                {% if cart|length != 0 %}
+                    <div class="basket-dropdown dropdown position-static">
+                    <a class="nav-icon position-relative text-decoration-none" id="navbarDropdownMenuLink"
+                       data-bs-toggle="dropdown">
+                        <span class="position-absolute translate-middle badge bg-light text-dark">{{ cart|length }}</span>
+                        <i class="fa fa-fw fa-cart-arrow-down mr-1"></i>
+                    </a>
+                    <div class="basket-dropdown-menu dropdown-menu dropdown-menu-end m-auto py-2 px-3 border-0"
+                         aria-labelledby="navbarDropdownMenuLink">
+                        <div class="row">
+                            <div class="col-12 d-flex justify-content-between mb-2">
+                                <div><span class="text-muted">{{ cart|length }} کالا</span></div>
+                                <div><a class="text-link text-decoration-none" href="{% url 'orders:cart' %}"><h6>مشاهده
+                                    سبد خرید</h6></a></div>
+                            </div>
+                            <div class="col-12 basket-card">
+                                {% for item in cart %}
+                                    <div class="row">
+                                        <div class="col-12 row">
+                                            <a class="col-6" href="{% url 'product:detail' item.color.product.slug %}"><img
+                                                class="img-fluid rounded-3" src="{{ item.color.product.cover.url }}"
+                                                alt="{{ item.color.product.title }}"></a>
+                                            <div class="col-6">
+                                                <h6 class="text-black text-end">{{ item.color.product.title|truncatewords:10 }}</h6>
+                                                <div class="d-flex align-items-center mt-4">
+                                                    <div>
+                                                        <h6 class="btn-color"
+                                                            style="background-color: {{ item.color.color }};"></h6>
+                                                    </div>
+                                                    <div class="mx-2"><h6 class="text-muted">{{ item.color.title }}</h6></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 row align-items-center">
+                                            <div class="col-6 text-center">
+                                                <a class="btn btn-buy px-1 py-0 m-1"
+                                                   href="{% url 'orders:cart-decrease' item.color.id %}"
+                                                   onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
+                                                    <i class="fas fa-minus"></i>
+                                                </a>
+                                                <span class="btn bg-secondary m-1 text-light">{{ item.quantity }}</span>
+                                                <a class="btn btn-buy px-1 py-0 m-1"
+                                                   href="{% url 'orders:cart-increase' item.color.id %}"
+                                                   onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
+                                                    <i class="fas fa-plus"></i>
+                                                </a>
+                                            </div>
+                                            <div class="col-6 text-dark m-0">
+                                                <h6>{{ item.total_price }} تومان</h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                {% endfor %}
+                            </div>
+                            <div class="col-12 d-flex justify-content-between align-items-center mt-3">
+                                <div class="text-muted">
+                                    <h6>مبلغ قابل پرداخت</h6>
+                                    <h6>{{ cart.get_total_price }} تومان</h6>
+                                </div>
+                                <div>
+                                    {% if user.is_authenticated %}
+                                        <button type="button" class="btn btn-buy btn-lg"
+                                                data-mdb-ripple-color="dark">ثبت سفارش
+                                        </button>
+                                    {% else %}
+                                        <button type="button" class="btn btn-buy btn-lg"
+                                                data-mdb-ripple-color="dark">ورود و ثبت سفارش
+                                        </button>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% else %}
+                    <a class="nav-icon me-3" href="{% url 'orders:cart' %}">
+                        <i class="fa fa-fw fa-cart-arrow-down mr-1"></i>
                     </a>
                 {% endif %}
-                <span class="d-inline-block" tabindex="0" data-bs-toggle="popover" data-bs-placement="bottom"
-                      data-bs-trigger="hover focus" data-bs-content="250,000,000 تومان">
-                        <a class="nav-icon position-relative text-decoration-none" href="#">
-                            <span class="position-absolute translate-middle badge bg-light text-dark">7</span>
-                            <i class="fa fa-fw fa-cart-arrow-down mr-1"></i>
-                        </a>
-                </span>
             </div>
         </div>
         <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse"
@@ -248,148 +326,14 @@
 <!-- End Footer -->
 
 <!-- Start Script -->
-<script src="{% static 'base/js/jquery-1.11.0.min.js' %}"></script>
-<script src="{% static 'base/js/templatemo.js' %}"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
         crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
         integrity=" sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
-<script>
-    const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
-    const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
-</script>
-<script type="module">
-    import Swiper from 'https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.esm.browser.min.js';
-
-    const swiper1 = new Swiper('#swiper-container1', {
-        slidesPerView: 'auto',
-        paginationClickable: true,
-        spaceBetween: 0,
-        navigation: {
-            nextEl: '.left-slide1',
-            prevEl: '.right-slide1',
-        },
-    });
-    const swiper2 = new Swiper('#swiper-container2', {
-        slidesPerView: 'auto',
-        paginationClickable: true,
-        spaceBetween: 0,
-        navigation: {
-            nextEl: '.left-slide2',
-            prevEl: '.right-slide2',
-        },
-    });
-    const swiper3 = new Swiper('#swiper-container3', {
-        slidesPerView: 'auto',
-        paginationClickable: true,
-        spaceBetween: 0,
-        navigation: {
-            nextEl: '.left-slide3',
-            prevEl: '.right-slide3',
-        },
-    });
-    const swiper_detail = new Swiper('#detail-swiper-container', {
-        slidesPerView: 'auto',
-        paginationClickable: true,
-        spaceBetween: 0,
-        navigation: {
-            nextEl: '.detail-left-slide',
-            prevEl: '.detail-right-slide',
-        },
-    });
-</script>
-<script>
-    const one_star = document.getElementById('1star')
-    const two_star = document.getElementById('2star')
-    const three_star = document.getElementById('3star')
-    const four_star = document.getElementById('4star')
-    const five_star = document.getElementById('5star')
-
-    const handleSelect = (selection) => {
-        switch (selection) {
-            case '1star': {
-                one_star.classList.add('text-warning')
-                two_star.classList.remove('text-warning')
-                three_star.classList.remove('text-warning')
-                four_star.classList.remove('text-warning')
-                five_star.classList.remove('text-warning')
-                return
-            }
-            case '2star': {
-                one_star.classList.add('text-warning')
-                two_star.classList.add('text-warning')
-                three_star.classList.remove('text-warning')
-                four_star.classList.remove('text-warning')
-                five_star.classList.remove('text-warning')
-                return
-            }
-            case '3star': {
-                one_star.classList.add('text-warning')
-                two_star.classList.add('text-warning')
-                three_star.classList.add('text-warning')
-                four_star.classList.remove('text-warning')
-                five_star.classList.remove('text-warning')
-                return
-            }
-            case '4star': {
-                one_star.classList.add('text-warning')
-                two_star.classList.add('text-warning')
-                three_star.classList.add('text-warning')
-                four_star.classList.add('text-warning')
-                five_star.classList.remove('text-warning')
-                return
-            }
-            case '5star': {
-                one_star.classList.add('text-warning')
-                two_star.classList.add('text-warning')
-                three_star.classList.add('text-warning')
-                four_star.classList.add('text-warning')
-                five_star.classList.add('text-warning')
-                return
-            }
-        }
-    }
-    const arr = [one_star, two_star, three_star, four_star, five_star]
-    arr.forEach(item => item.addEventListener('mouseover', (event) => {
-        handleSelect(event.target.id)
-    }))
-</script>
-<script>
-    window.onload = function(){
-    slideOne();
-    slideTwo();
-}
-
-let sliderOne = document.getElementById("slider-1");
-let sliderTwo = document.getElementById("slider-2");
-let displayValOne = document.getElementById("range1");
-let displayValTwo = document.getElementById("range2");
-let minGap = 0;
-let sliderTrack = document.querySelector(".slider-track");
-let sliderMaxValue = document.getElementById("slider-1").max;
-
-function slideOne(){
-    if(parseInt(sliderTwo.value) - parseInt(sliderOne.value) <= minGap){
-        sliderOne.value = parseInt(sliderTwo.value) - minGap;
-    }
-    displayValOne.textContent = sliderOne.value;
-    fillColor();
-}
-function slideTwo(){
-    if(parseInt(sliderTwo.value) - parseInt(sliderOne.value) <= minGap){
-        sliderTwo.value = parseInt(sliderOne.value) + minGap;
-    }
-    displayValTwo.textContent = sliderTwo.value;
-    fillColor();
-}
-function fillColor(){
-    const percent1 = (sliderOne.value / sliderMaxValue) * 100;
-    const percent2 = (sliderTwo.value / sliderMaxValue) * 100;
-    sliderTrack.style.background = `linear-gradient(to right, #dadae5 ${percent1}% , #bc1f69 ${percent1}% , #bc1f69 ${percent2}%, #dadae5 ${percent2}%)`;
-}
-</script>
+<script src="{% static 'base/js/jquery-1.11.0.min.js' %}"></script>
+<script src="{% static 'base/js/templatemo.js' %}"></script>
 <!-- End Script -->
 </body>
 
