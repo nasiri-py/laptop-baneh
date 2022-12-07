@@ -106,27 +106,27 @@
                     <i class="fa fa-fw fa-search mr-2"></i>
                 </a>
                 {% if user.is_authenticated %}
-                    <a class="nav-icon position-relative text-decoration-none me-3" href="{% url 'accounts:logout' %}?next={{ request.path }}">
+                    <a class="nav-icon text-decoration-none mx-5" href="{% url 'accounts:logout' %}?next={{ request.path }}">
                         <i class="fa fa-user"></i>
                     </a>
                 {% else %}
-                    <div class="d-flex align-items-center p-1 rounded border me-3">
-                    <a class="nav-icon position-relative text-decoration-none text-link me-1" href="{% url 'accounts:login' %}?next={{ request.path }}">
+                    <div class="d-flex align-items-center p-1 rounded border me-4">
+                    <a class="nav-icon text-decoration-none text-link me-1" href="{% url 'accounts:login' %}?next={{ request.path }}">
                         <h6 class="m-0">ورود | </h6>
                     </a>
-                    <a class="nav-icon position-relative text-decoration-none text-link me-1" href="{% url 'accounts:register' %}">
+                    <a class="nav-icon text-decoration-none text-link me-1" href="{% url 'accounts:register' %}">
                         <h6 class="m-0 badge badge-link"> ثبت نام</h6>
                     </a>
                     </div>
                 {% endif %}
                 {% if cart|length != 0 %}
                     <div class="basket-dropdown dropdown position-static">
-                    <a class="nav-icon position-relative text-decoration-none" id="navbarDropdownMenuLink"
-                       data-bs-toggle="dropdown">
-                        <span class="position-absolute translate-middle badge bg-light text-dark">{{ cart|length }}</span>
-                        <i class="fa fa-fw fa-cart-arrow-down mr-1"></i>
-                    </a>
-                    <div class="basket-dropdown-menu dropdown-menu dropdown-menu-end m-auto py-2 px-3 border-0"
+                        <a class="nav-icon text-decoration-none" id="navbarDropdownMenuLink"
+                           data-bs-toggle="dropdown">
+                            <span class="position-absolute translate-middle badge bg-light text-dark">{{ cart|length }}</span>
+                            <i class="fa fa-fw fa-cart-arrow-down mr-1"></i>
+                        </a>
+                        <div class="basket-dropdown-menu dropdown-menu dropdown-menu-end m-auto py-2 px-3 border-0"
                          aria-labelledby="navbarDropdownMenuLink">
                         <div class="row">
                             <div class="col-12 d-flex justify-content-between mb-2">
@@ -181,21 +181,21 @@
                                 </div>
                                 <div>
                                     {% if user.is_authenticated %}
-                                        <button type="button" class="btn btn-buy btn-lg"
+                                        <a href="{% url 'orders:order-create' %}" class="btn btn-buy btn-lg"
                                                 data-mdb-ripple-color="dark">ثبت سفارش
-                                        </button>
+                                        </a>
                                     {% else %}
-                                        <button type="button" class="btn btn-buy btn-lg"
+                                        <a href="{% url 'orders:order-create' %}" class="btn btn-buy btn-lg"
                                                 data-mdb-ripple-color="dark">ورود و ثبت سفارش
-                                        </button>
+                                        </a>
                                     {% endif %}
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                    </div>
                 {% else %}
-                    <a class="nav-icon me-3" href="{% url 'orders:cart' %}">
+                    <a class="nav-icon me-4" href="{% url 'orders:cart' %}">
                         <i class="fa fa-fw fa-cart-arrow-down mr-1"></i>
                     </a>
                 {% endif %}

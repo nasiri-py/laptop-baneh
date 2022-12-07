@@ -10,4 +10,7 @@ urlpatterns = [
     path('increase/<int:color_id>/', views.cart_increase_view, name='cart-increase'),
     path('decrease/<int:color_id>/', views.cart_decrease_view, name='cart-decrease'),
     path('clear/', views.cart_clear_view, name='cart-clear'),
+    path('create/', views.order_create_view, name='order-create'),
+    path('detail/<int:pk>/', views.order_detail_view, name='order-detail'),
+    path('coupon/<int:pk>/', views.coupon_view, name='coupon')
 ]

@@ -19,7 +19,7 @@
                 <p class="error">{{ error }}</p>
             {% endfor %}
             <div class="form-input-material">
-                {% render_field form.username|append_attr:"required:required" type="text" id="username" placeholder=" " autocomplete="off" class="form-control-material" %}
+                {% render_field form.username|append_attr:"required: " type="text" id="username" placeholder=" " autocomplete="off" class="form-control-material" %}
                 <label for="username">نام کاربری</label>
             </div>
             {% for error in form.username.errors %}
