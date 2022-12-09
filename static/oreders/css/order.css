@@ -59,3 +59,5 @@ form input:focus, form textarea:focus {
 .asteriskField {
     color: #bc1f69 !important;
 }
+
+table {font-size: 13px !important;}

@@ -3,7 +3,7 @@
 {% load static %}
 
 {% block title %}
-    Stoke Laptop Store | cart
+    Stoke Laptop Store | order detail
 {% endblock %}
 
 {% block css_link %}
@@ -17,14 +17,14 @@
                 <div class="col-12">
                     <div class="card card-registration card-registration-2" style="border-radius: 15px;">
                         <div class="card-body p-0">
-                            <div class="row g-0">
-                                <div class="col-lg-8">
-                                    <div class="p-5">
-                                        <div class="d-flex justify-content-between align-items-center mb-4">
-                                            <h2 class="fw-bold mb-0 order-head">ثبت سفارش</h2>
-                                        </div>
-                                        <hr class="my-4">
-                                        <form action="" method="post">
+                            <form action="{% url 'orders:order-address' order.id %}" method="post">
+                                <div class="row g-0">
+                                    <div class="col-lg-8">
+                                        <div class="p-5">
+                                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                                <h2 class="fw-bold mb-0 order-head">ثبت سفارش</h2>
+                                            </div>
+                                            <hr class="my-4">
                                             {% csrf_token %}
                                             <div class="row px-3">
                                                 <h5 class="mb-2 mt-3">مشخصات گیرنده</h5>
@@ -37,7 +37,7 @@
                                                             </label>
                                                             <input type="text" name="first_name" maxlength="255"
                                                                    class="textinput textInput form-control" required=""
-                                                                   id="id_first_name">
+                                                                   id="id_first_name" value="{{ user.first_name }}">
                                                         </div>
                                                     </div>
                                                     <div class="col-12 col-md-6 mb-2">
@@ -47,17 +47,19 @@
                                                             </label>
                                                             <input type="text" name="last_name" maxlength="255"
                                                                    class="textinput textInput form-control" required=""
-                                                                   id="id_last_name">
+                                                                   id="id_last_name" value="{{ user.last_name }}">
                                                         </div>
                                                     </div>
                                                     <div class="col-12 col-md-6">
                                                         <div id="div_id_phone_number" class="mb-3">
-                                                            <label for="id_phone_number" class="form-label requiredField">
+                                                            <label for="id_phone_number"
+                                                                   class="form-label requiredField">
                                                                 شماره موبایل<span class="asteriskField">*</span>
                                                             </label>
                                                             <input type="number" name="phone_number" maxlength="11"
-                                                                   class="textinput textInput form-control no-arrow" required=""
-                                                                   id="id_phone_number">
+                                                                   class="textinput textInput form-control no-arrow"
+                                                                   required=""
+                                                                   id="id_phone_number" value="{{ user.phone_number }}">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -100,7 +102,8 @@
                                                                 پلاک<span class="asteriskField">*</span>
                                                             </label>
                                                             <input type="number" name="tag" maxlength="255"
-                                                                   class="textinput textInput form-control no-arrow" required=""
+                                                                   class="textinput textInput form-control no-arrow"
+                                                                   required=""
                                                                    id="id_tag">
                                                         </div>
                                                     </div>
@@ -116,54 +119,40 @@
                                                     </div>
                                                     <div class="col-12 col-md-4 mb-2">
                                                         <div id="div_id_postal_code" class="mb-3">
-                                                            <label for="id_postal_code" class="form-label requiredField">
+                                                            <label for="id_postal_code"
+                                                                   class="form-label requiredField">
                                                                 کد پستی<span class="asteriskField">*</span>
                                                             </label>
                                                             <input type="number" name="postal_code" maxlength="10"
-                                                                   class="textinput textInput form-control no-arrow" required=""
+                                                                   class="textinput textInput form-control no-arrow"
+                                                                   required=""
                                                                    id="id_postal_code">
                                                         </div>
                                                     </div>
                                                     <div class="col-12 mb-2">
                                                         <div id="div_id_description" class="mb-3">
-                                                            <label for="id_description" class="form-label requiredField">
+                                                            <label for="id_description"
+                                                                   class="form-label requiredField">
                                                                 توضیحات
                                                             </label>
                                                             <textarea name="description"
-                                                                   class="textinput textInput form-control"
-                                                                   id="id_description"></textarea>
+                                                                      class="textinput textInput form-control"
+                                                                      id="id_description"></textarea>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </form>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 rounded-left cart-summary">
-                                    <div class="p-5 mt-5 text-start">
-                                        <h5 class="text-uppercase mt-5 mb-3 text-end">کد تخفیف</h5>
-                                        <form action="{% url 'orders:coupon' order.id %}" method="post">
-                                            {% csrf_token %}
-                                            <div class="mb-4">
-                                                <div class="form-outline d-flex justify-content-center">
-                                                    <input type="text" id="id_code" name="code"
-                                                           class="form-control form-control-lg w-75"
-                                                           placeholder="کد تخفیف خود را وارد کنید"/>
-                                                    <button type="submit" class="btn btn-buy">اعمال</button>
-                                                </div>
-                                            </div>
-                                        </form>
-                                        <hr class="mb-4">
-                                        <div class="d-flex justify-content-between mb-3">
-                                            <h6 class="text-uppercase">مبلغ قابل پرداخت</h6>
-                                            <h6>{{ order.get_total_cost }} تومان</h6>
                                         </div>
-                                        <a href="{% url 'orders:order-create' %}" class="btn btn-buy btn-lg"
-                                           data-mdb-ripple-color="dark">پرداخت
-                                        </a>
+                                    </div>
+                                    <div class="col-lg-4 rounded-left cart-summary">
+                                        <div class="p-5 mt-5 text-start w-100">
+                                            <button type="submit" class="btn btn-buy btn-lg w-100"
+                                                    data-mdb-ripple-color="dark">تکمیل سفارش
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            </form>
                         </div>
                     </div>
                 </div>

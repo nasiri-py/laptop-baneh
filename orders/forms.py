@@ -1,7 +1,7 @@
 from django import forms
 from django.forms.models import ModelChoiceField
 from products.models import Color
-from .models import PostalAddress
+from .models import OrderAddress
 
 
 class AddToCartForm(forms.Form):
@@ -13,9 +13,9 @@ class AddToCartForm(forms.Form):
     quantity = forms.IntegerField(min_value=1, max_value=2)
 
 
-class PostalAddressForm(forms.ModelForm):
+class OrderAddressForm(forms.ModelForm):
     class Meta:
-        model = PostalAddress
+        model = OrderAddress
         exclude = ['order']
 
 

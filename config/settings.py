@@ -160,3 +160,15 @@ MEDIA_ROOT = BASE_DIR.joinpath('media')
 
 # star ratings
 STAR_RATINGS_RERATE = False
+
+# zarinpal
+MERCHANT = 'XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX'
+ZP_API_REQUEST = "https://api.zarinpal.com/pg/v4/payment/request.json"
+ZP_API_VERIFY = "https://api.zarinpal.com/pg/v4/payment/verify.json"
+ZP_API_STARTPAY = "https://www.zarinpal.com/pg/StartPay/{authority}"
+
+description = "توضیحات مربوط به تراکنش را در این قسمت وارد کنید"
+email = 'email@example.com'
+mobile = '09123456789'
+# Important: need to edit for realy server.
+CallbackURL = 'http://127.0.0.1:8000/orders/verify/'

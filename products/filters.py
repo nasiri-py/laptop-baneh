@@ -62,6 +62,6 @@ class ProductFilter(django_filters.FilterSet):
         data = 'ratings__average' if value == 'کم محبوب' else '-ratings__average'
         return queryset.order_by('-available', data)
 
-    # def sell_filter(self, queryset, name, value):
-    #     data = 'sell' if value == 'کم فروش' else '-sell'
-    #     return queryset.order_by('-available', data)
+    def sell_filter(self, queryset, name, value):
+        data = 'sell' if value == 'کم فروش' else '-sell'
+        return queryset.order_by('-available', data)
