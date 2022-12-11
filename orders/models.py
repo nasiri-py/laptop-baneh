@@ -7,13 +7,15 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 class Order(models.Model):
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='users', verbose_name='کاربر')
     paid = models.BooleanField(default=False, verbose_name='پرداخت شده')
+    ref_id = models.CharField(max_length=255, null=True, blank=True, verbose_name='کد پیگیری')
+    sent = models.BooleanField(default=False, verbose_name='محصول ارسال شد')
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True, verbose_name='زمان سفارش')
     discount = models.IntegerField(blank=True, null=True, default=None, verbose_name='درصد تخفیف')
     discount_limit = models.IntegerField(blank=True, null=True, default=None, verbose_name='حداکثر مقدار تخفیف')
 
     class Meta:
-        ordering = ('paid', '-updated')
+        ordering = ('-paid', '-updated')
         verbose_name = 'سفارش'
         verbose_name_plural = 'سفارشات'
 
@@ -76,3 +78,11 @@ class OrderAddress(models.Model):
     class Meta:
         verbose_name = 'آدرس'
         verbose_name_plural = 'آدرس ها'
+
+    def full_name(self):
+        return f'{self.first_name} {self.last_name}'
+
+    def full_address(self):
+        if self.unit is not None:
+            return f'{self.state}، {self.city}، {self.address}، پلاک {self.tag}، واحد {self.unit}'
+        return f'{self.state}، {self.city}، {self.address}، پلاک {self.tag}'

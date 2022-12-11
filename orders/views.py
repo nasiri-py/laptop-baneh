@@ -13,6 +13,8 @@ from django.conf import settings
 from django.http import HttpResponse
 import requests
 import json
+from utils import send_sms
+from accounts.models import User
 
 
 def cart_view(request):
@@ -113,13 +115,17 @@ def order_address_view(request, order_id):
                 last_name=cd['last_name'],
                 phone_number=cd['phone_number'],
             )
-        return redirect('orders:order-factor', order.id)
+        if request.user == order.user:
+            return redirect('orders:order-pre-factor', order.id)
+    return redirect('orders:cart')
 
 
 @login_required
-def order_factor_view(request, order_id):
+def order_pre_factor_view(request, order_id):
     order = get_object_or_404(Order, id=order_id)
-    return render(request, 'orders/order_factor.html', {'order': order})
+    if request.user == order.user:
+        return render(request, 'orders/order_pre_factor.html', {'order': order})
+    return redirect('orders:cart')
 
 
 @login_required
@@ -138,7 +144,7 @@ def coupon_view(request, order_id):
         order.discount_limit = coupon.discount_limit
         order.save()
         messages.success(request, 'کد تخفیف با موفقیت اعمال شد', 'success')
-    return redirect('orders:order-factor', order_id)
+    return redirect('orders:order-pre-factor', order_id)
 
 
 @login_required
@@ -165,7 +171,8 @@ def order_pay_view(request, order_id):
     else:
         e_code = req.json()['errors']['code']
         e_message = req.json()['errors']['message']
-        return HttpResponse(f"Error code: {e_code}, Error Message: {e_message}")
+        err_message = f"Error code: {e_code}, Error Message: {e_message}"
+        return render(request, 'orders/pay_error.html', {'err_message': err_message})
 
 
 @login_required
@@ -187,28 +194,40 @@ def order_verify_view(request):
         if len(req.json()['errors']) == 0:
             t_status = req.json()['data']['code']
             if t_status == 100:
+                admins = User.objects.get(is_staff=True)
+                for admin in admins:
+                    send_sms(admin.phone_number, f'کاربری با شماره موبایل {order.address.phone_number}'
+                                                 f' و نام {order.address.full_name}'
+                                                 f' سفارش با id {order.id} را پرداخت کرد'
+                                                 f'\nشماره پیگیری: {str(req.json()["data"]["ref_id"])} ')
+                send_sms(order.address.phone_number, f'با تشکر از اعتماد شما\nسفارش شما با موفقیت ثبت شد'
+                                                     f'\nشماره پیگیری: {str(req.json()["data"]["ref_id"])} '
+                                                     f'\n\nاستوک لپ تاپ استور')
                 order.paid = True
+                order.ref_id = str(req.json()["data"]["ref_id"])
                 order.save()
                 for item in order.items.all():
-                    item.color.number -= 1
-                    item.color.product.number -= 1
-                    item.color.product.sell += 1
+                    item.color.number -= item.quantity
+                    if item.color.number == 0:
+                        item.color.available = False
+                    item.color.product.number -= item.quantity
+                    if item.color.product.number == 0:
+                        item.color.product.available = False
+                    item.color.product.sell += item.quantity
                     item.color.save()
                     item.color.product.save()
-                return HttpResponse('تراکنش با موفقیت انجام شد.\nRefID: ' + str(
-                    req.json()['data']['ref_id']
-                ))
+                return render(request, 'orders/order_factor.html', {'order': order})
             elif t_status == 101:
-                return HttpResponse('Transaction submitted : ' + str(
-                    req.json()['data']['message']
-                ))
+                err_message = 'عملیات پرداخت قبلا با موفقیت انجام شده است: ' + str(req.json()['data']['message'])
+                return render(request, 'orders/pay_error.html', {'err_message': err_message})
             else:
-                return HttpResponse('Transaction failed.\nStatus: ' + str(
-                    req.json()['data']['message']
-                ))
+                err_message = 'Transaction failed.\nStatus: ' + str(req.json()['data']['message'])
+                return render(request, 'orders/pay_error.html', {'err_message': err_message})
         else:
             e_code = req.json()['errors']['code']
             e_message = req.json()['errors']['message']
-            return HttpResponse(f"Error code: {e_code}, Error Message: {e_message}")
+            err_message = f"Error code: {e_code}, Error Message: {e_message}"
+            return render(request, 'orders/pay_error.html', {'err_message': err_message})
     else:
-        return HttpResponse('تراکنش ناموفق بوده یا توسط کاربر لغو شده است')
+        err_message = 'تراکنش ناموفق بوده یا توسط کاربر لغو شده است'
+        return render(request, 'orders/pay_error.html', {'err_message': err_message})

@@ -60,4 +60,17 @@ form input:focus, form textarea:focus {
     color: #bc1f69 !important;
 }
 
-table {font-size: 13px !important;}
+.input-group input {
+  border-top-right-radius: 8px !important;
+  border-bottom-right-radius: 8px !important;
+}
+.input-group button {
+  border-top-left-radius: 8px !important;
+  border-bottom-left-radius: 8px !important;
+}
+
+.table-factor, .pre-factor {font-size: 12px !important;}
+
+.ref-id {color: #bc1f69;}
+
+.table-factor {overflow: auto;}

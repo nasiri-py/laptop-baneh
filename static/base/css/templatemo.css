@@ -163,13 +163,15 @@ form input:focus, form textarea:focus {
 }
 .basket-card {max-height: 250px; overflow: auto;}
 /* Search */
-.search-form input {
+.input-group input {
   border-top-left-radius: 0 !important;
   border-bottom-left-radius: 0 !important;
 }
-.search-form button {
+.input-group button {
   border-top-right-radius: 0 !important;
   border-bottom-right-radius: 0 !important;
+}
+.search-form button {
   background-color: #bc1f69  !important;
 }
 #result_box {
@@ -365,7 +367,7 @@ padding: 0;
 }
 input[type="checkbox"] {accent-color: #bc1f69;}
 .accordion-body {max-height: 200px; overflow: auto;}
-form input:focus {
+input:focus {
     outline: none !important;
     border: 1px rgba(188, 31, 105, .2) solid !important;
     box-shadow: 0 0 3px #7803e280 !important;

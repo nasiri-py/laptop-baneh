@@ -13,8 +13,9 @@ class OrderAddressInline(admin.StackedInline):
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ['id', 'user', 'paid', 'updated']
+    list_display = ['id', 'ref_id', 'user', 'paid']
     list_filter = ['paid']
+    search_fields = ['user', 'ref_id']
     inlines = [OrderItemInline, OrderAddressInline]
 
 

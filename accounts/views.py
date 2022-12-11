@@ -49,7 +49,6 @@ class VerifyView(generic.CreateView):
     def form_valid(self, form):
         try:
             code_instance = OtpCode.objects.get(phone_number=self.user_session['phone_number'])
-            print(code_instance)
             if code_instance.created + timedelta(minutes=2) < datetime.now(tz=pytz.timezone('Asia/Tehran')):
                 code_instance.delete()
                 messages.error(self.request, 'کد وار شده منقضی شده است', 'danger')
