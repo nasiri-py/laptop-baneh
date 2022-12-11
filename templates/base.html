@@ -95,7 +95,7 @@
             <div class="navbar align-self-center justify-content-center d-flex">
                 <div class="d-lg-none flex-sm-fill mt-3 mb-4 col-7 col-sm-auto pr-3">
                     <div class="input-group search-form">
-                        <input type="text" class="form-control" id="inputMobileSearch" placeholder="Search ...">
+                        <input type="text" class="form-control" id="inputMobileSearch" placeholder="جستجو ...">
                         <button class="input-group-text">
                             <i class="fa fa-fw fa-search"></i>
                         </button>
@@ -217,18 +217,22 @@
         <div class="w-100 pt-1 mb-5 text-right">
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <form action="" method="get" class="modal-content modal-body border-0 p-0">
-            <div class="input-group mb-2 search-form">
-                <input type="text" class="form-control rounded-2" id="inputModalSearch" name="q"
-                       placeholder="Search ...">
+        <from id="search-form" class="mb-2 modal-content modal-body border-0 p-0">
+            {% csrf_token %}
+            <div class="input-group search-form">
+                <input type="text" class="form-control rounded-2"
+                   id="search-input" placeholder="جستجو ...">
                 <button type="submit" class="input-group-text bg-success text-light rounded-2">
                     <i class="fa fa-fw fa-search text-white"></i>
                 </button>
             </div>
-        </form>
+        </from>
+        <ul class="list-group d-none p-0 modal-content modal-body border-0 mt-5" id="results-box">
+
+        </ul>
     </div>
 </div>
-{#Close Modal#}
+<!-- Close Modal -->
 {% include 'includes/messages.html' %}
 
 {% block content %}
@@ -334,6 +338,53 @@
         crossorigin="anonymous"></script>
 <script src="{% static 'base/js/jquery-1.11.0.min.js' %}"></script>
 <script src="{% static 'base/js/templatemo.js' %}"></script>
+
+<script>
+    const searchForm = document.getElementById('search-form')
+    const searchInput = document.getElementById('search-input')
+    const resultsBox = document.getElementById('results-box')
+    const csrf = document.getElementsByName('csrfmiddlewaretoken')[0].value
+    const sendSearchData = (product) => {
+        $.ajax({
+            type: 'POST',
+            url: "{% url 'product:search' %}",
+            data: {
+                'csrfmiddlewaretoken': csrf,
+                'product': product,
+            },
+            success: (res) =>{
+                const data = res.data
+                if (Array.isArray(data)) {
+                    resultsBox.innerHTML = ""
+                    data.forEach(product =>{
+                        resultsBox.innerHTML += `<li class="list-group-item m-auto w-50">
+                    <a class="row text-dark text-decoration-none" href="{% url 'product:list' %}${product.slug}/%5CZ">
+                        <img class="col-4" src="${product.cover}" alt="${product.title}" width="30">
+                        <h6 class="col-8 my-auto">${product.title}</h6>
+                    </a>
+                </li>`
+                    })
+                } else {
+                    if (searchInput.value.length > 0) {
+                        resultsBox.innerHTML = `<h6 class="text-center my-auto py-5">${data}</h6>`
+                    } else {
+                        resultsBox.classList.add('d-none')
+                    }
+                }
+            },
+            error: (err) =>{
+                console.log(err)
+            }
+        })
+    }
+    searchInput.addEventListener('keyup', e=>{
+        console.log(e.target.value)
+        if (resultsBox.classList.contains('d-none')) {
+            resultsBox.classList.remove('d-none')
+        }
+        sendSearchData(e.target.value)
+    })
+</script>
 <!-- End Script -->
 </body>
 

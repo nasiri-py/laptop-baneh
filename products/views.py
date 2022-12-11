@@ -97,3 +97,27 @@ class CommentReplyView(LoginRequiredMixin, View):
             new_form.save()
             messages.success(self.request, 'دیدگاه شما با موفقیت ثبت شد', 'success')
         return redirect('product:detail', product.slug)
+
+
+from django.http import JsonResponse
+
+
+def search_view(request):
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        res = None
+        product = request.POST.get('product')
+        qs = Product.objects.filter(title__icontains=product)
+        if len(qs) > 0 and len(product) > 0:
+            data = []
+            for pos in qs:
+                item = {
+                    'title': pos.title,
+                    'slug': pos.slug,
+                    'cover': str(pos.cover.url),
+                }
+                data.append(item)
+            res = data
+        else:
+            res = 'محصول موردنظر یافت نشد ...'
+        return JsonResponse({'data': res})
+    return JsonResponse({})
