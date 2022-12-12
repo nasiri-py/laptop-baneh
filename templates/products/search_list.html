@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+
+{% load humanize %}
+
+{% block title %}
+    جستجو
+{% endblock %}
+
+{% block content %}
+    <!-- Start Content -->
+    <div class="container py-5">
+        <div class="row">
+            {% for product in page_obj %}
+                <div class="mb-4 col-6 col-sm-4 col-md-3 product-list">
+                    <a href="{{ product.get_absolute_url }}" class="text-dark text-decoration-none">
+                        <div class="product-wap product-card card h-100 border-0 shadow">
+                            <div class="product-card card">
+                                <img class="card-img rounded-0 rounded-top img-fluid m-auto"
+                                     src="{{ product.cover.url }}" alt="{{ product.title }}">
+                            </div>
+                            <div class="card-body">
+                                <ul class="list-unstyled p-0">
+                                    <li class="mb-5 product-title">{{ product.title }}</li>
+                                    <li>
+                                        {% if product.available %}
+                                            <ul class="list-unstyled d-flex flex-column justify-content-between p-0">
+                                                {% if product.discount %}
+                                                    <li class="text-start discount"><span
+                                                            class="mx-1 px-1 discount-percent">{{ product.discount_percent }}%</span> {{ product.discount|intcomma }}
+                                                        تومان
+                                                    </li>
+                                                    <li class="text-start text-muted text-decoration-line-through price">
+                                                        {{ product.price|intcomma }}
+                                                    </li>
+                                                {% else %}
+                                                    <li class="text-start discount">{{ product.price|intcomma }} تومان
+                                                    </li>
+                                                {% endif %}
+                                            </ul>
+                                        {% else %}
+                                            <div class="w-100 unavailable">ناموجود</div>
+                                        {% endif %}
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            {% empty %}
+                <div class="alert alert-warning text-center m-4" role="alert">
+                    محصولی برای نمایش وجود ندارد.
+                </div>
+            {% endfor %}
+        </div>
+        <nav aria-label="...">
+            <ul class="pagination justify-content-end">
+                {% if page_obj.has_previous %}
+                    <li class="pag-item">
+                        <a class="pag-link" href="?page=1&{{ data }}">1</a>
+                    </li>
+                    {% if page_obj.previous_page_number != 1 %}
+                        <li class="pag-item"><span>...</span></li>
+                        <li class="pag-item">
+                            <a class="pag-link" href="?page={{ page_obj.previous_page_number }}&{{ data }}"
+                               tabindex="-1">{{ page_obj.previous_page_number }}</a>
+                        </li>
+                    {% endif %}
+                {% endif %}
+                <li class="pag-item active">
+                    <a class="pag-link" href="">{{ page_obj.number }}<span class="sr-only">(current)</span></a>
+                </li>
+                {% if page_obj.has_next %}
+                    {% if page_obj.next_page_number != page_obj.paginator.num_pages %}
+                        <li class="pag-item">
+                            <a class="pag-link"
+                               href="?page={{ page_obj.next_page_number }}&{{ data }}">{{ page_obj.next_page_number }}</a>
+                        </li>
+                        <li class="pag-item"><span>...</span></li>
+                    {% endif %}
+                    <li class="pag-item">
+                        <a class="pag-link"
+                           href="?page={{ page_obj.paginator.num_pages }}&{{ data }}">{{ page_obj.paginator.num_pages }}</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+    <!-- End Content -->
+{% endblock %}

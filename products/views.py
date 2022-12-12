@@ -5,10 +5,11 @@ from .models import Product, Comment
 from .forms import CommentForm
 from .filters import ProductFilter
 from django.core.paginator import Paginator
-from django.db.models import Min, Max
+from django.db.models import Min, Max, Q
 from urllib.parse import urlencode
 from django.contrib import messages
 from orders.forms import AddToCartForm
+from django.http import JsonResponse
 
 
 def product_list_view(request):
@@ -21,7 +22,7 @@ def product_list_view(request):
     filter_object = ProductFilter(request.GET, queryset=products)
     products = filter_object.qs
 
-    paginator = Paginator(products, 1)
+    paginator = Paginator(products, 18)
     page_number = request.GET.get('page')
     data = request.GET.copy()
     if 'page' in data:
@@ -43,7 +44,7 @@ class ProductDetailView(generic.DetailView):
         product = get_object_or_404(Product, slug=slug)
         self.colors = product.colors.filter(available=True)
         self.similar_products = Product.objects.filter(category__in=product.category.all()).exclude(id=product.id). \
-                               order_by('-available')[:10]
+                                    order_by('-available')[:10]
         product_id = {'product_id': product.id}
         self.order_form = AddToCartForm(**product_id)
         ip_address = self.request.user.ip_address
@@ -99,14 +100,11 @@ class CommentReplyView(LoginRequiredMixin, View):
         return redirect('product:detail', product.slug)
 
 
-from django.http import JsonResponse
-
-
 def search_view(request):
     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
         res = None
-        product = request.POST.get('product')
-        qs = Product.objects.filter(title__icontains=product)
+        product = request.GET.get('product')
+        qs = Product.objects.filter(title__icontains=product)[:5]
         if len(qs) > 0 and len(product) > 0:
             data = []
             for pos in qs:
@@ -121,3 +119,16 @@ def search_view(request):
             res = 'محصول موردنظر یافت نشد ...'
         return JsonResponse({'data': res})
     return JsonResponse({})
+
+
+class SearchList(generic.ListView):
+    paginate_by = 20
+    template_name = 'products/search_list.html'
+
+    def get_queryset(self):
+        search = self.request.GET.get('search')
+        return Product.objects.filter(Q(title__icontains=search))
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
