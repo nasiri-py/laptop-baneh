@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% load static %}
+{% load humanize %}
 
 {% block title %}
     Stoke Laptop Store | order factor
@@ -73,9 +74,9 @@
                                                     <th scope="row">{{ forloop.counter }}</th>
                                                     <td>{{ item.product }}</td>
                                                     <td>{{ item.color }}</td>
-                                                    <td>{{ item.price }} تومان</td>
+                                                    <td>{{ item.price|intcomma }} تومان</td>
                                                     <td>{{ item.quantity }}</td>
-                                                    <td>{{ item.get_cost }} تومان</td>
+                                                    <td>{{ item.get_cost|intcomma }} تومان</td>
                                                 </tr>
                                             {% endfor %}
                                             <tr>
@@ -84,7 +85,7 @@
                                                 <td></td>
                                                 <td></td>
                                                 <td></td>
-                                                <td>{{ order.get_total_cost }} تومان</td>
+                                                <td>{{ order.get_total_cost|intcomma }} تومان</td>
                                             </tr>
                                             </tbody>
                                         </table>
@@ -104,7 +105,7 @@
                                         <hr class="mb-4">
                                         <div class="d-flex justify-content-between mb-3">
                                             <h6 class="text-uppercase">مبلغ قابل پرداخت</h6>
-                                            <h6>{{ order.get_total_cost }} تومان</h6>
+                                            <h6>{{ order.get_total_cost|intcomma }} تومان</h6>
                                         </div>
                                         <a href="{% url 'orders:order-pay' order.id %}" type="submit"
                                            class="btn btn-buy btn-lg w-100"

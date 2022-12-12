@@ -2,6 +2,7 @@
 
 {% load base_tags %}
 {% load ratings %}
+{% load humanize %}
 
 {% block title %}
     Stoke Laptop Store
@@ -60,14 +61,14 @@
                                     <li class="list-inline-item">
                                         {% if product.discount %}
                                             <ul class="list-unstyled d-flex justify-content-between align-items-center p-0">
-                                                <li class="text-start text-muted text-decoration-line-through ms-5">{{ product.price }}</li>
-                                                <li class="text-start price position-relative">{{ product.discount }}
+                                                <li class="text-start text-muted text-decoration-line-through ms-5">{{ product.price|intcomma }}</li>
+                                                <li class="text-start price position-relative">{{ product.discount|intcomma }}
                                                     تومان
                                                     <span class="discount-percent position-absolute">{{ product.discount_percent }}%</span>
                                                 </li>
                                             </ul>
                                         {% else %}
-                                            <p class="price">{{ product.price }} تومان</p>
+                                            <p class="price">{{ product.price|intcomma }} تومان</p>
                                         {% endif %}
                                     </li>
                                 </ul>
@@ -686,7 +687,7 @@
                                             {% else %}
                                                 <li><h5 class="comment-user m-0">{{ comment.user.username }}</h5></li>
                                             {% endif %}
-                                            <li><p class="comment-time text-muted">{{ comment.created }}</p></li>
+                                            <li><p class="comment-time text-muted">{{ comment.created|naturaltime }}</p></li>
                                         </ul>
                                         <p class="comment-body">{{ comment.body }}</p>
                                         <div class="accordion-item pt-3">
@@ -738,7 +739,7 @@
                                                             <h6 class="comment-user m-0">{{ comment.user.username }}</h6>
                                                         </li>
                                                     {% endif %}
-                                                    <li><p class="comment-time text-muted">{{ cm.created }}</p></li>
+                                                    <li><p class="comment-time text-muted">{{ cm.created|naturaltime }}</p></li>
                                                 </ul>
                                                 <p class="comment-body">{{ cm.body }}</p>
                                             </div>
@@ -776,8 +777,18 @@
                                             <li>
                                                 {% if product.available %}
                                                     <ul class="list-unstyled d-flex flex-column justify-content-between p-0">
-                                                        <li class="text-start discount py-2">{{ product.price }} تومان
-                                                        </li>
+                                                        {% if product.discount %}
+                                                            <li class="text-start discount"><span
+                                                                    class="mx-1 px-1 discount-percent">{{ product.discount_percent }}%</span> {{ product.discount|intcomma }}
+                                                                تومان
+                                                            </li>
+                                                            <li class="text-start text-muted text-decoration-line-through price">
+                                                                {{ product.price|intcomma }}
+                                                            </li>
+                                                        {% else %}
+                                                            <li class="text-start discount">{{ product.price|intcomma }} تومان
+                                                            </li>
+                                                        {% endif %}
                                                     </ul>
                                                 {% else %}
                                                     <div class="w-100 unavailable">ناموجود</div>

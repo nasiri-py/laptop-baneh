@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
 
     # third-party apps
     'colorfield',
@@ -172,3 +173,4 @@ email = 'email@example.com'
 mobile = '09123456789'
 # Important: need to edit for realy server.
 CallbackURL = 'http://127.0.0.1:8000/orders/verify/'
+

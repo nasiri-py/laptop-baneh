@@ -1,0 +1,26 @@
+@import url(../../base/css/fonts.css);
+
+body, ul, li, p, a, label, input, div {
+  font-family: Vazir, sans-serif;
+  font-size: 16px !important;
+  font-weight: 300 !important;
+  direction: rtl;
+}
+.h1 {
+  font-family: Vazir, sans-serif;
+  font-size: 2.5rem !important;
+  font-weight: 200 !important;
+}
+.h2 {
+  font-family: Vazir, sans-serif;
+  font-size: 2rem !important;
+  font-weight: 300;
+}
+.h3 {
+  font-family: Vazir, sans-serif;
+  font-size: 1.5rem !important;
+}
+.h6, h6 {
+  font-family: Vazir, sans-serif;
+  font-size: .9rem !important;
+}

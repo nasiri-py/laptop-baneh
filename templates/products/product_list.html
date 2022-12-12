@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% load humanize %}
+
 {% block title %}
     Products
 {% endblock %}
@@ -28,14 +30,14 @@
                                                     <ul class="list-unstyled d-flex flex-column justify-content-between p-0">
                                                         {% if product.discount %}
                                                             <li class="text-start discount"><span
-                                                                    class="mx-1 px-1 discount-percent">{{ product.discount_percent }}%</span> {{ product.discount }}
+                                                                    class="mx-1 px-1 discount-percent">{{ product.discount_percent }}%</span> {{ product.discount|intcomma }}
                                                                 تومان
                                                             </li>
                                                             <li class="text-start text-muted text-decoration-line-through price">
-                                                                {{ product.price }}
+                                                                {{ product.price|intcomma }}
                                                             </li>
                                                         {% else %}
-                                                            <li class="text-start discount">{{ product.price }} تومان
+                                                            <li class="text-start discount">{{ product.price|intcomma }} تومان
                                                             </li>
                                                         {% endif %}
                                                     </ul>

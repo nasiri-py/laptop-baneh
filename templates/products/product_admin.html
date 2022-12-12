@@ -1,0 +1,62 @@
+{% extends 'admin/change_list.html' %}
+
+{% block extrahead %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.css"
+          integrity="sha512-/zs32ZEJh+/EO2N1b0PEdoA10JkdC3zJ8L5FTiQu82LR9S/rOQNfQN7U59U9BC12swNeRAz3HSzIL2vpp4fv3w=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"
+            integrity="sha512-d9xgZrVZpmmQlfonhQUvTR7lMPtO7NkZMkA0ABN3PHCbKA5nqylQ/yWlFAyY6hYgdF1Qh6nYiuADWwKB4C2WSw=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script>
+    window.onload = function (){
+        const ctx = document.getElementById('myChart');
+        {% regroup cl.queryset|dictsort:'sell' by sell as sell_list %}
+        const myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: [{% for i in sell_list %}'{{ i.list|safe|cut:"Product:" }}',{% endfor %}],
+                datasets: [{
+                    label: 'تعداد فروش',
+                    data: [{% for i in sell_list %}'{{ i.grouper }}',{% endfor %}],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, .7)',
+                        'rgba(54, 162, 235, .7)',
+                        'rgba(255, 206, 86, .7)',
+                        'rgba(75, 192, 192, .7)',
+                        'rgba(153, 102, 255, .7)',
+                        'rgba(255, 159, 64, .7)',
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)',
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+    }
+    </script>
+
+{% endblock %}
+
+{% block content %}
+    <h3>نمودار فروش</h3>
+    <div style="margin: 3rem 0;">
+        <canvas id="myChart" width="150" height="50"></canvas>
+    </div>
+    {{ block.super }}
+{% endblock %}
