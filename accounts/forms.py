@@ -24,3 +24,16 @@ class RegisterForm(UserCreationForm):
 
 class OtpCodeLoginForm(forms.Form):
     phone_number = forms.CharField(max_length=11)
+
+
+class ProfileForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user')
+        super(ProfileForm, self).__init__(*args, **kwargs)
+        if not user.is_staff:
+            self.fields['phone_number'].disabled = True
+            self.fields['username'].disabled = True
+
+    class Meta:
+        model = get_user_model()
+        fields = ['phone_number', 'username', 'first_name', 'last_name']

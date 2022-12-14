@@ -5,9 +5,9 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 
 
 class Order(models.Model):
-    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='users', verbose_name='کاربر')
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='orders', verbose_name='کاربر')
     paid = models.BooleanField(default=False, verbose_name='پرداخت شده')
-    ref_id = models.CharField(max_length=255, null=True, blank=True, verbose_name='کد پیگیری')
+    ref_id = models.CharField(max_length=255, null=True, blank=True, verbose_name='شماره پیگیری')
     sent = models.BooleanField(default=False, verbose_name='محصول ارسال شد')
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True, verbose_name='زمان سفارش')

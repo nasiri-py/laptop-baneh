@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}
+    استوک لپ تاپ استور | حذف دیدگاه
+{% endblock %}
+
+{% block css_link %}
+    <link rel="stylesheet" type="text/css" href="{% static 'registration/css/profile.css' %}">
+{% endblock %}
+
+{% block content %}
+    <section class="py-5 bg-light">
+        <div class="container" style="width: 300px;">
+            <div class="bg-white shadow rounded p-4">
+                <h4 class="mb-3">حذف دیدگاه</h4>
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <h5>از حذف دیدگاه مطمئنید؟</h5>
+                    <div class="d-flex justify-content-around">
+                        <a class="btn btn-light" href="{% url 'accounts:profile' %}">خیر</a>
+                        <button class="btn btn-danger" type="submit">بله</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+
+

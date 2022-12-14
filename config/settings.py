@@ -159,6 +159,9 @@ AUTH_USER_MODEL = 'accounts.User'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR.joinpath('media')
 
+# logout
+LOGOUT_REDIRECT_URL = 'home:home'
+
 # star ratings
 STAR_RATINGS_RERATE = False
 
@@ -173,4 +176,3 @@ email = 'email@example.com'
 mobile = '09123456789'
 # Important: need to edit for realy server.
 CallbackURL = 'http://127.0.0.1:8000/orders/verify/'
-

@@ -153,12 +153,16 @@ form input:focus, form textarea:focus {
 .dropdown .dropdown-item-link a {color: #5f6061 !important; font-size: 12px !important; font-weight: 500 !important; text-decoration: none;}
 .dropdown .dropdown-item-link a:hover {color: #bc1f69 !important;}
 .basket-dropdown .basket-dropdown-menu {width: 400px; right: -380px;}
+.profile-dropdown .profile-dropdown-menu {right: -75px;}
 .shop-dropdown:hover>.shop-dropdown-menu {
   display: block;
   left: 0;
 }
 .basket-dropdown:hover>.basket-dropdown-menu {
   display: block;
+}
+.profile-dropdown:hover>.profile-dropdown-menu {
+    display: block;
 }
 .basket-card {max-height: 250px; overflow: auto;}
 /* Search */

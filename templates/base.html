@@ -68,8 +68,10 @@
                  style="font-size: 1rem">
         </a>
 
-            <div class="align-self-center flex-fill d-lg-flex justify-content-lg-between offcanvas offcanvas-start" tabindex="-1" id="offcanvasMenu" aria-labelledby="offcanvasMenuLabel">
-                <button type="button" class="btn-close text-reset d-block d-lg-none mb-4" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        <div class="align-self-center flex-fill d-lg-flex justify-content-lg-between offcanvas offcanvas-start"
+             tabindex="-1" id="offcanvasMenu" aria-labelledby="offcanvasMenuLabel">
+            <button type="button" class="btn-close text-reset d-block d-lg-none mb-4" data-bs-dismiss="offcanvas"
+                    aria-label="Close"></button>
             <div class="flex-fill position-relative">
                 <ul class="nav navbar-nav d-flex justify-content-around p-0 mx-lg-auto">
                     <li class="nav-item">
@@ -90,114 +92,124 @@
                 </ul>
             </div>
         </div>
-            <div class="navbar align-self-center d-flex">
-                <a class="nav-icon m-0" href="#" data-bs-toggle="modal"
-                   data-bs-target="#templatemo_search">
-                    <i class="fa fa-fw fa-search text-dark mr-2"></i>
-                </a>
-                {% if user.is_authenticated %}
-                    <a class="nav-icon text-decoration-none me-4"
-                       href="{% url 'accounts:logout' %}?next={{ request.path }}">
+        <div class="navbar align-self-center d-flex">
+            <a class="nav-icon m-0" href="#" data-bs-toggle="modal"
+               data-bs-target="#templatemo_search">
+                <i class="fa fa-fw fa-search text-dark mr-2"></i>
+            </a>
+            {% if user.is_authenticated %}
+                <div class="profile-dropdown dropdown position-relative me-4">
+                    <a class="nav-icon text-decoration-none" id="profileDropdownMenuLink"
+                       data-bs-toggle="dropdown">
                         <i class="fa fa-user"></i>
                     </a>
-                {% else %}
-                    <div class="d-flex align-items-center p-1 rounded border me-4">
-                        <a class="nav-icon text-decoration-none text-link me-1"
-                           href="{% url 'accounts:login' %}?next={{ request.path }}">
-                            <h6 class="m-0">ورود | </h6>
-                        </a>
-                        <a class="nav-icon text-decoration-none text-link me-1" href="{% url 'accounts:register' %}">
-                            <h6 class="m-0 badge badge-link"> ثبت نام</h6>
-                        </a>
+                    <div class="profile-dropdown-menu dropdown-menu dropdown-menu-end mt-1 border-0"
+                         aria-labelledby="profileDropdownMenuLink">
+                        <ul class="list-group p-0 border-0">
+                            <li class="border-0 border-bottom list-group-item text-end"><a class="text-decoration-none text-black" href="{% url 'accounts:profile' %}"><i class="fa fa-user"></i> مشاهده پروفایل</a></li>
+                            <li class="border-0 list-group-item text-end"><a class="text-decoration-none text-black" href="{% url 'accounts:logout' %}?next={{ request.path }}"><i class="fa fa-arrow-circle-right"></i> خروج از حساب</a></li>
+                        </ul>
                     </div>
-                {% endif %}
-                {% if cart|length != 0 %}
-                    <div class="basket-dropdown dropdown position-relative me-4">
-                        <a class="nav-icon text-decoration-none" id="navbarDropdownMenuLink"
-                           data-bs-toggle="dropdown">
-                            <span class="position-absolute translate-middle badge text-dark cart-span">{{ cart|length }}</span>
-                            <i class="fa fa-fw fa-cart-arrow-down mr-1"></i>
-                        </a>
-                        <div class="basket-dropdown-menu dropdown-menu dropdown-menu-end mt-1 py-2 px-3 border-0"
-                             aria-labelledby="navbarDropdownMenuLink">
-                            <div class="row">
-                                <div class="col-12 d-flex justify-content-between mb-2">
-                                    <div><span class="text-muted">{{ cart|length }} کالا</span></div>
-                                    <div><a class="text-link text-decoration-none" href="{% url 'orders:cart' %}"><h6>
-                                        مشاهده
-                                        سبد خرید</h6></a></div>
-                                </div>
-                                <div class="col-12 basket-card">
-                                    {% for item in cart %}
-                                        <div class="row">
-                                            <div class="col-12 row">
-                                                <a class="col-6"
-                                                   href="{% url 'product:detail' item.color.product.slug %}"><img
-                                                        class="img-fluid rounded-3"
-                                                        src="{{ item.color.product.cover.url }}"
-                                                        alt="{{ item.color.product.title }}"></a>
-                                                <div class="col-6">
-                                                    <h6 class="text-black text-end">{{ item.color.product.title|truncatewords:10 }}</h6>
-                                                    <div class="d-flex align-items-center mt-4">
-                                                        <div>
-                                                            <h6 class="btn-color"
-                                                                style="background-color: {{ item.color.color }};"></h6>
-                                                        </div>
-                                                        <div class="mx-2"><h6
-                                                                class="text-muted">{{ item.color.title }}</h6></div>
+                </div>
+            {% else %}
+                <div class="d-flex align-items-center p-1 rounded border me-4">
+                    <a class="nav-icon text-decoration-none text-link me-1"
+                       href="{% url 'accounts:login' %}">
+                        <h6 class="m-0">ورود | </h6>
+                    </a>
+                    <a class="nav-icon text-decoration-none text-link me-1" href="{% url 'accounts:register' %}">
+                        <h6 class="m-0 badge badge-link"> ثبت نام</h6>
+                    </a>
+                </div>
+            {% endif %}
+            {% if cart|length != 0 %}
+                <div class="basket-dropdown dropdown position-relative me-4">
+                    <a class="nav-icon text-decoration-none" id="basketDropdownMenuLink"
+                       data-bs-toggle="dropdown">
+                        <span class="position-absolute translate-middle badge text-dark cart-span">{{ cart|length }}</span>
+                        <i class="fa fa-fw fa-cart-arrow-down mr-1"></i>
+                    </a>
+                    <div class="basket-dropdown-menu dropdown-menu dropdown-menu-end mt-1 py-2 px-3 border-0"
+                         aria-labelledby="basketDropdownMenuLink">
+                        <div class="row">
+                            <div class="col-12 d-flex justify-content-between mb-2">
+                                <div><span class="text-muted">{{ cart|length }} کالا</span></div>
+                                <div><a class="text-link text-decoration-none" href="{% url 'orders:cart' %}"><h6>
+                                    مشاهده
+                                    سبد خرید</h6></a></div>
+                            </div>
+                            <div class="col-12 basket-card">
+                                {% for item in cart %}
+                                    <div class="row">
+                                        <div class="col-12 row">
+                                            <a class="col-6"
+                                               href="{% url 'product:detail' item.color.product.slug %}"><img
+                                                    class="img-fluid rounded-3"
+                                                    src="{{ item.color.product.cover.url }}"
+                                                    alt="{{ item.color.product.title }}"></a>
+                                            <div class="col-6">
+                                                <h6 class="text-black text-end">{{ item.color.product.title|truncatewords:10 }}</h6>
+                                                <div class="d-flex align-items-center mt-4">
+                                                    <div>
+                                                        <h6 class="btn-color"
+                                                            style="background-color: {{ item.color.color }};"></h6>
                                                     </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-12 row align-items-center">
-                                                <div class="col-6 text-center">
-                                                    <a class="btn btn-buy px-1 py-0 m-1"
-                                                       href="{% url 'orders:cart-decrease' item.color.id %}"
-                                                       onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
-                                                        <i class="fas fa-minus"></i>
-                                                    </a>
-                                                    <span class="btn bg-secondary m-1 text-light">{{ item.quantity }}</span>
-                                                    <a class="btn btn-buy px-1 py-0 m-1"
-                                                       href="{% url 'orders:cart-increase' item.color.id %}"
-                                                       onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
-                                                        <i class="fas fa-plus"></i>
-                                                    </a>
-                                                </div>
-                                                <div class="col-6 text-dark m-0">
-                                                    <h6>{{ item.total_price|intcomma }} تومان</h6>
+                                                    <div class="mx-2"><h6
+                                                            class="text-muted">{{ item.color.title }}</h6></div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <hr>
-                                    {% endfor %}
+                                        <div class="col-12 row align-items-center">
+                                            <div class="col-6 text-center">
+                                                <a class="btn btn-buy px-1 py-0 m-1"
+                                                   href="{% url 'orders:cart-decrease' item.color.id %}"
+                                                   onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
+                                                    <i class="fas fa-minus"></i>
+                                                </a>
+                                                <span class="btn bg-secondary m-1 text-light">{{ item.quantity }}</span>
+                                                <a class="btn btn-buy px-1 py-0 m-1"
+                                                   href="{% url 'orders:cart-increase' item.color.id %}"
+                                                   onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
+                                                    <i class="fas fa-plus"></i>
+                                                </a>
+                                            </div>
+                                            <div class="col-6 text-dark m-0">
+                                                <h6>{{ item.total_price|intcomma }} تومان</h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                {% endfor %}
+                            </div>
+                            <div class="col-12 d-flex justify-content-between align-items-center mt-3">
+                                <div class="text-muted">
+                                    <h6>مبلغ قابل پرداخت</h6>
+                                    <h6>{{ cart.get_total_price|intcomma }} تومان</h6>
                                 </div>
-                                <div class="col-12 d-flex justify-content-between align-items-center mt-3">
-                                    <div class="text-muted">
-                                        <h6>مبلغ قابل پرداخت</h6>
-                                        <h6>{{ cart.get_total_price|intcomma }} تومان</h6>
-                                    </div>
-                                    <div>
-                                        {% if user.is_authenticated %}
-                                            <a href="{% url 'orders:order-create' %}" class="btn btn-buy btn-lg"
-                                               data-mdb-ripple-color="dark">ثبت سفارش
-                                            </a>
-                                        {% else %}
-                                            <a href="{% url 'orders:order-create' %}" class="btn btn-buy btn-lg"
-                                               data-mdb-ripple-color="dark">ورود و ثبت سفارش
-                                            </a>
-                                        {% endif %}
-                                    </div>
+                                <div>
+                                    {% if user.is_authenticated %}
+                                        <a href="{% url 'orders:order-create' %}" class="btn btn-buy btn-lg"
+                                           data-mdb-ripple-color="dark">ثبت سفارش
+                                        </a>
+                                    {% else %}
+                                        <a href="{% url 'orders:order-create' %}" class="btn btn-buy btn-lg"
+                                           data-mdb-ripple-color="dark">ورود و ثبت سفارش
+                                        </a>
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>
                     </div>
-                {% else %}
-                    <a class="nav-icon me-4" href="{% url 'orders:cart' %}">
-                        <i class="fa fa-fw fa-cart-arrow-down mr-1"></i>
-                    </a>
-                {% endif %}
-            </div>
+                </div>
+            {% else %}
+                <a class="nav-icon me-4" href="{% url 'orders:cart' %}">
+                    <i class="fa fa-fw fa-cart-arrow-down mr-1"></i>
+                </a>
+            {% endif %}
+        </div>
 
-        <button class="navbar-toggler border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasMenu" aria-controls="offcanvasMenu">
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasMenu"
+                aria-controls="offcanvasMenu">
             <span class="navbar-toggler-icon"></span>
         </button>
 
@@ -216,7 +228,9 @@
               action="{% url 'product:search-list' %}" method="get">
             <input id="search-input" class="form-control rounded-2" type="text" name="search"
                    placeholder="محصول موردنظر را جستجو کنید">
-            <button type="submit" class="position-absolute border-0 my-3 d-none start-0" id="search-button">مشاهده همه موارد</button>
+            <button type="submit" class="position-absolute border-0 my-3 d-none start-0" id="search-button">مشاهده همه
+                موارد
+            </button>
         </form>
         <ul class="mt-0 list-group d-none p-0 modal-content modal-body border-0"
             id="results-box">
@@ -291,11 +305,13 @@
                 <h5>ما را در شبکه های اجتماعی دنبال کنید</h5>
                 <ul class="list-inline footer-icons text-center p-0">
                     <li class="list-inline-item border border-light rounded-circle text-center m-1">
-                        <a class="text-light text-decoration-none" target="_blank" href="https://www.instagram.com/stoke_laptop_store"><i
+                        <a class="text-light text-decoration-none" target="_blank"
+                           href="https://www.instagram.com/stoke_laptop_store"><i
                                 class="fab fa-instagram fa-lg fa-fw" style="vertical-align: -0.2rem;"></i></a>
                     </li>
                     <li class="list-inline-item border border-light rounded-circle text-center m-1">
-                        <a class="text-light text-decoration-none" target="_blank" href="https://www.instagram.com/stoke_laptop_store"><i
+                        <a class="text-light text-decoration-none" target="_blank"
+                           href="https://www.instagram.com/stoke_laptop_store"><i
                                 class="fab fa-telegram fa-lg fa-fw" style="vertical-align: -0.2rem;"></i></a>
                     </li>
                     <li class="list-inline-item border border-light rounded-circle text-center m-1">
@@ -360,6 +376,7 @@
                     if (searchInput.value.length > 0) {
                         resultsBox.innerHTML = `<h6 class="text-center my-auto py-5">${data}</h6>`
                     } else {
+                        searchButton.classList.add('d-none')
                         resultsBox.classList.add('d-none')
                     }
                 }

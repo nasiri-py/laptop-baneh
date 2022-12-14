@@ -1,9 +1,12 @@
 from django.shortcuts import redirect, render, reverse
+from django.urls import reverse_lazy
 from .models import User
 from django.views import generic, View
-from .forms import RegisterForm, OtpCodeLoginForm
+from .forms import RegisterForm, OtpCodeLoginForm, ProfileForm
 from django.contrib.auth import login
-from django.contrib.auth.views import LoginView, LogoutView, PasswordResetConfirmView
+from django.contrib.auth.views import PasswordResetConfirmView, PasswordChangeView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.forms import PasswordChangeForm
 from utils import send_sms, send_otp_code
 from .models import OtpCode
 from django.contrib import messages
@@ -14,6 +17,8 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.utils.http import urlsafe_base64_encode
 from django.utils.encoding import force_bytes
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
+from orders.models import Order
+from products.models import Comment
 
 
 class RegisterView(generic.CreateView):
@@ -107,18 +112,6 @@ class OtpCodeLoginView(View):
                 return redirect('accounts:otp-code-login')
 
 
-class Logout(LogoutView):
-    def setup(self, request, *args, **kwargs):
-        super().setup(request, *args, **kwargs)
-        self.next_page = request.GET.get('next')
-
-
-class Login(LoginView):
-    def setup(self, request, *args, **kwargs):
-        super().setup(request, *args, **kwargs)
-        self.next_page = request.GET.get('next')
-
-
 class PasswordResetView(View):
     form_class = OtpCodeLoginForm
     token_generator = PasswordResetTokenGenerator
@@ -158,3 +151,39 @@ class PasswordResetConfirm(PasswordResetConfirmView):
     def get_success_url(self):
         messages.success(self.request, 'گذر واژه شما با موفقیت تغییر یافت', 'success')
         return reverse('accounts:login')
+
+
+class Profile(LoginRequiredMixin, generic.UpdateView):
+    template_name = 'registration/profile.html'
+    form_class = ProfileForm
+
+    def setup(self, request, *args, **kwargs):
+        super().setup(request, *args, **kwargs)
+        self.password_change_form = PasswordChangeForm
+
+    def get_success_url(self):
+        messages.success(self.request, 'تغییرات با موفقیت اعمال شد', 'success')
+        return reverse("accounts:profile")
+
+    def get_object(self):
+        return User.objects.get(pk=self.request.user.pk)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['password_change_form'] = self.password_change_form(user=self.request.user)
+        return context
+
+    def get_form_kwargs(self):
+        kwargs = super(Profile, self).get_form_kwargs()
+        kwargs.update({'user': self.request.user})
+        return kwargs
+
+
+class PasswordChange(LoginRequiredMixin, PasswordChangeView):
+    success_url = reverse_lazy('accounts:profile')
+
+
+class CommentDeleteView(LoginRequiredMixin, generic.DeleteView):
+    model = Comment
+    template_name = 'registration/comment_delete.html'
+    success_url = reverse_lazy('accounts:profile')

@@ -69,7 +69,7 @@ form input:focus, form textarea:focus {
   border-bottom-left-radius: 8px !important;
 }
 
-.table-factor, .pre-factor {font-size: 12px !important;}
+.table-factor div , .pre-factor div {font-size: 13px !important;}
 
 .ref-id {color: #bc1f69;}
 
