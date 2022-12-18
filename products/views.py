@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import generic, View
-from .models import Product, Comment
+from .models import Product, Comment, Compare
 from .forms import CommentForm
 from .filters import ProductFilter
 from django.core.paginator import Paginator
@@ -132,3 +132,73 @@ class SearchList(generic.ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
+
+
+def compare_add_view(request, pk):
+    url = request.META.get('HTTP_REFERER')
+    if request.user.is_authenticated:
+        com = Compare.objects.filter(user_id=request.user.id)
+        if len(com) >= 3:
+            messages.error(request, 'حداکثر 3 کالا را میتوانید برای مقایسه انتخاب کنید', 'danger')
+            return redirect(url)
+        qs = Compare.objects.filter(user_id=request.user.id, product_id=pk)
+        if qs.exists():
+            messages.warning(request, 'محصول داخل صفحه مقایسه موجود است', 'warning')
+            return redirect(url)
+        else:
+            Compare.objects.create(user_id=request.user.id, product_id=pk, session_key=None)
+    else:
+        com = Compare.objects.filter(user_id=None, session_key=request.session.session_key)
+        if len(com) >= 3:
+            messages.error(request, 'حداکثر 3 کالا را میتوانید برای مقایسه انتخاب کنید', 'danger')
+        qs = Compare.objects.filter(user_id=None, product_id=pk, session_key=request.session.session_key)
+        if qs.exists():
+            messages.warning(request, 'محصول داخل صفحه مقایسه موجود است', 'warning')
+            return redirect(url)
+        else:
+            if not request.session.session_key:
+                request.session.create()
+            Compare.objects.create(user_id=None, product_id=pk, session_key=request.session.session_key)
+    return redirect('product:compare')
+
+
+def compare_view(request):
+    if request.user.is_authenticated:
+        data = Compare.objects.filter(user_id=request.user.id)
+        max_com = False
+        if len(data) >= 3:
+            max_com = True
+    else:
+        data = Compare.objects.filter(session_key__exact=request.session.session_key, user_id=None)
+        max_com = False
+        if len(data) >= 3:
+            max_com = True
+    return render(request, 'products/compare.html', {'data': data, 'max_com': max_com})
+
+
+def compare_delete_view(request, pk):
+    compare_obj = get_object_or_404(Compare, pk=pk)
+    compare_obj.delete()
+    return redirect('product:compare')
+
+
+def compare_search_view(request):
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        res = None
+        product = request.GET.get('com_product')
+        qs = Product.objects.filter(title__icontains=product)
+        if len(qs) > 0 and len(product) > 0:
+            data = []
+            for pos in qs:
+                item = {
+                    'title': pos.title,
+                    'id': pos.id,
+                    'cover': str(pos.cover.url),
+                }
+                data.append(item)
+            res = data
+        else:
+            res = 'محصول موردنظر یافت نشد ...'
+        return JsonResponse({'data': res})
+    return JsonResponse({})
+

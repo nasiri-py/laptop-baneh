@@ -10,6 +10,7 @@ from .models import (
     IPAddress,
     CPUSeries,
     GPUMaker,
+    Compare,
 )
 
 
@@ -74,10 +75,15 @@ class CommentAdmin(admin.ModelAdmin):
     raw_id_fields = ['reply']
 
 
+class CompareAdmin(admin.ModelAdmin):
+    list_display = ['user', 'product', 'session_key']
+
+
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Comment, CommentAdmin)
 admin.site.register(Image, ImageAdmin)
 admin.site.register(Color, ColorAdmin)
+admin.site.register(Compare, CompareAdmin)
 admin.site.register(Specification)
 admin.site.register(CPUSeries)
 admin.site.register(GPUMaker)

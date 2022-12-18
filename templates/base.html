@@ -48,11 +48,11 @@
             </div>
             <div>
                 <a class="text-light" href="https://www.instagram.com/stoke_laptop_store" target="_blank"><i
-                        class="fab fa-instagram fa-sm fa-fw me-2"></i></a>
+                        class="fab fa-instagram fa-sm fa-fw me-3"></i></a>
                 <a class="text-light" href="https://t.me/stoke_laptop_store" target="_blank"><i
-                        class="fab fa-telegram fa-sm fa-fw me-2"></i></a>
+                        class="fab fa-telegram fa-sm fa-fw me-3"></i></a>
                 <a class="text-light" href="https://www.linkedin.com/" target="_blank"><i
-                        class="fab fa-whatsapp fa-sm fa-fw me-2"></i></a>
+                        class="fab fa-whatsapp fa-sm fa-fw me-3"></i></a>
             </div>
         </div>
     </div>
@@ -344,7 +344,7 @@
         integrity=" sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
 <script src="{% static 'base/js/jquery-1.11.0.min.js' %}"></script>
-<script src="{% static 'base/js/templatemo.js' %}"></script>
+<script type="module" src="{% static 'base/js/templatemo.js' %}"></script>
 
 <script>
     const searchForm = document.getElementById('search-form')
@@ -393,6 +393,100 @@
         }
         sendSearchData(e.target.value)
     })
+</script>
+<script>
+    const one_star = document.getElementById('1star')
+const two_star = document.getElementById('2star')
+const three_star = document.getElementById('3star')
+const four_star = document.getElementById('4star')
+const five_star = document.getElementById('5star')
+
+const handleSelect = (selection) => {
+    switch (selection) {
+        case '1star': {
+            one_star.classList.add('text-warning')
+            two_star.classList.remove('text-warning')
+            three_star.classList.remove('text-warning')
+            four_star.classList.remove('text-warning')
+            five_star.classList.remove('text-warning')
+            return
+        }
+        case '2star': {
+            one_star.classList.add('text-warning')
+            two_star.classList.add('text-warning')
+            three_star.classList.remove('text-warning')
+            four_star.classList.remove('text-warning')
+            five_star.classList.remove('text-warning')
+            return
+        }
+        case '3star': {
+            one_star.classList.add('text-warning')
+            two_star.classList.add('text-warning')
+            three_star.classList.add('text-warning')
+            four_star.classList.remove('text-warning')
+            five_star.classList.remove('text-warning')
+            return
+        }
+        case '4star': {
+            one_star.classList.add('text-warning')
+            two_star.classList.add('text-warning')
+            three_star.classList.add('text-warning')
+            four_star.classList.add('text-warning')
+            five_star.classList.remove('text-warning')
+            return
+        }
+        case '5star': {
+            one_star.classList.add('text-warning')
+            two_star.classList.add('text-warning')
+            three_star.classList.add('text-warning')
+            four_star.classList.add('text-warning')
+            five_star.classList.add('text-warning')
+            return
+        }
+    }
+}
+const arr = [one_star, two_star, three_star, four_star, five_star]
+arr.forEach(item => item.addEventListener('mouseover', (event) => {
+    handleSelect(event.target.id)
+}))
+
+
+window.onload = function () {
+    slideOne();
+    slideTwo();
+}
+
+let sliderOne = document.getElementById("slider-1");
+let sliderTwo = document.getElementById("slider-2");
+let displayValOne = document.getElementById("range1");
+let displayValTwo = document.getElementById("range2");
+let minGap = 0;
+let sliderTrack = document.querySelector(".slider-track");
+let sliderMaxValue = document.getElementById("slider-1").max;
+
+function slideOne() {
+    if (parseInt(sliderTwo.value) - parseInt(sliderOne.value) <= minGap) {
+        sliderOne.value = parseInt(sliderTwo.value) - minGap;
+    }
+    displayValOne.textContent = sliderOne.value;
+    fillColor();
+}
+
+function slideTwo() {
+    if (parseInt(sliderTwo.value) - parseInt(sliderOne.value) <= minGap) {
+        sliderTwo.value = parseInt(sliderOne.value) + minGap;
+    }
+    displayValTwo.textContent = sliderTwo.value;
+    fillColor();
+}
+
+function fillColor() {
+    const percent1 = (sliderOne.value / sliderMaxValue) * 100;
+    const percent2 = (sliderTwo.value / sliderMaxValue) * 100;
+    sliderTrack.style.background = `linear-gradient(to right, #dadae5 ${percent1}% , #bc1f69 ${percent1}% , #bc1f69 ${percent2}%, #dadae5 ${percent2}%)`;
+}
+
+
 </script>
 <!-- End Script -->
 </body>

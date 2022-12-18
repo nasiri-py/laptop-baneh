@@ -10,5 +10,8 @@ urlpatterns = [
     path('<int:product_pk>/<int:comment_pk>/add-reply/', views.CommentReplyView.as_view(), name='add-reply'),
     path('search/', views.search_view, name='search'),
     path('search-list/', views.SearchList.as_view(), name='search-list'),
-
+    path('compare/', views.compare_view, name='compare'),
+    path('compare/add/<int:pk>/', views.compare_add_view, name='compare-add'),
+    path('compare/delete/<int:pk>/', views.compare_delete_view, name='compare-delete'),
+    path('compare/search/', views.compare_search_view, name='compare-search'),
 ]

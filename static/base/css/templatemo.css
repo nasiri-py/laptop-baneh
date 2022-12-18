@@ -259,7 +259,7 @@ form input:focus, form textarea:focus {
 .more-detail {margin: auto;box-shadow: rgba(149, 157, 165, 0.2) 0 8px 24px; background-color: #fff !important; border-radius: 10px !important;}
 .more-detail:hover {box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0; color: #7803e2 !important;}
 .brands {filter: grayscale(100%);}
-.brands:hover {filter: grayscale(0); color: #3aa0cd !important;}
+.brands:hover {filter: grayscale(0); color: #7803e2 !important;}
 .fa-arrow-left, .fa-angle-left {color: #7803e2 !important;}
 .leaflet-control a, .leaflet-control { font-size: 10px !important;}
 .form-control { border: 1px solid #e8e8e8;}
@@ -375,7 +375,7 @@ padding: 0;
 }
 input[type="checkbox"] {accent-color: #bc1f69;}
 .accordion-body {max-height: 200px; overflow: auto;}
-input:focus {
+input[type="text"]:focus, input[type="password"]:focus {
     outline: none !important;
     border: 1px rgba(188, 31, 105, .2) solid !important;
     box-shadow: 0 0 3px #7803e280 !important;
@@ -457,6 +457,10 @@ input:focus {
 
 .message-chi:focus .message-box {
     display: none;
+}
+/*Compare*/
+.compare-specification-value .specification-value {
+    font-size: .7rem !important;
 }
 /*Cart*/
 .cart-summary {background-color: rgba(188, 31, 105, .2); border-radius: 13px 0 0 13px;}

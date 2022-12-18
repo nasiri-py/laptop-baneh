@@ -1,0 +1,335 @@
+{% extends 'base.html' %}
+
+{% load base_tags %}
+
+{% block title %}
+    مقایسه
+{% endblock %}
+
+{% block css_link %}
+    <style>
+        .compare {
+            overflow-x: scroll;
+        }
+
+        .compare-caption .specification-caption {
+            font-size: .8rem !important;
+            font-weight: 400 !important;
+        }
+
+        .compare-caption, .compare-search {
+            width: 16%;
+        }
+
+        .compare-title div {
+            width: 298px;
+        }
+
+        .compare-title span {
+            right: 5%;
+        }
+
+        .compare-items {
+            position: sticky;
+            top: 10px;
+        }
+
+        .compare-list {
+            width: 1116px;
+        }
+
+        .compare-caption .specification-header {
+            font-size: .85rem !important;
+        }
+
+        .compare-title h6 {
+            font-size: .8rem !important;
+        }
+
+        .compare-value {
+            width: 84%;
+        }
+
+        .compare-value div {
+            padding-left: 0;
+        }
+
+        .compare-specification-value {
+            margin-bottom: 40px !important;
+        }
+
+        .compare-specification-value .specification-value {
+            font-size: .8rem !important;
+        }
+        #compare-results-box {
+            max-height: 200px;
+            overflow: auto;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="modal fade" id="compareModal" tabindex="-1" role="dialog"
+         aria-labelledby="compareModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close border-0 bg-white" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="compare-search-form" class="mb-2 modal-content modal-body border-0 p-0"
+                          role="search"
+                          action="{% url 'product:compare-search' %}" method="get">
+                        <input id="compare-search-input" class="form-control rounded-2" type="text" name="search"
+                               placeholder="محصول موردنظر را جستجو کنید">
+                    </form>
+                    <ul class="mt-0 list-group d-none p-0 modal-content modal-body border-0"
+                        id="compare-results-box">
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container compare d-grid">
+        <div class="compare-items d-flex bg-white">
+            <div class="compare-search">
+                <div class="text-center rounded border mx-5 my-3 py-5 {% if max_com %}d-none{% endif %}">
+                    <button type="button" class="border-0 bg-white text-muted" data-toggle="modal"
+                            data-target="#compareModal">
+                        <i class="fa fa-plus"></i>
+                        <h6>افزودن</h6>
+                    </button>
+                </div>
+            </div>
+            <div class="compare-title d-flex me-5 w-100 {% if max_com %}justify-content-between{% endif %}">
+                {% for com in data %}
+                    <div class="text-center position-relative border-end p-1 border {% if not max_com %}mx-1{% endif %} rounded">
+                        <img width="150" class="img-fluid" src="{{ com.product.cover.url }}"
+                             alt="{{ com.product.title|truncatewords:6 }}">
+                        <h6>{{ com.product.title|truncatewords:9 }}</h6>
+                        <a class="btn btn-buy" href="{% url 'product:detail' com.product.slug %}" target="_blank">مشاهده
+                            محصول</a>
+                        <a class="text-dark" href="{% url 'product:compare-delete' com.id %}"><span
+                                class="position-absolute top-0">&times;</span></a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="compare-list d-flex p-1">
+            <div class="compare-caption ms-3">
+                <h5 class="specification-header my-3"><i class="fa fa-window-minimize"
+                                                         aria-hidden="true"></i> مشخصات فیزیکی</h5>
+                <div class="mt-2 me-3">
+                    <p class="specification-caption mb-2 p-2">مدل</p>
+                    <p class="specification-caption mb-2 p-2">ابعاد</p>
+                    <p class="specification-caption mb-2 p-2">وزن</p>
+                </div>
+                <h5 class="specification-header mb-3"><i class="fa fa-window-minimize"
+                                                         aria-hidden="true"></i> صفحه نمایش</h5>
+                <div class="mt-2 me-3">
+                    <p class="specification-caption mb-2 p-2">اندازه صفحه نمایش</p>
+                    <p class="specification-caption mb-2 p-2">نوع صفحه نمایش</p>
+                    <p class="specification-caption mb-2 p-2">رزولوشن</p>
+                    <p class="specification-caption mb-2 p-2">صفحه نمایش مات</p>
+                    <p class="specification-caption mb-2 p-2">صفحه نمایش لمسی</p>
+                </div>
+                <h5 class="specification-header mb-3"><i class="fa fa-window-minimize"
+                                                         aria-hidden="true"></i> پردازنده</h5>
+                <div class="mt-2 me-3">
+                    <p class="specification-caption mb-2 p-2">سازنده</p>
+                    <p class="specification-caption mb-2 p-2">سری پردازنده</p>
+                    <p class="specification-caption mb-2 p-2">مدل</p>
+                </div>
+                <h5 class="specification-header mb-3"><i class="fa fa-window-minimize"
+                                                         aria-hidden="true"></i> پردازنده گرافیکی</h5>
+                <div class="mt-2 me-3">
+                    <p class="specification-caption mb-2 p-2">گرافیک خارجی</p>
+                    <p class="specification-caption mb-2 p-2">سازنده</p>
+                    <p class="specification-caption mb-2 p-2">مدل</p>
+                    <p class="specification-caption mb-2 p-2">حافظه گرافیکی</p>
+                </div>
+                <h5 class="specification-header mb-3"><i class="fa fa-window-minimize"
+                                                         aria-hidden="true"></i> رم</h5>
+                <div class="mt-2 me-3">
+                    <p class="specification-caption mb-2 p-2">حافظه رم</p>
+                    <p class="specification-caption mb-2 p-2">نوع رم</p>
+                </div>
+                <h5 class="specification-header mb-3"><i class="fa fa-window-minimize"
+                                                         aria-hidden="true"></i> هارد دیسک</h5>
+                <div class="mt-2 me-3">
+                    <p class="specification-caption mb-2 p-2">هارد HDD</p>
+                    <p class="specification-caption mb-2 p-2">ظرفیت هارد HDD</p>
+                    <p class="specification-caption mb-2 p-2">هارد SSD</p>
+                    <p class="specification-caption mb-2 p-2">ظرفیت هارد SSD</p>
+                </div>
+                <h5 class="specification-header mb-3"><i class="fa fa-window-minimize"
+                                                         aria-hidden="true"></i> پورت ها، اتصالات و امکانات</h5>
+                <div class="mt-2 me-3">
+                    <p class="specification-caption mb-2 p-2">درایو نوری</p>
+                    <p class="specification-caption mb-2 p-2">وبکم</p>
+                    <p class="specification-caption mb-2 p-2">مشخصات تاچ پد</p>
+                    <p class="specification-caption mb-2 p-2">نور پس زمینه کیبورد</p>
+                    <p class="specification-caption mb-2 p-2">حسگر اثر انگشت</p>
+                    <p class="specification-caption mb-2 p-2">کارت خوان</p>
+                    <p class="specification-caption mb-2 p-2">اتصال Wi-Fi</p>
+                    <p class="specification-caption mb-2 p-2">اتصال Bluetooth</p>
+                    <p class="specification-caption mb-2 p-2">پورت شبکه</p>
+                    <p class="specification-caption mb-2 p-2">درگاه VGA</p>
+                    <p class="specification-caption mb-2 p-2">درگاه HDMI</p>
+                    <p class="specification-caption mb-2 p-2">درگاه USB 2.0</p>
+                    <p class="specification-caption mb-2 p-2">درگاه USB 3.0</p>
+                    <p class="specification-caption mb-2 p-2">درگاه تایپ C</p>
+                    <p class="specification-caption mb-2 p-2">thunderbolt</p>
+                    <p class="specification-caption mb-2 p-2">جک 3.5 میلیمتری</p>
+                </div>
+                <h5 class="specification-header mb-3"><i class="fa fa-window-minimize"
+                                                         aria-hidden="true"></i> سایر ویژگی ها</h5>
+                <div class="mt-2 me-3">
+                    <p class="specification-caption mb-2 p-2">سیستم عامل</p>
+                    <p class="specification-caption mb-2 p-2">اقلام همراه</p>
+                    <p class="specification-caption mb-2 p-2">مشخصات باتری</p>
+                </div>
+            </div>
+            <div class="compare-value row">
+                {% for com in data %}
+                    <div class="col-4 mt-5 text-center">
+                        <div class="compare-specification-value">
+                            <p class="specification-value mb-2 p-2">{{ com.product.specs.name }}</p>
+                            <p class="specification-value mb-2 p-2">{{ com.product.specs.size }}</p>
+                            <p class="specification-value mb-2 p-2">{{ com.product.specs.weight }} کیلوگرم</p>
+                        </div>
+                        <div class="compare-specification-value">
+                            <p class="specification-value mb-2 p-2">{{ com.product.specs.screen_size }} اینچ</p>
+                            <p class="specification-value mb-2 p-2">{{ com.product.specs.screen_type }}</p>
+                            <p class="specification-value mb-2 p-2">{{ com.product.specs.screen_resolution }}</p>
+                            <p class="specification-value mb-2 p-2">{% boolean_icon com.product.specs.screen_matte %}</p>
+                            <p class="specification-value mb-2 p-2">{% boolean_icon com.product.specs.screen_touch %}</p>
+                        </div>
+                        <div class="compare-specification-value">
+                            <p class="specification-value mb-2 p-2">{{ com.product.specs.cpu_maker }}</p>
+                            <p class="specification-value mb-2 p-2">{{ com.product.specs.cpu_series }}</p>
+                            <p class="specification-value mb-2 p-2">{{ com.product.specs.cpu_model }}</p>
+                        </div>
+                        <div class="compare-specification-value">
+                            <p class="specification-value mb-2 p-2">{% boolean_icon com.product.specs.has_gpu %}</p>
+                            <p class="specification-value mb-2 p-2">{{ com.product.specs.gpu_maker }}</p>
+                            <p class="specification-value mb-2 p-2">{{ com.product.specs.gpu_model }}</p>
+                            {% if com.product.specs.gpu_memory %}
+                                <p class="specification-value mb-2 p-2">{{ com.product.specs.gpu_memory }} گیگابایت</p>
+                            {% else %}
+                                <p class="specification-value mb-2 p-2">&boxh;</p>
+                            {% endif %}
+                        </div>
+                        <div class="compare-specification-value">
+                            <p class="specification-value mb-2 p-2">{{ com.product.specs.ram_capacity }} گیگابایت</p>
+                            <p class="specification-value mb-2 p-2">{{ com.product.specs.ram_type }}</p>
+                        </div>
+                        <div class="compare-specification-value">
+                            <p class="specification-value mb-2 p-2">{% boolean_icon com.product.specs.has_hdd %}</p>
+                            {% if com.product.specs.has_hdd %}
+                                <p class="specification-value mb-2 p-2">{{ com.product.specs.hdd_capacity }}</p>
+                            {% else %}
+                                <p class="specification-value mb-2 p-2">&boxh;</p>
+                            {% endif %}
+                            <p class="specification-value mb-2 p-2">{% boolean_icon com.product.specs.has_ssd %}</p>
+                            {% if com.product.specs.ssd_capacity %}
+                                <p class="specification-value mb-2 p-2">{{ com.product.specs.ssd_capacity }}</p>
+                            {% else %}
+                                <p class="specification-value mb-2 p-2">&boxh;</p>
+                            {% endif %}
+                        </div>
+                        <div class="compare-specification-value">
+                            <p class="specification-value mb-2 p-2">{% boolean_icon com.product.specs.optical_drive %}</p>
+                            <p class="specification-value mb-2 p-2">{{ com.product.specs.webcam }}</p>
+                            <p class="specification-value mb-2 p-2">{{ com.product.specs.touchpad_specs }}</p>
+                            <p class="specification-value mb-2 p-2">{{ com.product.specs.keyboard_backlight }}</p>
+                            <p class="specification-value mb-2 p-2">{% boolean_icon com.product.specs.fingerprint %}</p>
+                            <p class="specification-value mb-2 p-2">{% boolean_icon com.product.specs.sd_card %}</p>
+                            <p class="specification-value mb-2 p-2">{% boolean_icon com.product.specs.wifi %}</p>
+                            <p class="specification-value mb-2 p-2">{{ com.product.specs.bluetooth }}</p>
+                            <p class="specification-value mb-2 p-2">{% boolean_icon com.product.specs.ethernet %}</p>
+                            <p class="specification-value mb-2 p-2">{% boolean_icon com.product.specs.vga %}</p>
+                            <p class="specification-value mb-2 p-2">{% boolean_icon com.product.specs.hdmi %}</p>
+                            {% if com.product.specs.usb2_num %}
+                                <p class="specification-value mb-2 p-2">{{ com.product.specs.usb2_num }} درگاه</p>
+                            {% else %}
+                                <p class="specification-value mb-2 p-2">&boxh;</p>
+                            {% endif %}
+                            {% if com.product.specs.usb3_num %}
+                                <p class="specification-value mb-2 p-2">{{ com.product.specs.usb3_num }} درگاه</p>
+                            {% else %}
+                                <p class="specification-value mb-2 p-2">&boxh;</p>
+                            {% endif %}
+                            {% if com.product.specs.type_c %}
+                                <p class="specification-value mb-2 p-2">{{ com.product.specs.type_c }} درگاه</p>
+                            {% else %}
+                                <p class="specification-value mb-2 p-2">&boxh;</p>
+                            {% endif %}
+                            <p class="specification-value mb-2 p-2">{% boolean_icon com.product.specs.thunderbolt %}</p>
+                            <p class="specification-value mb-2 p-2">{% boolean_icon com.product.specs.jack_3 %}</p>
+                        </div>
+                        <div class="compare-specification-value">
+                            <p class="specification-value mb-2 p-2">{{ com.product.specs.os }}</p>
+                            <p class="specification-value mb-2 p-2">{{ com.product.specs.include_items }}</p>
+                            <p class="specification-value mb-2 p-2">{{ com.product.specs.battery }}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"
+            integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"
+            integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ"
+            crossorigin="anonymous"></script>
+    <script>
+    const comSearchInput = document.getElementById('compare-search-input')
+    const comResultsBox = document.getElementById('compare-results-box')
+    const sendCompareSearchData = (product) => {
+        $.ajax({
+            type: 'GET',
+            url: "{% url 'product:compare-search' %}",
+            data: {
+                'com_product': product,
+            },
+            success: (res) => {
+                const data = res.data
+                if (Array.isArray(data)) {
+                    comResultsBox.innerHTML = ""
+                    data.forEach(product => {
+                        comResultsBox.innerHTML += `<li class="list-group-item border-0">
+                    <a class="row text-dark text-decoration-none" href="add/${product.id}">
+                        <img class="col-2" src="${product.cover}" alt="${product.title}">
+                        <h6 class="col-10 my-auto">${product.title}</h6>
+                    </a>
+                </li>
+                <hr class="mt-0"/>`
+                    })
+                } else {
+                    if (comSearchInput.value.length > 0) {
+                        comResultsBox.innerHTML = `<h6 class="text-center my-auto py-5">${data}</h6>`
+                    } else {
+                        comResultsBox.classList.add('d-none')
+                    }
+                }
+            },
+            error: (err) => {
+                console.log(err)
+            }
+        })
+    }
+    comSearchInput.addEventListener('keyup', e => {
+        if (comResultsBox.classList.contains('d-none')) {
+            comResultsBox.classList.remove('d-none')
+        }
+        sendCompareSearchData(e.target.value)
+    })
+</script>
+{% endblock %}
