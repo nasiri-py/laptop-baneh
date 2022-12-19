@@ -10,7 +10,7 @@ class AddToCartForm(forms.Form):
         super().__init__(*args, **kwargs)
         self.fields['color'] = ModelChoiceField(queryset=Color.objects.filter(product_id=product_id),
                                                 widget=forms.RadioSelect)
-    quantity = forms.IntegerField(min_value=1, max_value=2)
+    quantity = forms.IntegerField(min_value=1)
 
 
 class OrderAddressForm(forms.ModelForm):

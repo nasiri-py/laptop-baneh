@@ -34,6 +34,8 @@ class Cart:
                 'quantity': 0,
             }
         self.cart[color_id]['quantity'] += quantity
+        if self.cart[color_id]['quantity'] >= color.number:
+            self.cart[color_id]['quantity'] = color.number
         self.save()
 
     def increase(self, color):

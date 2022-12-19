@@ -40,6 +40,7 @@ make_unavailable.short_description = "ناموجود شدن لپ تاپ های �
 
 class ColorInline(admin.StackedInline):
     model = Color
+    extra = 1
 
 
 class SpecificationInline(admin.StackedInline):

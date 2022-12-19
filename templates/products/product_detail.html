@@ -3,10 +3,23 @@
 {% load base_tags %}
 {% load ratings %}
 {% load humanize %}
+{% load static %}
 
 {% block title %}
     Stoke Laptop Store
 {% endblock %}
+
+{% block css_link %}
+    <style>
+        .tooltip>.tooltip-inner {
+          background-color: #979797;
+        }
+
+        .tooltip>.tooltip-arrow::before {
+          border-top-color: #979797 !important;
+        }
+    </style>
+ {% endblock %}
 
 {% block content %}
     <!-- Open Content -->
@@ -14,9 +27,9 @@
         <div class="container pb-5">
             <div class="row">
                 <div class="col-lg-5 mt-5" style="height: 100% !important;">
-                    <div class="card mb-3">
+                    <div class="card mb-3 imgBox">
                         <img class="card-img img-fluid product-cover" src="{{ product.cover.url }}"
-                             alt="{{ product.title }}" id="product-detail">
+                             alt="{{ product.title }}" id="product-detail" data-origin="{{ product.cover.url }}">
                     </div>
                     <!--Start Carousel Wrapper-->
                     <div class="carousel-inner product-links-wap position-relative" role="listbox">
@@ -104,12 +117,25 @@
                                                         <input type="hidden" name="product-size" id="product-size"
                                                                value="S">
                                                     </li>
-                                                    {% for color in colors %}
+                                                    <label for="id_color_{{ colors.first.id }}"
+                                                           class="btn btn-color color-select"
+                                                           style="background-color: {{ colors.first.color }};"
+                                                           data-bs-toggle="tooltip" data-bs-placement="top"
+                                                           data-bs-title="{{ colors.first.title }}">
+                                                        <input class="d-none"
+                                                               type="radio" name="color"
+                                                               value="{{ colors.first.id }}" required=""
+                                                               id="id_color_{{ colors.first.id }}"
+                                                               checked="checked" size="{{ colors.first.number }}"></label>
+                                                    {% for color in colors|slice:'1:' %}
                                                         <label for="id_color_{{ color.id }}" class="btn btn-color"
-                                                               style="background-color: {{ color.color }};">
-                                                            <input class="d-none" type="radio" name="color"
+                                                               style="background-color: {{ color.color }};"
+                                                                data-bs-toggle="tooltip" data-bs-placement="top"
+                                                                data-bs-title="{{ color.title }}">
+                                                            <input class="d-none"
+                                                                   type="radio" name="color"
                                                                    value="{{ color.id }}" required=""
-                                                                   id="id_color_{{ color.id }}"></label>
+                                                                   id="id_color_{{ color.id }}" size="{{ color.number }}"></label>
                                                     {% endfor %}
                                                 </ul>
                                             </div>
@@ -123,7 +149,7 @@
                                                     <li class="list-inline-item m-0">
                                                         <input class="btn bg-secondary text-light no-arrow"
                                                                type="number" name="quantity" id="product-quantity"
-                                                               min="1" value="1" max="2">
+                                                               min="1" value="1" max="{{ colors.first.number }}">
                                                     </li>
                                                     <li class="btn btn-buy px-1 py-0 m-1"
                                                         onclick="this.parentNode.querySelector('input[name=quantity]').stepUp()">
@@ -671,7 +697,8 @@
                     <div class="tab-pane fade" id="review" role="tabpanel" aria-labelledby="review-tab">
                         <div class="container my-5">
                             {% if user.is_authenticated %}
-                                <form class="comment-form" action="{% url 'product:add-comment' product.id %}"
+                                <form class="comment-form text-start"
+                                      action="{% url 'product:add-comment' product.id %}"
                                       method="post">
                                     {% csrf_token %}
                                     <textarea class="w-100 rounded" name="body" cols="100" rows="6" required=""
@@ -704,14 +731,14 @@
                                         <div class="accordion-item pt-3">
                                             <div class="accordion-header"
                                                  id="flush-headingCommentReply{{ comment.id }}">
-                                                <div class="d-flex justify-content-between align-items-baseline collapsed"
-                                                     type="button"
-                                                     data-bs-toggle="collapse"
-                                                     data-bs-target="#flush-collapseCommentReply{{ comment.id }}"
-                                                     aria-expanded="false"
-                                                     aria-controls="flush-collapseCommentReply{{ comment.id }}">
-                                                    <button class="btn btn-reply">ارسال پاسخ</button>
-                                                </div>
+                                                <button class="btn btn-reply collapsed"
+                                                        type="button"
+                                                        data-bs-toggle="collapse"
+                                                        data-bs-target="#flush-collapseCommentReply{{ comment.id }}"
+                                                        aria-expanded="false"
+                                                        aria-controls="flush-collapseCommentReply{{ comment.id }}">
+                                                    ارسال پاسخ
+                                                </button>
                                             </div>
                                             <div id="flush-collapseCommentReply{{ comment.id }}"
                                                  class="accordion-collapse collapse"
@@ -719,7 +746,7 @@
                                                  data-bs-parent="#accordionFlushExample">
                                                 <div class="accordion-body mt-3">
                                                     {% if user.is_authenticated %}
-                                                        <form class="comment-form"
+                                                        <form class="comment-form text-start"
                                                               action="{% url 'product:add-reply' product.id comment.id %}"
                                                               method="post">
                                                             {% csrf_token %}
@@ -819,5 +846,242 @@
             <i class="fas fa-chevron-left left-slide2 position-absolute top-50 start-0 h3 chevron-slider"></i>
         </div>
     </section>
+    <script>
+
+        const sortIcon = document.getElementsByClassName('btn-color')
+        for (var i = 0; i < sortIcon.length; i++) {
+            sortIcon[i].addEventListener("mouseup", function () {
+                var current = document.getElementsByClassName("color-select");
+                current[0].className = current[0].className.replace(" color-select", "");
+                this.className += " color-select";
+            });
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity=" sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+    <script src="{% static 'base/js/jquery-1.11.0.min.js' %}"></script>
+    <script type="module" src="{% static 'base/js/templatemo.js' %}"></script>
+
+    <script>
+        const searchForm = document.getElementById('search-form')
+        const searchInput = document.getElementById('search-input')
+        const searchButton = document.getElementById('search-button')
+        const resultsBox = document.getElementById('results-box')
+        const sendSearchData = (product) => {
+            $.ajax({
+                type: 'GET',
+                url: "{% url 'product:search' %}",
+                data: {
+                    'product': product,
+                },
+                success: (res) => {
+                    const data = res.data
+                    if (Array.isArray(data)) {
+                        resultsBox.innerHTML = ""
+                        searchButton.classList.remove('d-none')
+                        data.forEach(product => {
+                            resultsBox.innerHTML += `<li class="list-group-item border-0">
+                    <a class="row text-dark text-decoration-none" href="{% url 'product:list' %}${product.slug}/%5CZ">
+                        <img class="col-2" src="${product.cover}" alt="${product.title}">
+                        <h6 class="col-8 my-auto">${product.title}</h6>
+                    </a>
+                </li>
+                <hr class="mt-0"/>`
+                        })
+                    } else {
+                        if (searchInput.value.length > 0) {
+                            resultsBox.innerHTML = `<h6 class="text-center my-auto py-5">${data}</h6>`
+                        } else {
+                            searchButton.classList.add('d-none')
+                            resultsBox.classList.add('d-none')
+                        }
+                    }
+                },
+                error: (err) => {
+                    console.log(err)
+                }
+            })
+        }
+        searchInput.addEventListener('keyup', e => {
+            console.log(e.target.value)
+            if (resultsBox.classList.contains('d-none')) {
+                resultsBox.classList.remove('d-none')
+            }
+            sendSearchData(e.target.value)
+        })
+    </script>
+    <script>
+        const one_star = document.getElementById('1star')
+        const two_star = document.getElementById('2star')
+        const three_star = document.getElementById('3star')
+        const four_star = document.getElementById('4star')
+        const five_star = document.getElementById('5star')
+
+        const handleSelect = (selection) => {
+            switch (selection) {
+                case '1star': {
+                    one_star.classList.add('text-warning')
+                    two_star.classList.remove('text-warning')
+                    three_star.classList.remove('text-warning')
+                    four_star.classList.remove('text-warning')
+                    five_star.classList.remove('text-warning')
+                    return
+                }
+                case '2star': {
+                    one_star.classList.add('text-warning')
+                    two_star.classList.add('text-warning')
+                    three_star.classList.remove('text-warning')
+                    four_star.classList.remove('text-warning')
+                    five_star.classList.remove('text-warning')
+                    return
+                }
+                case '3star': {
+                    one_star.classList.add('text-warning')
+                    two_star.classList.add('text-warning')
+                    three_star.classList.add('text-warning')
+                    four_star.classList.remove('text-warning')
+                    five_star.classList.remove('text-warning')
+                    return
+                }
+                case '4star': {
+                    one_star.classList.add('text-warning')
+                    two_star.classList.add('text-warning')
+                    three_star.classList.add('text-warning')
+                    four_star.classList.add('text-warning')
+                    five_star.classList.remove('text-warning')
+                    return
+                }
+                case '5star': {
+                    one_star.classList.add('text-warning')
+                    two_star.classList.add('text-warning')
+                    three_star.classList.add('text-warning')
+                    four_star.classList.add('text-warning')
+                    five_star.classList.add('text-warning')
+                    return
+                }
+            }
+        }
+        const arr = [one_star, two_star, three_star, four_star, five_star]
+        arr.forEach(item => item.addEventListener('mouseover', (event) => {
+            handleSelect(event.target.id)
+        }))
+
+
+        window.onload = function () {
+            slideOne();
+            slideTwo();
+        }
+
+        let sliderOne = document.getElementById("slider-1");
+        let sliderTwo = document.getElementById("slider-2");
+        let displayValOne = document.getElementById("range1");
+        let displayValTwo = document.getElementById("range2");
+        let minGap = 0;
+        let sliderTrack = document.querySelector(".slider-track");
+        let sliderMaxValue = document.getElementById("slider-1").max;
+
+        function slideOne() {
+            if (parseInt(sliderTwo.value) - parseInt(sliderOne.value) <= minGap) {
+                sliderOne.value = parseInt(sliderTwo.value) - minGap;
+            }
+            displayValOne.textContent = sliderOne.value;
+            fillColor();
+        }
+
+        function slideTwo() {
+            if (parseInt(sliderTwo.value) - parseInt(sliderOne.value) <= minGap) {
+                sliderTwo.value = parseInt(sliderOne.value) + minGap;
+            }
+            displayValTwo.textContent = sliderTwo.value;
+            fillColor();
+        }
+
+        function fillColor() {
+            const percent1 = (sliderOne.value / sliderMaxValue) * 100;
+            const percent2 = (sliderTwo.value / sliderMaxValue) * 100;
+            sliderTrack.style.background = `linear-gradient(to right, #dadae5 ${percent1}% , #bc1f69 ${percent1}% , #bc1f69 ${percent2}%, #dadae5 ${percent2}%)`;
+        }
+
+
+    </script>
+    <script>
+        $(function () {
+            $('[data-bs-toggle="tooltip"]').tooltip();
+        });
+    </script>
+    </script>
+    <script>
+    'use strict';
+$(document).ready(function() {
+
+    // Accordion
+    var all_panels = $('.templatemo-accordion > li > ul').hide();
+
+    $('.templatemo-accordion > li > a').click(function() {
+        console.log('Hello world!');
+        var target =  $(this).next();
+        if(!target.hasClass('active')){
+            all_panels.removeClass('active').slideUp();
+            target.addClass('active').slideDown();
+        }
+      return false;
+    });
+    // End accordion
+
+    // Product detail
+    $('.product-links-wap a').click(function(){
+      var this_src = $(this).children('img').attr('src');
+      $('#product-detail').attr('src',this_src);
+      $('#product-detail').attr('data-origin',this_src);
+      return false;
+    });
+
+    $('.btn-color input').click(function(){
+      var this_num = $(this).attr('size');
+      $('#product-quantity').attr('max',this_num);
+      return false;
+    });
+
+    $('#btn-minus').click(function(){
+      var val = $("#var-value").html();
+      val = (val=='1')?val:val-1;
+      $("#var-value").html(val);
+      $("#product-quanity").val(val);
+      return false;
+    });
+    $('#btn-plus').click(function(){
+      var val = $("#var-value").html();
+      val++;
+      $("#var-value").html(val);
+      $("#product-quanity").val(val);
+      return false;
+    });
+    $('.btn-size').click(function(){
+      var this_val = $(this).html();
+      $("#product-size").val(this_val);
+      $(".btn-size").removeClass('btn-secondary');
+      $(".btn-size").addClass('btn-success');
+      $(this).removeClass('btn-success');
+      $(this).addClass('btn-secondary');
+      return false;
+    });
+    // End roduct detail
+
+});
+</script>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script type="text/javascript" src="{% static 'products/js/zoom-image.js' %}"></script>
+<script type="text/javascript">
+        $('.imgBox').imgZoom({
+            boxWidth: 360,
+            boxHeight: 360,
+            marginLeft: 5,
+            origin: 'data-origin'
+        });
+    </script>
     <!-- End Article -->
 {% endblock %}

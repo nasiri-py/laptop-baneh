@@ -221,9 +221,13 @@ class Specification(models.Model):
 
 
 class Compare(models.Model):
-    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, blank=True, null=True)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    session_key = models.CharField(max_length=300, blank=True, null=True)
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, blank=True, null=True, verbose_name='کاربر')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='محصول')
+    session_key = models.CharField(max_length=300, blank=True, null=True, verbose_name='سشن')
+
+    class Meta:
+        verbose_name = 'مقایسه'
+        verbose_name_plural = 'مقایسه ها'
 
     def __str__(self):
         return self.product.title
