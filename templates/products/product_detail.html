@@ -11,15 +11,15 @@
 
 {% block css_link %}
     <style>
-        .tooltip>.tooltip-inner {
-          background-color: #979797;
+        .tooltip > .tooltip-inner {
+            background-color: #979797;
         }
 
-        .tooltip>.tooltip-arrow::before {
-          border-top-color: #979797 !important;
+        .tooltip > .tooltip-arrow::before {
+            border-top-color: #979797 !important;
         }
     </style>
- {% endblock %}
+{% endblock %}
 
 {% block content %}
     <!-- Open Content -->
@@ -126,16 +126,18 @@
                                                                type="radio" name="color"
                                                                value="{{ colors.first.id }}" required=""
                                                                id="id_color_{{ colors.first.id }}"
-                                                               checked="checked" size="{{ colors.first.number }}"></label>
+                                                               checked="checked"
+                                                               size="{{ colors.first.number }}"></label>
                                                     {% for color in colors|slice:'1:' %}
                                                         <label for="id_color_{{ color.id }}" class="btn btn-color"
                                                                style="background-color: {{ color.color }};"
-                                                                data-bs-toggle="tooltip" data-bs-placement="top"
-                                                                data-bs-title="{{ color.title }}">
+                                                               data-bs-toggle="tooltip" data-bs-placement="top"
+                                                               data-bs-title="{{ color.title }}">
                                                             <input class="d-none"
                                                                    type="radio" name="color"
                                                                    value="{{ color.id }}" required=""
-                                                                   id="id_color_{{ color.id }}" size="{{ color.number }}"></label>
+                                                                   id="id_color_{{ color.id }}"
+                                                                   size="{{ color.number }}"></label>
                                                     {% endfor %}
                                                 </ul>
                                             </div>
@@ -717,16 +719,20 @@
                             {% for comment in product.comments.all %}
                                 {% if not comment.is_reply %}
                                     <div class="mt-4 p-4 comment">
-                                        <ul class="list-unstyled p-0 w-25">
-                                            {% if user.is_staff %}
-                                                <li><h5 class="comment-user mb-1"
-                                                        style="color: #7803e2;">{{ comment.user.fist_name }}</h5></li>
+                                        <div class="row p-0">
+                                            {% if comment.user.is_staff %}
+                                                <div class="col-6"><h6 class="comment-user mb-1"
+                                                                       style="color: #7803e2;">{{ comment.user.first_name }}</h6>
+                                                </div>
                                             {% else %}
-                                                <li><h5 class="comment-user m-0">{{ comment.user.username }}</h5></li>
+                                                <div class="col-6">
+                                                    <h6 class="comment-user m-0">{{ comment.user.username }}</h6>
+                                                </div>
                                             {% endif %}
-                                            <li><p class="comment-time text-muted">{{ comment.created|naturaltime }}</p>
-                                            </li>
-                                        </ul>
+                                            <div class="col-6 text-start">
+                                                <p class="comment-time">{{ comment.created|naturaltime }}</p>
+                                            </div>
+                                        </div>
                                         <p class="comment-body">{{ comment.body }}</p>
                                         <div class="accordion-item pt-3">
                                             <div class="accordion-header"
@@ -766,21 +772,21 @@
                                             </div>
                                         </div>
                                         {% for cm in comment.comments.all %}
-                                            <div class="comment-reply mx-4 mt-3 p-4">
-                                                <ul class="list-unstyled p-0 w-25">
-                                                    {% if user.is_staff %}
-                                                        <li><h5 class="comment-user mb-1"
-                                                                style="color: #7803e2;">{{ comment.user.first_name }}</h5>
-                                                        </li>
+                                            <div class="comment-reply mt-3 p-4">
+                                                <div class="row p-0">
+                                                    {% if cm.user.is_staff %}
+                                                        <div class="col-6"><h6 class="comment-user mb-1"
+                                                                               style="color: #7803e2;">{{ cm.user.first_name }}</h6>
+                                                        </div>
                                                     {% else %}
-                                                        <li>
-                                                            <h6 class="comment-user m-0">{{ comment.user.username }}</h6>
-                                                        </li>
+                                                        <div class="col-6">
+                                                            <h6 class="comment-user m-0">{{ cm.user.username }}</h6>
+                                                        </div>
                                                     {% endif %}
-                                                    <li>
-                                                        <p class="comment-time text-muted">{{ cm.created|naturaltime }}</p>
-                                                    </li>
-                                                </ul>
+                                                    <div class="col-6 text-start">
+                                                        <p class="comment-time">{{ cm.created|naturaltime }}</p>
+                                                    </div>
+                                                </div>
                                                 <p class="comment-body">{{ cm.body }}</p>
                                             </div>
                                         {% endfor %}
@@ -1015,67 +1021,73 @@
     </script>
     </script>
     <script>
-    'use strict';
-$(document).ready(function() {
+        'use strict';
+        $(document).ready(function () {
 
-    // Accordion
-    var all_panels = $('.templatemo-accordion > li > ul').hide();
+            // Accordion
+            var all_panels = $('.templatemo-accordion > li > ul').hide();
 
-    $('.templatemo-accordion > li > a').click(function() {
-        console.log('Hello world!');
-        var target =  $(this).next();
-        if(!target.hasClass('active')){
-            all_panels.removeClass('active').slideUp();
-            target.addClass('active').slideDown();
-        }
-      return false;
-    });
-    // End accordion
+            $('.templatemo-accordion > li > a').click(function () {
+                console.log('Hello world!');
+                var target = $(this).next();
+                if (!target.hasClass('active')) {
+                    all_panels.removeClass('active').slideUp();
+                    target.addClass('active').slideDown();
+                }
+                return false;
+            });
+            // End accordion
 
-    // Product detail
-    $('.product-links-wap a').click(function(){
-      var this_src = $(this).children('img').attr('src');
-      $('#product-detail').attr('src',this_src);
-      $('#product-detail').attr('data-origin',this_src);
-      return false;
-    });
+            // Product detail
+            $('.product-links-wap a').click(function () {
+                var this_src = $(this).children('img').attr('src');
+                $('#product-detail').attr('src', this_src);
+                $('#product-detail').attr('data-origin', this_src);
+                return false;
+            });
 
-    $('.btn-color input').click(function(){
-      var this_num = $(this).attr('size');
-      $('#product-quantity').attr('max',this_num);
-      return false;
-    });
+            $('.btn-color input').click(function () {
+                var this_num = $(this).attr('size');
+                $('#product-quantity').attr('max', this_num);
+                return false;
+            });
 
-    $('#btn-minus').click(function(){
-      var val = $("#var-value").html();
-      val = (val=='1')?val:val-1;
-      $("#var-value").html(val);
-      $("#product-quanity").val(val);
-      return false;
-    });
-    $('#btn-plus').click(function(){
-      var val = $("#var-value").html();
-      val++;
-      $("#var-value").html(val);
-      $("#product-quanity").val(val);
-      return false;
-    });
-    $('.btn-size').click(function(){
-      var this_val = $(this).html();
-      $("#product-size").val(this_val);
-      $(".btn-size").removeClass('btn-secondary');
-      $(".btn-size").addClass('btn-success');
-      $(this).removeClass('btn-success');
-      $(this).addClass('btn-secondary');
-      return false;
-    });
-    // End roduct detail
+            $('#btn-minus').click(function () {
+                var val = $("#var-value").html();
+                val = (val == '1') ? val : val - 1;
+                $("#var-value").html(val);
+                $("#product-quanity").val(val);
+                return false;
+            });
+            $('#btn-plus').click(function () {
+                var val = $("#var-value").html();
+                val++;
+                $("#var-value").html(val);
+                $("#product-quanity").val(val);
+                return false;
+            });
+            $('.btn-size').click(function () {
+                var this_val = $(this).html();
+                $("#product-size").val(this_val);
+                $(".btn-size").removeClass('btn-secondary');
+                $(".btn-size").addClass('btn-success');
+                $(this).removeClass('btn-success');
+                $(this).addClass('btn-secondary');
+                return false;
+            });
+            // End roduct detail
 
-});
-</script>
+        });
+    </script>
     <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
     <script type="text/javascript" src="{% static 'products/js/zoom-image.js' %}"></script>
-<script type="text/javascript">
+    <script type="text/javascript">
+    const imageZoom = document.getElementsByClassName('imgBox')
+    const mediaQuery = window.matchMedia('(max-width: 992px)')
+    if (mediaQuery.matches) {
+      imageZoom.classList.remove('imgBox')
+    }
+
         $('.imgBox').imgZoom({
             boxWidth: 360,
             boxHeight: 360,

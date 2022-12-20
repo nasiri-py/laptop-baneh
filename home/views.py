@@ -1,9 +1,12 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views import View
 from datetime import datetime, timedelta
 from django.db.models import Count, Q, Max
 from products.models import Product, Brand
 from django.contrib.contenttypes.models import ContentType
+from django.core.mail import EmailMessage
+from .forms import ContactForm
+from django.contrib import messages
 
 
 class HomeView(View):
@@ -24,3 +27,28 @@ class HomeView(View):
         return render(request, 'home/home.html',
                       {'product_discount': product_discount, 'product_newest': product_newest,
                        'product_popular': product_popular, 'brand_hot': brand_hot})
+
+
+def contact_view(request):
+    if request.method == 'GET':
+        form = ContactForm()
+        return render(request, 'home/contact.html', {'form': form})
+    elif request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            cd = form.cleaned_data
+            name = cd['name']
+            email = cd['email']
+            subject = cd['subject']
+            msg = cd['message']
+            body = 'نام کاربر: ' + name + '\n' + 'ایمیل کاربر: ' + email + '\n' + 'موضوع: ' + subject + '\n' + '\n\n'\
+                   + msg
+            form = EmailMessage(
+                'فرم ارتباط با ما',
+                body,
+                '',
+                ('email@email.com',),
+            )
+            form.send(fail_silently=True)
+            messages.success(request, 'پیام شما با موفقیت به پشتیبانی سایت ارسال شد', 'success')
+    return redirect('home:contact')

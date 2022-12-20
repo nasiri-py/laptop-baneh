@@ -42,8 +42,7 @@
             <div>
                 <a class="navbar-sm-brand text-light text-decoration-none mx-1"
                    href="tel:0918-518-8287">0918-518-8287</a> |
-                <a class="navbar-sm-brand text-light text-decoration-none mx-1"
-                   href="tel:0918-874-0812">0918-874-0812</a>
+                <a class="navbar-sm-brand text-light text-decoration-none mx-1" href="tel:0918-874-0812">0918-874-0812</a>
                 <i class="fa fa-phone mx-2"></i>
             </div>
             <div>
@@ -87,7 +86,7 @@
                         <a class="nav-link" href="about.html">درباره ما</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="shop.html">ارتباط باما</a>
+                        <a class="nav-link" href="{% url 'home:contact' %}">ارتباط با ما</a>
                     </li>
                 </ul>
             </div>
@@ -270,30 +269,25 @@
             <div class="col-md-3 col-sm-6 col-12 pt-5">
                 <h3 class="h3 text-light pb-3 border-light">دسترسی سریع</h3>
                 <ul class="list-unstyled text-light footer-link-list px-3">
-                    <li><a class="text-decoration-none" href="#">لپ‌تاپ آکبند</a></li>
-                    <li><a class="text-decoration-none" href="#">لپ‌تاپ اپن‌باکس</a></li>
-                    <li><a class="text-decoration-none" href="#">لپ‌تاپ استوک</a></li>
-                    <li><a class="text-decoration-none" href="#">لپ‌تاپ گیمینگ</a></li>
-                    <li><a class="text-decoration-none" href="#">لپ‌تاپ طراحی</a></li>
-                    <li><a class="text-decoration-none" href="#">لپ‌تاپ مهندسی</a></li>
-                    <li><a class="text-decoration-none" href="#">لپ‌تاپ دانشجویی</a></li>
+                    <li><a  class="text-decoration-none" href="{% url 'product:list' %}">فروشگاه</a></li>
+                    <li><a  class="text-decoration-none" href="{% url 'product:list' %}?grade=n">لپ تاپ آکبند</a></li>
+                    <li><a  class="text-decoration-none" href="{% url 'product:list' %}?grade=o">لپ تاپ اپن باکس</a></li>
+                    <li><a  class="text-decoration-none" href="{% url 'product:list' %}?grade=s">لپ تاپ استوک</a></li>
                 </ul>
             </div>
             <div class="col-md-3 col-sm-6 col-12 pt-5">
                 <h3 class="h3 text-light pb-3 border-light">لینک های مفید</h3>
                 <ul class="list-unstyled text-light footer-link-list px-3">
-                    <li><a class="text-decoration-none" href="#">صفحه اصلی</a></li>
+                    <li><a class="text-decoration-none" href="{% url 'home:home' %}">صفحه اصلی</a></li>
                     <li><a class="text-decoration-none" href="#">درباره ما</a></li>
-                    <li><a class="text-decoration-none" href="#">تماس با ما</a></li>
-                    <li><a class="text-decoration-none" href="#">قوانین و مقررات</a></li>
+                    <li><a class="text-decoration-none" href="{% url 'home:contact' %}">ارتباط با ما</a></li>
                     <li><a class="text-decoration-none" href="#">سوالات متداول</a></li>
                 </ul>
             </div>
             <div class="col-md-3 col-sm-6 col-12 pt-5">
                 <h3 class="h3 text-light pb-3 border-light">نشان اعتماد</h3>
                 <ul class="list-unstyled text-light footer-link-list px-3">
-                    <li><a class="text-decoration-none" href="#"><img src="./logo.aspx" alt=""></a></li>
-                    <li><a class="text-decoration-none" href="#"><img src="./logo2.aspx" alt=""></a></li>
+                    <li><a class="text-decoration-none" href="#"><img src="" alt=""></a></li>
                 </ul>
             </div>
         </div>

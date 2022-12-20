@@ -68,6 +68,9 @@ body, ul, li, p, a, label, input, div {
 .bg-light { background-color: #e9eef5 !important;}
 .bg-black { background-color: #1d242d !important;}
 .bg-success { background-color: #59ab6e !important;}
+.btn-group-lg>.btn, .btn-lg {
+    font-size: 1rem !important;
+}
 .btn-success {
   background-color: #59ab6e !important;
   border-color: #59ab6e !important;
@@ -118,7 +121,7 @@ body, ul, li, p, a, label, input, div {
 .text-link {color: #7803e2 !important;}
 /* Nav */
 .top-header {background-color: #7803e2;}
-.header {position: sticky; top: 10px; z-index: 10; background-color: #fff;}
+.header {position: sticky; top: 10px; z-index: 1100; background-color: #fff;}
 .header .nav-icon i {color: #7803e2 !important;}
 #templatemo_nav_top {min-height: 40px;}
 #templatemo_nav_top * {font-size: 1rem !important;}
@@ -371,7 +374,7 @@ padding: 0;
 }
 input[type="checkbox"] {accent-color: #bc1f69;}
 .accordion-body {max-height: 200px; overflow: auto;}
-input[type="text"]:focus, input[type="password"]:focus, form textarea:focus {
+input[type~="text"]:focus, input[type="password"]:focus, input[type="email"]:focus, form textarea:focus {
     outline: none !important;
     border: 1px rgba(188, 31, 105, .2) solid !important;
     box-shadow: 0 0 3px #7803e280 !important;
@@ -492,6 +495,8 @@ input[type="text"]:focus, input[type="password"]:focus, form textarea:focus {
   .pagination {justify-content: center !important;}
 }
 @media (max-width: 576px) {
+  .header {position: static;}
+  .product-info-tabs>ul {padding: 0 !important;}
   .swiper-slide {width: 50% !important;}
   .dynamic-tab .nav-tabs {justify-content: center;}
   .dynamic-tab .nav-item .nav-link {width: 90px;}
