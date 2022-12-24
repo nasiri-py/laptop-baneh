@@ -28,3 +28,5 @@ urlpatterns = [
     path('ratings/', include('star_ratings.urls', namespace='ratings')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
+handler404 = "home.views.custom_page_not_found_view"
+handler500 = "home.views.custom_server_error_view"

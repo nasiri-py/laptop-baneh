@@ -64,3 +64,12 @@ def faq_view(request):
 
 def term_view(request):
     return render(request, 'home/term.html')
+
+
+def custom_page_not_found_view(request, exception):
+    return render(request, "home/404.html", status=404)
+
+
+def custom_server_error_view(request, exception=None):
+    return render(request, "home/500.html", status=500)
+
