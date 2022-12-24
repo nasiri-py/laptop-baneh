@@ -52,3 +52,15 @@ def contact_view(request):
             form.send(fail_silently=True)
             messages.success(request, 'پیام شما با موفقیت به پشتیبانی سایت ارسال شد', 'success')
     return redirect('home:contact')
+
+
+def about_view(request):
+    return render(request, 'home/about.html')
+
+
+def faq_view(request):
+    return render(request, 'home/faq.html')
+
+
+def term_view(request):
+    return render(request, 'home/term.html')

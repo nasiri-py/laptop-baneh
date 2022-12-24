@@ -83,7 +83,7 @@
                         <a class="nav-link" href="{% url 'product:list' %}">فروشگاه</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="about.html">درباره ما</a>
+                        <a class="nav-link" href="{% url 'home:about' %}">درباره ما</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'home:contact' %}">ارتباط با ما</a>
@@ -248,7 +248,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-3 col-sm-6 col-12 pt-5">
-                <h3 class="h3 pb-3 border-light rounded-0 logo">استوک لپ‌تاپ استور</h3>
+                <a href="{% url 'home:home' %}" class="text-decoration-none"><h3 class="h3 pb-2 border-light rounded-0 text-link">استوک لپ‌تاپ استور</h3></a>
                 <ul class="list-unstyled text-light footer-link-list px-2">
                     <li>
                         <i class="fas fa-map-marker-alt fa-fw"></i>
@@ -267,7 +267,7 @@
                 </ul>
             </div>
             <div class="col-md-3 col-sm-6 col-12 pt-5">
-                <h3 class="h3 text-light pb-3 border-light">دسترسی سریع</h3>
+                <h3 class="h3 text-light pb-2 border-light">دسترسی سریع</h3>
                 <ul class="list-unstyled text-light footer-link-list px-3">
                     <li><a  class="text-decoration-none" href="{% url 'product:list' %}">فروشگاه</a></li>
                     <li><a  class="text-decoration-none" href="{% url 'product:list' %}?grade=n">لپ تاپ آکبند</a></li>
@@ -276,16 +276,16 @@
                 </ul>
             </div>
             <div class="col-md-3 col-sm-6 col-12 pt-5">
-                <h3 class="h3 text-light pb-3 border-light">لینک های مفید</h3>
+                <h3 class="h3 text-light pb-2 border-light">لینک های مفید</h3>
                 <ul class="list-unstyled text-light footer-link-list px-3">
-                    <li><a class="text-decoration-none" href="{% url 'home:home' %}">صفحه اصلی</a></li>
-                    <li><a class="text-decoration-none" href="#">درباره ما</a></li>
+                    <li><a class="text-decoration-none" href="{% url 'home:about' %}">درباره ما</a></li>
                     <li><a class="text-decoration-none" href="{% url 'home:contact' %}">ارتباط با ما</a></li>
-                    <li><a class="text-decoration-none" href="#">سوالات متداول</a></li>
+                    <li><a class="text-decoration-none" href="{% url 'home:term' %}">قوانین و مقررات</a></li>
+                    <li><a class="text-decoration-none" href="{% url 'home:faq' %}">سوالات متداول</a></li>
                 </ul>
             </div>
             <div class="col-md-3 col-sm-6 col-12 pt-5">
-                <h3 class="h3 text-light pb-3 border-light">نشان اعتماد</h3>
+                <h3 class="h3 text-light pb-2 border-light">نشان اعتماد</h3>
                 <ul class="list-unstyled text-light footer-link-list px-3">
                     <li><a class="text-decoration-none" href="#"><img src="" alt=""></a></li>
                 </ul>

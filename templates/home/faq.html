@@ -1,0 +1,222 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}
+    سوالات متداول
+{% endblock %}
+
+{% block content %}
+    <section class="py-5">
+        <div class="container">
+            <div class="py-5">
+                <h2 class="text-center">سوالات متداول</h2>
+                <div class="m-5">
+                    <div class="accordion accordion-flush" id="accordionFlushExample">
+                        <div class="accordion-item rounded border mb-2">
+                            <div class="accordion-header p-2" id="flush-heading1">
+                                <div class="d-flex justify-content-between align-items-baseline collapsed" type="button"
+                                     data-bs-toggle="collapse" data-bs-target="#flush-collapse1" aria-expanded="false"
+                                     aria-controls="flush-collapse1">
+                                    <h6>
+                                        من چطور می تونم به شما برای خرید آنلاین اعتماد کنم؟
+                                    </h6>
+                                    <i class="fa fa-angle-down" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                            <div id="flush-collapse1" class="accordion-collapse collapse bg-light"
+                                 aria-labelledby="flush-heading1"
+                                 data-bs-parent="#accordionFlushExample">
+                                <div class="accordion-body">
+                                    با توجه به مجوز ها همچون نماد اعتماد الکترونیک و کسب و کارهای مجازی که مجموعه استوک
+                                    لپ تاپ استور دارد پایین سایت میتونید مشاهده کنید.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item rounded border mb-2">
+                            <div class="accordion-header p-2" id="flush-heading2">
+                                <div class="d-flex justify-content-between align-items-baseline collapsed" type="button"
+                                     data-bs-toggle="collapse" data-bs-target="#flush-collapse2" aria-expanded="false"
+                                     aria-controls="flush-collapse2">
+                                    <h6>
+                                        آیا شما ضمانت بازگشت کالا دارید و این شرایط به چه شکل هست؟
+                                    </h6>
+                                    <i class="fa fa-angle-down" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                            <div id="flush-collapse2" class="accordion-collapse collapse bg-light"
+                                 aria-labelledby="flush-heading2"
+                                 data-bs-parent="#accordionFlushExample">
+                                <div class="accordion-body bg-light rounded">
+                                    <p>بله؛ 10 روز می باشد که شامل موارد زیر است :</p>
+                                    <ul class="list-unstyled">
+                                        <li>
+                                            _ مشکل سخت افزاری
+                                        </li>
+                                        <li>
+                                            _ عدم تطبیق مشخصات کالای ارسال شده
+                                        </li>
+                                    </ul>
+                                    <p><span class="text-danger">*</span> این 10 روز به صورت کاری محاسبه نمی گردد</p>
+                                    <p><span class="text-danger">*</span>
+                                        ایرادات
+                                        فیزیکی مانند شکستگی، ضربه، خط و خش و… شامل ضمانت بازگشت کالا نمی باشد</p>
+                                    <p><span class="text-danger">*</span> لطفا در هنگام جعبه گشایی از سفارش خود فیلم
+                                        تهیه نمایید تا اگر سفارش در حین نقل و
+                                        انتقال آسیب دیده بود از طریق فیلم قابل اثبات باشد (در غیر این صورت امکان مرجوعی
+                                        کالا
+                                        با
+                                        مشکل فیزیکی و ظاهری وجود ندارد).
+                                    </p>
+                                    <p>برای مطالعه بیشتر میتونید به لینک زیر مراجعه کنید.</p>
+                                    <a href="{% url 'home:term' %}" class="text-decoration-none text-link">قوانین و مقررات</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item rounded border mb-2">
+                            <div class="accordion-header p-2" id="flush-heading3">
+                                <div class="d-flex justify-content-between align-items-baseline collapsed" type="button"
+                                     data-bs-toggle="collapse" data-bs-target="#flush-collapse3" aria-expanded="false"
+                                     aria-controls="flush-collapse3">
+                                    <h6>
+                                        کالای من کی ارسال میشه؟ کی به دستم میرسه؟
+                                    </h6>
+                                    <i class="fa fa-angle-down" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                            <div id="flush-collapse3" class="accordion-collapse collapse bg-light"
+                                 aria-labelledby="flush-heading3"
+                                 data-bs-parent="#accordionFlushExample">
+                                <div class="accordion-body bg-light rounded">
+                                    تمامی کالاها روز بعداز ثبت سفارش ارسال میشوند؛ 1 تا 5 روز کاری زمان میبرد تا کالا به
+                                    دستتان برسد.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item rounded border mb-2">
+                            <div class="accordion-header p-2" id="flush-heading4">
+                                <div class="d-flex justify-content-between align-items-baseline collapsed" type="button"
+                                     data-bs-toggle="collapse" data-bs-target="#flush-collapse4" aria-expanded="false"
+                                     aria-controls="flush-collapse4">
+                                    <h6>
+                                        شما خرید حضوری هم دارید؟
+                                    </h6>
+                                    <i class="fa fa-angle-down" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                            <div id="flush-collapse4" class="accordion-collapse collapse bg-light"
+                                 aria-labelledby="flush-heading4"
+                                 data-bs-parent="#accordionFlushExample">
+                                <div class="accordion-body bg-light rounded">
+                                    بله، شما هم میتونید به فروشگاه حضوری ما که آدرس آنها در قسمت <a
+                                        href="{% url 'home:contact' %}" class="text-decoration-none text-link">ارتباط با ما</a>
+                                    درج شده مراجعه کنید و هم میتونید هنگام ثبت سفارش در قسمت توضیحات درج کنید و یا پس از
+                                    ثبت سفارش با کارشناسان فروش آنلاین ما تماس حاصل کرده و هماهنگی های لازم جهت تحویل
+                                    حضوری انجام شود.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item rounded border mb-2">
+                            <div class="accordion-header p-2" id="flush-heading5">
+                                <div class="d-flex justify-content-between align-items-baseline collapsed" type="button"
+                                     data-bs-toggle="collapse" data-bs-target="#flush-collapse5" aria-expanded="false"
+                                     aria-controls="flush-collapse5">
+                                    <h6>
+                                        آیا برای سفارش خود فاکتور دریافت میکنم؟
+                                    </h6>
+                                    <i class="fa fa-angle-down" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                            <div id="flush-collapse5" class="accordion-collapse collapse bg-light"
+                                 aria-labelledby="flush-heading5"
+                                 data-bs-parent="#accordionFlushExample">
+                                <div class="accordion-body bg-light rounded">
+                                    بله تمامی سفارش ها شامل فاکتور می شوند شما میتوانید پس از ثبت سفارش در پنل کاربری
+                                    خود از قسمت لیست سفارشات فاکتور خود را مشاهده. در ضمن در صورت نیاز به فاکتور دارای
+                                    مهر و امضا، فاکتور همراه سفارش شما ارسال خواهد شد.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item rounded border mb-2">
+                            <div class="accordion-header p-2" id="flush-heading6">
+                                <div class="d-flex justify-content-between align-items-baseline collapsed" type="button"
+                                     data-bs-toggle="collapse" data-bs-target="#flush-collapse6" aria-expanded="false"
+                                     aria-controls="flush-collapse6">
+                                    <h6>
+                                        آیا می‌توانم اطلاعات شخص دیگری را به عنوان تحویل‌گیرنده ثبت کنم؟
+                                    </h6>
+                                    <i class="fa fa-angle-down" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                            <div id="flush-collapse6" class="accordion-collapse collapse bg-light"
+                                 aria-labelledby="flush-heading6"
+                                 data-bs-parent="#accordionFlushExample">
+                                <div class="accordion-body bg-light rounded">
+                                    بله شما می توانید در قسمت ثبت سفارش، اطلاعات آدرس شخص تحویل گیرنده شامل آدرس، نام و
+                                    نام خانوادگی را وارد نمایید.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item rounded border mb-2">
+                            <div class="accordion-header p-2" id="flush-heading7">
+                                <div class="d-flex justify-content-between align-items-baseline collapsed" type="button"
+                                     data-bs-toggle="collapse" data-bs-target="#flush-collapse7" aria-expanded="false"
+                                     aria-controls="flush-collapse7">
+                                    <h6>
+                                         چطور می‌توانم آدرس سفارشم را  پس از ثبت‌ سفارش تغییر دهم؟
+                                    </h6>
+                                    <i class="fa fa-angle-down" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                            <div id="flush-collapse7" class="accordion-collapse collapse bg-light"
+                                 aria-labelledby="flush-heading7"
+                                 data-bs-parent="#accordionFlushExample">
+                                <div class="accordion-body bg-light rounded">
+                                    شما می‌توانید با پشتیبانی استوک لپ تاپ استور تماس بگیرید و درخواست ویرایش اطلاعات سفارش را بدهید.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item rounded border mb-2">
+                            <div class="accordion-header p-2" id="flush-heading8">
+                                <div class="d-flex justify-content-between align-items-baseline collapsed" type="button"
+                                     data-bs-toggle="collapse" data-bs-target="#flush-collapse8" aria-expanded="false"
+                                     aria-controls="flush-collapse8">
+                                    <h6>
+                                        ارسال کالا و هزینش به چه صورته؟
+                                    </h6>
+                                    <i class="fa fa-angle-down" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                            <div id="flush-collapse8" class="accordion-collapse collapse bg-light"
+                                 aria-labelledby="flush-heading8"
+                                 data-bs-parent="#accordionFlushExample">
+                                <div class="accordion-body bg-light rounded">
+                                    ارسال سفارشات توسط پست، تیپاکس، چاپار و باربری (متناسب با شهر مقصد و مبلغ سفارش) با انتخاب مشتری صورت می پذیرد و نسبت به کالا و نوع باربری هزینه ارسال متفاوت میباشد.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item rounded border mb-2">
+                            <div class="accordion-header p-2" id="flush-heading9">
+                                <div class="d-flex justify-content-between align-items-baseline collapsed" type="button"
+                                     data-bs-toggle="collapse" data-bs-target="#flush-collapse9" aria-expanded="false"
+                                     aria-controls="flush-collapse9">
+                                    <h6>
+                                        آیا در بسته بندی و ارسال شما تمامی موارد ایمنی رعایت می شود؟
+                                    </h6>
+                                    <i class="fa fa-angle-down" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                            <div id="flush-collapse9" class="accordion-collapse collapse bg-light"
+                                 aria-labelledby="flush-heading9"
+                                 data-bs-parent="#accordionFlushExample">
+                                <div class="accordion-body bg-light rounded">
+                                    بله، با توجه به ارزشمند بودن همه ی کالاها، تمامی آنها با رعایت موارد ایمنی از جمله استفاده از ضربه گیر ارسال میگردد. در ضمن کالاهای ارسالی توسط شرکت های پستی(ارسالی) تحت پوشش بیمه ارسال هستند.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
