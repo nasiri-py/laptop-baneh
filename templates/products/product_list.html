@@ -12,11 +12,11 @@
     <div class="container py-5">
         <div class="row">
             {% include 'products/includes/filter.html' %}
-            <div class="col-lg-9">
+            <div class="col-lg-9 col-md-8">
                 {% include 'products/includes/sort.html' %}
                 <div class="row">
                     {% for product in page_obj %}
-                        <div class="mb-4 col-12 col-sm-6 col-md-4 product-list">
+                        <div class="mb-4 col-12 col-sm-6 col-lg-4 product-list">
                             <a href="{{ product.get_absolute_url }}" class="text-dark text-decoration-none">
                                 <div class="product-wap product-card card h-100 border-0 shadow">
                                     <div class="product-card card">

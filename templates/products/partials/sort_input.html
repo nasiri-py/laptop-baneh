@@ -1,0 +1,5 @@
+<label class="text-muted mb-4 me-3 pb-1 sort-icon
+    {% if sort_q in request.GET.urlencode %}text-sorted{% endif %}"
+    for="sort_{{ sort_val }}">{{ content }}<input class="d-none" type="submit" name="sort" value="{{ sort_val }}"
+     id="sort_{{ sort_val }}">
+</label>

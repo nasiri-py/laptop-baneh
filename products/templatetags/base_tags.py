@@ -23,3 +23,13 @@ def navbar_list():
         'cpu_series': cpu_series,
         'gpu_makers': gpu_makers,
     }
+
+
+@register.inclusion_tag("products/partials/sort_input.html")
+def sort_input(request, sort_val, content):
+    return {
+        "request": request,
+        "sort_val": sort_val,
+        "sort_q": f'sort={sort_val}',
+        "content": content,
+    }

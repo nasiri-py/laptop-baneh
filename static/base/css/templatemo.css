@@ -119,9 +119,10 @@ body, ul, li, p, a, label, input, div {
     margin: 0;
 }
 .text-link {color: #7803e2 !important;}
+#mapid {z-index: 999}
 /* Nav */
 .top-header {background-color: #7803e2;}
-.header {position: sticky; top: 10px; z-index: 1100; background-color: #fff;}
+.header {position: sticky; top: 10px; z-index: 1000; background-color: #fff;}
 .header .nav-icon i {color: #7803e2 !important;}
 #templatemo_nav_top {min-height: 40px;}
 #templatemo_nav_top * {font-size: 1rem !important;}
@@ -416,8 +417,10 @@ input[type~="text"]:focus, input[type="password"]:focus, input[type="email"]:foc
 .dynamic-tab .nav-item .nav-link {font-weight: 500 !important; padding: .8rem; border: 0; width: 150px;}
 .dynamic-tab .nav-item .active {color: #bc1f69 !important; font-weight: 600 !important; padding: .8rem; border: 1px solid; border-bottom: 0}
 /* Sort */
+.sort-list label {cursor: pointer;}
+.sort-list label, .sort-list b {font-size: 14px !important}
 .sort-list .sort-icon {background: unset; border: none;}
-.sort-list .text-sorted {color: #bc1f69 !important; font-weight: 400 !important;}
+.sort-list .text-sorted {color: #bc1f69 !important; font-weight: 500 !important;}
 /* Footer */
 #tempaltemo_footer {background-color: #2e2134 !important;}
 #tempaltemo_footer a { color: #dcdde1;}
@@ -485,12 +488,11 @@ input[type~="text"]:focus, input[type="password"]:focus, input[type="email"]:foc
   #offcanvasMenu {padding: 1rem;}
   .shop-dropdown-menu form {max-height: 400px; overflow-y: auto; overflow-x: clip;}
   .swiper-slide {width: 20% !important;}
-  .sort-list {margin: 1rem 1rem 0 0 !important;}
-  .sort-list ul {width: 75% !important;}
   .cart-summary {border-radius: 0 0 13px 13px;}
   .cart-summary div {position: static; margin-top: 0 !important; padding-top: 0 !important;}
 }
 @media (max-width: 768px) {
+  #sortOffcanvasBottom {height: 300px !important;}
   .swiper-slide {width: 30% !important;}
   .pagination {justify-content: center !important;}
 }
@@ -501,9 +503,6 @@ input[type~="text"]:focus, input[type="password"]:focus, input[type="email"]:foc
   .dynamic-tab .nav-tabs {justify-content: center;}
   .dynamic-tab .nav-item .nav-link {width: 90px;}
   .detail-forms {flex-direction: column; align-items: flex-start !important;}
-  .sort-list ul {width: 75% !important;}
-  .sort-list p {margin-top: 0.4rem;}
-  .sort-list a, .sort-list p {font-size: 10px !important;}
   .basket-dropdown .basket-dropdown-menu {width: 300px; right: -231px;}
   .basket-dropdown a, .basket-dropdown span, .basket-dropdown p, .basket-dropdown h6 {font-size: 12px !important;}
 }

@@ -1,34 +1,35 @@
-<div class="d-flex me-3 sort-list">
-    <p><i class="fa fa-sort-amount-down"></i> مرتب سازی: </p>
-    <form class="list-unstyled d-flex justify-content-around w-50 p-0 me-4">
-        <input class="text-muted mb-4 mx-1 sort-icon text-sorted" type="submit" name="create" value="جدید ترین">
-        <input class="text-muted mb-4 mx-1 sort-icon" type="submit" name="favourite" value="محبوب ترین">
-        <input class="text-muted mb-4 mx-1 sort-icon" type="submit" name="price" value="گران ترین">
-        <input class="text-muted mb-4 mx-1 sort-icon" type="submit" name="price" value="ارزان ترین">
-        <input class="text-muted mb-4 mx-1 sort-icon" type="submit" name="sell" value="پرفروش ترین">
+{% load base_tags %}
+
+<div class="d-md-none d-flex me-3 mb-3">
+<b type="button" data-bs-toggle="offcanvas" data-bs-target="#filterOffcanvasRight"
+        aria-controls="filterOffcanvasRight"><i class="fa fa-filter"></i> فیلتر</b>
+<b class="me-5" type="button" data-bs-toggle="offcanvas" data-bs-target="#sortOffcanvasBottom" aria-controls="sortOffcanvasBottom"><i class="fa fa-sort-amount-down"></i> مرتب سازی </b>
+</div>
+
+<div class="offcanvas-md offcanvas-bottom rounded-top d-flex sort-list text-nowrap" tabindex="-1" id="sortOffcanvasBottom" aria-labelledby="sortOffcanvasBottomLabel">
+  <div class="offcanvas-header d-md-none d-flex">
+    <h5 class="offcanvas-title" id="sortOffcanvasBottomLabel"><b>مرتب سازی براساس:</b></h5>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+    <b class="d-md-block d-none"><i class="fa fa-sort-amount-down"></i> مرتب سازی: </b>
+    <form class="flex-column flex-md-row d-flex">
+        {% sort_input request 4 'جدید ترین' %}
+        {% sort_input request 8 'پرفروش ترین' %}
+        {% sort_input request 6 'محبوب ترین' %}
+        {% sort_input request 1 'گران ترین' %}
+        {% sort_input request 2 'ارزان ترین' %}
         <div class="d-none">
-            {{ filter.form.price_gt }}
-            {{ filter.form.price_lt }}
-            {{ filter.form.brand }}
-            {{ filter.form.grade }}
+            {{ filter.form.pg }}
+            {{ filter.form.pl }}
+            {{ filter.form.b }}
+            {{ filter.form.g }}
             {{ filter.form.category }}
-            {{ filter.form.screen_size }}
-            {{ filter.form.cpu_series }}
-            {{ filter.form.gpu_maker }}
-            {{ filter.form.gpu_memory }}
-            {{ filter.form.ram_capacity }}
-            {{ filter.form.ssd_capacity }}
+            {{ filter.form.sz }}
+            {{ filter.form.cs }}
+            {{ filter.form.gm }}
+            {{ filter.form.gme }}
+            {{ filter.form.rc }}
+            {{ filter.form.sc }}
         </div>
     </form>
 </div>
-
-<script>
-    const sortIcon = document.getElementsByClassName('sort-icon')
-    for (var i = 0; i < sortIcon.length; i++) {
-        sortIcon[i].addEventListener("mouseup", function() {
-        var current = document.getElementsByClassName("text-sorted");
-        current[0].className = current[0].className.replace(" text-sorted", "");
-        this.className += " text-sorted";
-        });
-    }
-</script>
