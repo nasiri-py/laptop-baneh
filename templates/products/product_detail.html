@@ -100,7 +100,7 @@
                                         <h6>گرید :</h6>
                                     </li>
                                     <li class="list-inline-item">
-                                        <h5 class="text-success mb-2">{{ product.grade_choice }}</h5>
+                                        <h5 class="text-muted mb-2">{{ product.grade_choice }}</h5>
                                     </li>
                                 </ul>
                                 <div class="detail-forms d-flex justify-content-between align-items-end">
@@ -126,7 +126,7 @@
                                                                type="radio" name="color"
                                                                value="{{ colors.first.id }}" required=""
                                                                id="id_color_{{ colors.first.id }}"
-                                                               checked="checked"
+                                                               checked
                                                                size="{{ colors.first.number }}"></label>
                                                     {% for color in colors|slice:'1:' %}
                                                         <label for="id_color_{{ color.id }}" class="btn btn-color"
@@ -225,7 +225,7 @@
                     <li class="nav-item">
                         <a class="text-center text-dark h4 nav-link" id="review-tab" data-toggle="tab" href="#review"
                            role="tab"
-                           aria-controls="review" aria-selected="false">نظرات ({{ product.comments.count }})</a>
+                           aria-controls="review" aria-selected="false">دیدگاه {% if product.comments.count != 0 %}({{ product.comments.count }}){% endif %}</a>
                     </li>
                 </ul>
                 <div class="tab-content rounded" id="myTabContent">
@@ -709,8 +709,9 @@
                                 </form>
                             {% else %}
                                 <div class="alert alert-info text-center" role="alert">
-                                    برای ارسال نظر لازم است وارد <a href="{% url 'accounts:login' %}?next={{ request.path }}"
-                                                                    class="text-decoration-none text-link">حساب کاربری</a> خود
+                                    برای ارسال نظر لازم است وارد <a
+                                        href="{% url 'accounts:login' %}?next={{ request.path }}"
+                                        class="text-decoration-none text-link">حساب کاربری</a> خود
                                     شوید
                                 </div>
                             {% endif %}
@@ -822,7 +823,7 @@
                                             <li class="mb-1 product-title">{{ product.title|truncatewords:6 }}</li>
                                             <li>
                                                 {% if product.available %}
-                                                    <ul class="list-unstyled d-flex flex-column justify-content-between p-0">
+                                                    <ul class="list-unstyled d-flex flex-column justify-content-between p-0 mt-3">
                                                         {% if product.discount %}
                                                             <li class="text-start discount"><span
                                                                     class="mx-1 px-1 discount-percent">{{ product.discount_percent }}%</span> {{ product.discount|intcomma }}
@@ -832,7 +833,7 @@
                                                                 {{ product.price|intcomma }}
                                                             </li>
                                                         {% else %}
-                                                            <li class="text-start discount my-2">{{ product.price|intcomma }}
+                                                            <li class="text-start discount">{{ product.price|intcomma }}
                                                                 تومان
                                                             </li>
                                                         {% endif %}
@@ -854,10 +855,10 @@
     </section>
     <script>
 
-        const sortIcon = document.getElementsByClassName('btn-color')
-        for (var i = 0; i < sortIcon.length; i++) {
-            sortIcon[i].addEventListener("mouseup", function () {
-                var current = document.getElementsByClassName("color-select");
+        const colorBtn = document.getElementsByClassName('btn-color')
+        for (let i = 0; i < colorBtn.length; i++) {
+            colorBtn[i].addEventListener("mouseup", function () {
+                const current = document.getElementsByClassName("color-select");
                 current[0].className = current[0].className.replace(" color-select", "");
                 this.className += " color-select";
             });
@@ -1074,7 +1075,6 @@
             var all_panels = $('.templatemo-accordion > li > ul').hide();
 
             $('.templatemo-accordion > li > a').click(function () {
-                console.log('Hello world!');
                 var target = $(this).next();
                 if (!target.hasClass('active')) {
                     all_panels.removeClass('active').slideUp();
@@ -1086,16 +1086,15 @@
 
             // Product detail
             $('.product-links-wap a').click(function () {
-                var this_src = $(this).children('img').attr('src');
+                const this_src = $(this).children('img').attr('src');
                 $('#product-detail').attr('src', this_src);
                 $('#product-detail').attr('data-origin', this_src);
                 return false;
             });
 
             $('.btn-color input').click(function () {
-                var this_num = $(this).attr('size');
+                const this_num = $(this).attr('size');
                 $('#product-quantity').attr('max', this_num);
-                return false;
             });
 
             $('#btn-minus').click(function () {
@@ -1128,11 +1127,11 @@
     <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
     <script type="text/javascript" src="{% static 'products/js/zoom-image.js' %}"></script>
     <script type="text/javascript">
-    const imageZoom = document.getElementsByClassName('imgBox')
-    const mediaQuery = window.matchMedia('(max-width: 992px)')
-    if (mediaQuery.matches) {
-      imageZoom.classList.remove('imgBox')
-    }
+        const imageZoom = document.getElementsByClassName('imgBox')
+        const mediaQuery = window.matchMedia('(max-width: 992px)')
+        if (mediaQuery.matches) {
+            imageZoom.classList.remove('imgBox')
+        }
 
         $('.imgBox').imgZoom({
             boxWidth: 360,

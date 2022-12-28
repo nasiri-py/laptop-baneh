@@ -24,7 +24,8 @@ body {
 	padding: 15px 20px;
 	border-bottom: 1px solid #ddd;
 	border-right: 4px solid #ddd;
-	border-radius: 0 3px 5px 0;
+	border-radius: 0;
+	color: #333;
 }
 
 .nav-pills a.nav-link:hover {
@@ -51,12 +52,13 @@ body {
 }
 
 .order-tab, .comment-tab {
-	max-height: 380px;
+	max-height: 346px;
 	overflow-y: auto;
+
 }
 
 .order-area, .comment-area {
-	max-width: 749px;
+	max-width: 95%;
 }
 
 .order-area div {

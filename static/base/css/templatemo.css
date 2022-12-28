@@ -149,6 +149,7 @@ body, ul, li, p, a, label, input, div {
     background-color: #f0f0f1;
 }
 /* Dropdown */
+#offcanvasMenu {width: 300px}
 .dropdown .dropdown-menu {border-radius: 5px; box-shadow: rgba(0, 0, 0, 0.15) 0 15px 25px, rgba(0, 0, 0, 0.05) 0 5px 10px;}
 .dropdown .show {color: #bc1f69 !important;}
 .dropdown .dropdown-item-header {font-size: 14px !important; font-weight: 700 !important; color: #1d242d;}
@@ -156,7 +157,7 @@ body, ul, li, p, a, label, input, div {
 .dropdown .dropdown-item-link a {color: #5f6061 !important; font-size: 12px !important; font-weight: 500 !important; text-decoration: none;}
 .dropdown .dropdown-item-link a:hover {color: #bc1f69 !important;}
 .profile-dropdown, .basket-dropdown {cursor: pointer;}
-.basket-dropdown .basket-dropdown-menu {width: 400px; right: -380px; top: 16px;}
+.basket-dropdown .basket-dropdown-menu {width: 400px; right: -357px; top: 16px;}
 .profile-dropdown .profile-dropdown-menu {right: -75px; top: 16px;}
 .shop-dropdown:hover>.shop-dropdown-menu {
   display: block;
@@ -254,6 +255,7 @@ body, ul, li, p, a, label, input, div {
 .discount-section {background-color: #bc1f69 !important; margin: auto; border-radius: 10px;}
 .discount-section .swiper-wrapper .card-img {height: 140px !important; object-fit: contain !important;}
 .swiper-products-section .swiper-wrapper .card-img {height: 165px !important; object-fit: contain !important;}
+.swiper-products-section .swiper-slide {min-height: 278.5px;}
 .discount-section h3 {color: #fff !important; font-weight: bolder;line-height: 2;}
 .product-card {transform: scale(.95); transition: all .3s ease-out; font-size: .5rem !important;}
 .product-card:hover {transform: scale(1);}
@@ -287,7 +289,7 @@ padding: 0;
   display: flex;
   -webkit-box-pack: center;
   -ms-flex-pack: center;
-  -webkit-justify-content: center; 
+  -webkit-justify-content: center;
   justify-content: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
@@ -449,25 +451,12 @@ input[type~="text"]:focus, input[type="password"]:focus, input[type="email"]:foc
 .pagination .pag-item span {color: #1d242d;}
 /*Messages*/
 .message-box {
-    top: 40px;
+    top: 32px;
     right: 25%;
     z-index: 1200;
 }
 .message-box .p {
     background-color: #000;
-}
-
-.message-chi {
-    position: absolute;
-    right: 13%;
-    top: 5%;
-    color: #767676;
-    cursor: pointer;
-    font-weight: 500 !important;
-}
-
-.message-chi:focus .message-box {
-    display: none;
 }
 /*Compare*/
 .compare-specification-value .specification-value {
@@ -493,26 +482,40 @@ input[type~="text"]:focus, input[type="password"]:focus, input[type="email"]:foc
 
 /* Swiper media */
 @media (max-width: 992px) {
+  .dropdown .dropdown-item-header {margin-bottom: .3rem; margin-top: 1rem;}
+  .shop-dropdown-menu {padding-top: 0 !important;}
   #offcanvasMenu {padding: 1rem;}
   .shop-dropdown-menu form {max-height: 400px; overflow-y: auto; overflow-x: clip;}
   .swiper-slide {width: 20% !important;}
   .cart-summary {border-radius: 0 0 13px 13px;}
-  .cart-summary div {position: static; margin-top: 0 !important; padding-top: 0 !important;}
+  .cart-summary div {position: static; padding-top: 0 !important;}
 }
 @media (max-width: 768px) {
   #sortOffcanvasBottom {height: 300px !important;}
   .swiper-slide {width: 30% !important;}
   .pagination {justify-content: center !important;}
+  .basket-dropdown .basket-dropdown-menu {width: 300px; right: -162px;}
+  .basket-dropdown-menu a, .basket-dropdown-menu span, .basket-dropdown-menu p, .basket-dropdown-menu h6 {font-size: 12px !important;}
+  .basket-dropdown .cart-span {
+    font-size: 10px !important;
+    height: 1.3em;
+    width: 1.5em;
+    padding: 2px;
+    left: 21px;
+  }
 }
 @media (max-width: 576px) {
+   body, ul, li, p, a, label, input, div {font-size: 13px !important;}
+  .h1 { font-size: 2.5em !important;}
+  .h2 {font-size: 2em !important;}
+  .h3 {font-size: 1.5em !important;}
+  .h6, h6 {font-size: .9em !important;}
   .header {position: static;}
   .product-info-tabs>ul {padding: 0 !important;}
   .swiper-slide {width: 50% !important;}
   .dynamic-tab .nav-tabs {justify-content: center;}
   .dynamic-tab .nav-item .nav-link {width: 90px;}
   .detail-forms {flex-direction: column; align-items: flex-start !important;}
-  .basket-dropdown .basket-dropdown-menu {width: 300px; right: -231px;}
-  .basket-dropdown a, .basket-dropdown span, .basket-dropdown p, .basket-dropdown h6 {font-size: 12px !important;}
 }
 
 @media (min-width: 576px) {

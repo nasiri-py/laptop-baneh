@@ -14,8 +14,8 @@
 {% block content %}
     <section class="py-5 bg-light">
         <div class="container">
-            <div class="bg-white shadow rounded d-block d-sm-flex">
-                <div class="profile-tab-nav border-right">
+            <div class="bg-white shadow rounded d-block d-md-flex">
+                <div class=" profile-tab-nav border-right p-0">
                     <div class="p-4">
                         <div class="img-circle text-center mb-3">
                             <img src="{% static 'registration/img/profile.png' %}" alt="{{ user.username }}"
@@ -103,36 +103,36 @@
                     </div>
                     <div class="tab-pane fade order-tab" id="order" role="tabpanel"
                          aria-labelledby="order-tab">
-                        <div class="order-factor">
+                        <div class="order-area">
                             {% for order in user.orders.all %}
                                 <div class="card mb-3">
-                                    <div class="row my-4 div-factor p-2">
+                                    <div class="row my-4 div-factor px-2">
                                         <div class="mb-3 col-12 col-lg-3 d-flex align-items-center">
-                                            <h6 class="m-0 text-muted">شماره پیگیری: </h6>
+                                            <h6 class="m-0 text-muted text-nowrap">شماره پیگیری: </h6>
                                             <h6 class="mb-0 me-1">{{ order.ref_id }}</h6>
                                         </div>
                                         <div class="mb-3 col-12 col-lg-3 d-flex align-items-center">
-                                            <h6 class="m-0 text-muted">وضعیت: </h6>
+                                            <h6 class="m-0 text-muted text-nowrap">وضعیت: </h6>
                                             <h6 class="mb-0 me-1">{{ order.status }}</h6>
                                         </div>
                                         <div class="mb-3 col-12 col-lg-3 d-flex align-items-center">
-                                            <h6 class="m-0 text-muted">تاریخ: </h6>
+                                            <h6 class="m-0 text-muted text-nowrap">تاریخ: </h6>
                                             <h6 class="mb-0 me-1">{{ order.updated.date }}</h6>
                                         </div>
                                         <div class="mb-3 col-12 col-lg-3 d-flex align-items-center">
-                                            <h6 class="m-0 text-muted">مبلغ کل: </h6>
+                                            <h6 class="m-0 text-muted text-nowrap">مبلغ کل: </h6>
                                             <h6 class="mb-0 me-1">{{ order.get_total_cost }}</h6>
                                         </div>
                                         <div class="mb-3 col-12 d-flex align-items-center">
-                                            <h6 class="m-0 text-muted">نام و نام خانوادگی گیرنده: </h6>
+                                            <h6 class="m-0 text-muted text-nowrap">نام و نام خانوادگی گیرنده: </h6>
                                             <h6 class="mb-0 me-1">{{ order.address.full_name }}</h6>
                                         </div>
                                         <div class="mb-3 col-12 d-flex align-items-center">
-                                            <h6 class="m-0 text-muted">شماره تماس گیرنده: </h6>
+                                            <h6 class="m-0 text-muted text-nowrap">شماره تماس گیرنده: </h6>
                                             <h6 class="mb-0 me-1">{{ order.address.phone_number }}</h6>
                                         </div>
                                         <div class="mb-3 col-12 d-flex align-items-center">
-                                            <h6 class="m-0 text-muted">آدرس گیرنده: </h6>
+                                            <h6 class="m-0 text-muted text-nowrap">آدرس گیرنده: </h6>
                                             <h6 class="mb-0 me-1">{{ order.address.full_address }}</h6>
                                         </div>
                                         <div class="col-12 text-center mt-3">
@@ -181,7 +181,9 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <hr class="my-2">
+                                                        {% if order.items.count > 1 %}
+                                                                <hr class="my-2">
+                                                        {% endif %}
                                                     {% endfor %}
                                                 </div>
                                             </div>
@@ -200,13 +202,13 @@
                         <div class="comment-area">
                             {% for comment in user.comments.all %}
                                 <div class="d-flex">
-                                    <h6 class="m-0" style="white-space: nowrap;">متن دیدگاه: </h6>
+                                    <h6 class="m-0 text-nowrap">متن دیدگاه: </h6>
                                     <span class="me-1">{{ comment.body }}</span>
                                 </div>
                                 <div class="row mt-3">
                                     <div class="d-flex col-12 col-md-10">
-                                        <h6 class="m-0" style="white-space: nowrap;">دیدگاه مربوط به محصول: </h6>
-                                        <a class="me-1 text-decoration-none"
+                                        <h6 class="m-0 text-nowrap">دیدگاه مربوط به محصول: </h6>
+                                        <a class="me-1 text-link text-decoration-none"
                                            href="{% url 'product:detail' comment.product.slug %}"
                                            target="_blank">{{ comment.product }} logion5 rtx3050 4gb 16gb 512 ssd</a>
                                     </div>
@@ -214,7 +216,9 @@
                                        href="{% url 'accounts:comment-delete' comment.id %}"
                                        style="height: fit-content;">حذف دیدگاه</a>
                                 </div>
-                                <hr class="between-hr">
+                                {% if user.comments.count > 1  %}
+                                        <hr class="my-2">
+                                {% endif %}
                             {% empty %}
                                 <div class="alert alert-warning text-center m-4" role="alert">
                                     شما هنوز دیدگاهی ثبت نکرده اید

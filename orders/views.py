@@ -10,7 +10,6 @@ from .forms import CouponForm, OrderAddressForm
 from datetime import datetime
 import pytz
 from django.conf import settings
-from django.http import HttpResponse
 import requests
 import json
 from utils import send_sms
@@ -69,6 +68,9 @@ def cart_clear_view(request):
 @login_required
 def order_create_view(request):
     cart = Cart(request)
+    order_not_pay = Order.objects.filter(user=request.user, paid=False)
+    if order_not_pay.exists():
+        order_not_pay.delete()
     order = Order.objects.create(user=request.user)
     for item in cart:
         color = Color.objects.get(id=item['color'].id)
@@ -79,12 +81,12 @@ def order_create_view(request):
             price = product.price
         OrderItem.objects.create(order=order, product=product, color=color, price=price, quantity=item['quantity'])
     cart.clear()
-    return redirect('orders:order-detail', order.id)
+    return redirect('orders:order-detail')
 
 
 @login_required
-def order_detail_view(request, order_id):
-    order = get_object_or_404(Order, id=order_id)
+def order_detail_view(request):
+    order = Order.objects.get(user=request.user, paid=False)
     coupon_form = CouponForm()
     order_address_form = OrderAddressForm()
     if request.user == order.user:
@@ -94,8 +96,8 @@ def order_detail_view(request, order_id):
 
 
 @login_required
-def order_address_view(request, order_id):
-    order = get_object_or_404(Order, id=order_id)
+def order_address_view(request):
+    order = Order.objects.get(user=request.user, paid=False)
     form = OrderAddressForm(request.POST)
     if form.is_valid():
         cd = form.cleaned_data
@@ -116,13 +118,13 @@ def order_address_view(request, order_id):
                 phone_number=cd['phone_number'],
             )
         if request.user == order.user:
-            return redirect('orders:order-pre-factor', order.id)
+            return redirect('orders:order-pre-factor')
     return redirect('orders:cart')
 
 
 @login_required
-def order_pre_factor_view(request, order_id):
-    order = get_object_or_404(Order, id=order_id)
+def order_pre_factor_view(request):
+    order = Order.objects.get(user=request.user, paid=False)
     if request.user == order.user:
         return render(request, 'orders/order_pre_factor.html', {'order': order})
     return redirect('orders:cart')
@@ -130,7 +132,7 @@ def order_pre_factor_view(request, order_id):
 
 @login_required
 def coupon_view(request, order_id):
-    form = CouponForm(request.POST or None)
+    form = CouponForm(request.POST)
     now = datetime.now(tz=pytz.timezone('Asia/Tehran'))
     if form.is_valid():
         try:
@@ -138,13 +140,13 @@ def coupon_view(request, order_id):
                                         valid_from__lte=now, valid_to__gte=now, active=True)
         except Coupon.DoesNotExist:
             messages.error(request, 'این کد تخفیف وجود ندارد یا منقضی شده است')
-            return redirect('orders:order-factor', order_id)
+            return redirect('orders:order-pre-factor')
         order = Order.objects.get(id=order_id)
         order.discount = coupon.discount
         order.discount_limit = coupon.discount_limit
         order.save()
         messages.success(request, 'کد تخفیف به سفارش شما اعمال شد')
-    return redirect('orders:order-pre-factor', order_id)
+    return redirect('orders:order-pre-factor')
 
 
 @login_required

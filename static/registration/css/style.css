@@ -202,25 +202,12 @@ body {
 }
 
 .message-box {
-    position: relative;
-    margin-bottom: 1rem;
+    top: 32px;
+    right: 25%;
+    z-index: 1200;
 }
-
-.message-box p {
-    width: 100%;
-}
-
-.message-chi {
-    position: absolute;
-    right: 1%;
-    top: 0;
-    color: #767676;
-    cursor: pointer;
-    font-weight: 500 !important;
-}
-
-.message-chi:focus .message-box {
-    display: none;
+.message-box .p {
+    background-color: #000;
 }
 
 #resend-code p {

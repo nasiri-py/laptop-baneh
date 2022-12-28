@@ -75,7 +75,7 @@
                                             <div class="text-muted text-center my-5">
                                                 <i class="fa fa-shopping-basket mb-4" style="font-size: 50px !important;"></i>
                                                 <h5 class="mb-4">سبد خرید شما خالی است</h5>
-                                                <a class="btn btn-success" href="{% url 'product:list' %}">بازگشت به فروشگاه</a>
+                                                <a class="btn btn-buy" href="{% url 'product:list' %}">بازگشت به فروشگاه</a>
                                             </div>
                                         {% endfor %}
                                     {% if cart|length != 0 %}
@@ -100,10 +100,10 @@
                                         {% if cart.total_discount > 0 %}
                                             <div class="d-flex justify-content-between mb-5 cart-total_discount">
                                                 <h6 class="text-uppercase">سود شما</h6>
-                                                <h6>({{ cart.total_discount_percent }}%) {{ cart.total_discount|intcomma }} تومان</h6>
+                                                <h6>({{ cart.total_discount_percent|floatformat }}%) {{ cart.total_discount|intcomma }} تومان</h6>
                                             </div>
                                         {% endif %}
-                                        <a href="{% url 'orders:order-create' %}" class="btn btn-buy btn-lg"
+                                        <a href="{% url 'orders:order-create' %}" class="btn btn-buy btn-lg w-100"
                                                 data-mdb-ripple-color="dark">ثبت سفارش
                                         </a>
                                     </div>

@@ -1,7 +1,4 @@
 @media (min-width: 1025px) {
-    .h-custom {
-    height: 100vh !important;
-    }
     }
 
     .card-registration .select-input.form-control[readonly]:not([disabled]) {
@@ -69,8 +66,17 @@ form input:focus, form textarea:focus {
   border-bottom-left-radius: 8px !important;
 }
 
-.table-factor div , .pre-factor div {font-size: 13px !important;}
+.table-factor {
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+.table-factor h6,.table-factor p, .pre-factor h6 {font-size: 12px !important;}
 
 .ref-id {color: #bc1f69;}
 
-.table-factor {overflow: auto;}
+.text-gray {color: #777}
+
+ @media (max-width: 576px) {
+
+ }

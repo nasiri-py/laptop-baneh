@@ -12,7 +12,7 @@
 {% endblock %}
 
 {% block content %}
-    <section class="h-100 h-custom bg-light">
+    <section class="h-100 bg-light">
         <div class="container py-5 h-100">
             <div class="row d-flex justify-content-center align-items-center h-100">
                 <div class="col-12">
@@ -26,66 +26,62 @@
                                         </div>
                                         <hr class="my-4">
                                         <div class="row my-4 pre-factor">
-                                            <div class="my-1 col-12 col-md-6 d-flex align-items-center">
-                                                <h6 class="m-0">نام و نام خانوادگی: </h6>
-                                                <span class="me-1">{{ order.address.full_name }}</span>
+                                            <div class="my-2 col-12 col-md-6 d-flex align-items-center">
+                                                <h6 class="text-muted m-0 text-nowrap">نام و نام خانوادگی: </h6>
+                                                <h6 class="mb-0 me-1 text-gray">{{ order.address.full_name }}</h6>
                                             </div>
-                                            <div class="my-1 col-12 col-md-6 d-flex align-items-center">
-                                                <h6 class="m-0">شماره تماس: </h6>
-                                                <span class="me-1">{{ order.address.phone_number }}</span>
+                                            <div class="my-2 col-12 col-md-6 d-flex align-items-center">
+                                                <h6 class="text-muted m-0 text-nowrap">شماره تماس: </h6>
+                                                <h6 class="mb-0 me-1 text-gray">{{ order.address.phone_number }}</h6>
                                             </div>
-                                            <div class="my-1 col-12 col-md-6 d-flex align-items-center">
-                                                <h6 class="m-0">تاریخ: </h6>
-                                                <span class="me-1">{{ order.updated }}</span>
+                                            <div class="my-2 col-12 col-md-6 d-flex align-items-center">
+                                                <h6 class="text-muted m-0 text-nowrap">تاریخ: </h6>
+                                                <h6 class="mb-0 me-1 text-gray">{{ order.updated }}</h6>
                                             </div>
-                                            <div class="my-1 col-12 col-md-6 d-flex align-items-center">
-                                                <h6 class="m-0">وضعیت پرداخت: </h6>
+                                            <div class="my-2 col-12 col-md-6 d-flex align-items-center">
+                                                <h6 class="text-muted m-0 text-nowrap">وضعیت پرداخت: </h6>
                                                 {% if order.paid %}
-                                                    <span class="me-1">پرداخت شده</span>
+                                                    <h6 class="mb-0 me-1 text-gray">پرداخت شده</h6>
                                                 {% else %}
-                                                    <span class="me-1">پرداخت نشده</span>
+                                                    <h6 class="mb-0 me-1 text-gray">پرداخت نشده</h6>
                                                 {% endif %}
                                             </div>
-                                            <div class="my-1 col-12 col-md-6 d-flex align-items-center">
-                                                <h6 class="m-0">کد پستی: </h6>
-                                                <span class="me-1">{{ order.address.postal_code }}</span>
-                                            </div>
-                                            <div class="my-1 col-12 d-flex align-items-center">
-                                                <h6 class="m-0">آدرس: </h6>
-                                                <span class="me-1">{{ order.address.full_address }}</span>
+                                            <div class="my-2 col-12 d-flex align-items-center">
+                                                <h6 class="text-muted m-0 text-nowrap">آدرس: </h6>
+                                                <h6 class="mb-0 me-1 text-gray">{{ order.address.full_address }}</h6>
                                             </div>
 
                                         </div>
                                         <div class="table-factor">
-                                            <table class="table">
+                                            <table class="table table-bordered text-gray">
                                             <thead>
                                             <tr>
-                                                <th scope="col">ردیف</th>
-                                                <th scope="col">محصول</th>
-                                                <th scope="col">رنگ</th>
-                                                <th scope="col">قیمت واحد</th>
-                                                <th scope="col">تعداد</th>
-                                                <th scope="col">قیمت کل</th>
+                                                <th scope="col"><h6 class="m-0">ردیف</h6></th>
+                                                <th scope="col"><h6 class="m-0">محصول</h6></th>
+                                                <th scope="col"><h6 class="m-0">رنگ</h6></th>
+                                                <th scope="col"><h6 class="m-0">قیمت واحد</h6></th>
+                                                <th scope="col"><h6 class="m-0">تعداد</h6></th>
+                                                <th scope="col"><h6 class="m-0">قیمت کل</h6></th>
                                             </tr>
                                             </thead>
                                             <tbody>
                                             {% for item in order.items.all %}
                                                 <tr>
-                                                    <th scope="row">{{ forloop.counter }}</th>
-                                                    <td>{{ item.product }}</td>
-                                                    <td>{{ item.color }}</td>
-                                                    <td>{{ item.price|intcomma }} تومان</td>
-                                                    <td>{{ item.quantity }}</td>
-                                                    <td>{{ item.get_cost|intcomma }} تومان</td>
+                                                    <th scope="row"><h6 class="m-0">{{ forloop.counter }}</h6></th>
+                                                    <td><p class="m-0">{{ item.product }}</p></td>
+                                                    <td><p class="m-0">{{ item.color }}</p></td>
+                                                    <td><p class="m-0">{{ item.price|intcomma }} تومان</p></td>
+                                                    <td><p class="m-0">{{ item.quantity }}</p></td>
+                                                    <td><p class="m-0">{{ item.get_cost|intcomma }} تومان</p></td>
                                                 </tr>
                                             {% endfor %}
                                             <tr>
-                                                <th scope="row">جمع کل</th>
+                                                <th scope="row"><h6 class="m-0 text-nowrap">جمع فاکتور</h6></th>
                                                 <td></td>
                                                 <td></td>
                                                 <td></td>
                                                 <td></td>
-                                                <td>{{ order.get_total_cost|intcomma }} تومان</td>
+                                                <td><p class="m-0">{{ order.get_total_cost|intcomma }} تومان</p></td>
                                             </tr>
                                             </tbody>
                                         </table>
@@ -98,8 +94,8 @@
                                         <form action="{% url 'orders:coupon' order.id %}" method="post">
                                             {% csrf_token %}
                                             <div class="d-flex input-group">
-                                                <input type="text" name="code" class="form-control w-75">
-                                                <button class="btn btn-buy" type="submit">اعمال</button>
+                                                <input type="text" name="code" class="form-control w-75 rounded">
+                                                <button class="btn btn-buy rounded" type="submit">اعمال</button>
                                             </div>
                                         </form>
                                         <hr class="mb-4">

@@ -74,5 +74,5 @@ class Cart:
                self.get_total_price()
 
     def total_discount_percent(self):
-        return int(((sum(item['quantity'] * item['color'].product.price for item in self.cart.values()) -
+        return float(((sum(item['quantity'] * item['color'].product.price for item in self.cart.values()) -
                      self.get_total_price()) * 100) / self.get_total_price())
