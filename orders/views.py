@@ -35,7 +35,7 @@ def cart_add_view(request, product_id):
             color=cd['color'],
             quantity=cd['quantity'],
         )
-    messages.success(request, 'محصول با موفقیت به سبد خرید اضافه شد', 'success')
+    messages.success(request, 'محصول به سبد خرید اضافه شد')
     return redirect('product:detail', product.slug)
 
 
@@ -137,13 +137,13 @@ def coupon_view(request, order_id):
             coupon = Coupon.objects.get(code__exact=form.cleaned_data['code'],
                                         valid_from__lte=now, valid_to__gte=now, active=True)
         except Coupon.DoesNotExist:
-            messages.error(request, 'این کد تخفیف وجود ندارد یا منقضی شده است', 'danger')
+            messages.error(request, 'این کد تخفیف وجود ندارد یا منقضی شده است')
             return redirect('orders:order-factor', order_id)
         order = Order.objects.get(id=order_id)
         order.discount = coupon.discount
         order.discount_limit = coupon.discount_limit
         order.save()
-        messages.success(request, 'کد تخفیف با موفقیت اعمال شد', 'success')
+        messages.success(request, 'کد تخفیف به سفارش شما اعمال شد')
     return redirect('orders:order-pre-factor', order_id)
 
 

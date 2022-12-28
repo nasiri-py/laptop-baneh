@@ -5,6 +5,7 @@ from .models import Order, OrderItem, Coupon, OrderAddress
 class OrderItemInline(admin.TabularInline):
     model = OrderItem
     raw_id_fields = ['color']
+    extra = 0
 
 
 class OrderAddressInline(admin.StackedInline):

@@ -75,7 +75,7 @@ class CommentView(LoginRequiredMixin, View):
             new_form.user = request.user
             new_form.product = product
             new_form.save()
-            messages.success(self.request, 'دیدگاه شما با موفقیت ثبت شد', 'success')
+            messages.success(self.request, 'دیدگاه شما ثبت شد')
         return redirect('product:detail', product.slug)
 
 
@@ -96,7 +96,7 @@ class CommentReplyView(LoginRequiredMixin, View):
             new_form.reply = comment
             new_form.is_reply = True
             new_form.save()
-            messages.success(self.request, 'دیدگاه شما با موفقیت ثبت شد', 'success')
+            messages.success(self.request, 'دیدگاه شما ثبت شد')
         return redirect('product:detail', product.slug)
 
 
@@ -135,26 +135,26 @@ class SearchList(generic.ListView):
 
 
 def compare_add_view(request, pk):
-    url = request.META.get('HTTP_REFERER')
     if request.user.is_authenticated:
         com = Compare.objects.filter(user_id=request.user.id)
-        if len(com) >= 3:
-            messages.error(request, 'حداکثر 3 کالا را میتوانید برای مقایسه انتخاب کنید', 'danger')
-            return redirect(url)
         qs = Compare.objects.filter(user_id=request.user.id, product_id=pk)
         if qs.exists():
-            messages.warning(request, 'محصول داخل صفحه مقایسه موجود است', 'warning')
-            return redirect(url)
+            messages.warning(request, 'این محصول داخل صفحه مقایسه موجود است')
+            return redirect('product:compare')
+        elif len(com) >= 3:
+            messages.error(request, 'حداکثر 3 محصول را میتوانید برای مقایسه انتخاب کنید')
+            return redirect('product:compare')
         else:
             Compare.objects.create(user_id=request.user.id, product_id=pk, session_key=None)
     else:
         com = Compare.objects.filter(user_id=None, session_key=request.session.session_key)
-        if len(com) >= 3:
-            messages.error(request, 'حداکثر 3 کالا را میتوانید برای مقایسه انتخاب کنید', 'danger')
         qs = Compare.objects.filter(user_id=None, product_id=pk, session_key=request.session.session_key)
         if qs.exists():
-            messages.warning(request, 'محصول داخل صفحه مقایسه موجود است', 'warning')
-            return redirect(url)
+            messages.warning(request, 'این محصول داخل صفحه مقایسه موجود است')
+            return redirect('product:compare')
+        elif len(com) >= 3:
+            messages.error(request, ' حداکثر 3 محصول را میتوانید برای مقایسه انتخاب کنید')
+            return redirect('product:compare')
         else:
             if not request.session.session_key:
                 request.session.create()

@@ -48,7 +48,7 @@ body {
 .login-form .btn {
     width: 100%;
     margin: 30px 0 9px 0;
-    padding: 8px 20px;
+    padding: 10px 10px 6px;
     position: relative;
     border-radius: 0;
 }
@@ -170,6 +170,7 @@ body {
 
 .otp-code-link:hover {
     text-decoration: none;
+    color: #A3C7D6;
 }
 
 .login-register {
@@ -197,16 +198,22 @@ body {
 .error {
     color: #EE6983;
     margin-bottom: 1rem;
+    width: 250px;
 }
 
 .message-box {
-    position: relative
+    position: relative;
+    margin-bottom: 1rem;
+}
+
+.message-box p {
+    width: 100%;
 }
 
 .message-chi {
     position: absolute;
-    right: 16%;
-    top: 5%;
+    right: 1%;
+    top: 0;
     color: #767676;
     cursor: pointer;
     font-weight: 500 !important;
@@ -214,4 +221,13 @@ body {
 
 .message-chi:focus .message-box {
     display: none;
+}
+
+#resend-code p {
+    font-size: 13px;
+}
+
+#code-box p {
+    font-size: 12px;
+    color: #ff9d9d;
 }

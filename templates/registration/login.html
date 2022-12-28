@@ -20,7 +20,7 @@
             {% endfor %}
             <div class="form-input-material">
                 {% render_field form.password|append_attr:"required:required" type="password" id="password" placeholder=" " autocomplete="off" class="form-control-material" %}
-                <label for="password">گذر واژه</label>
+                <label for="password">گذرواژه</label>
             </div>
             {% for error in form.username.errors %}
                 <p class="error">{{ error }}</p>

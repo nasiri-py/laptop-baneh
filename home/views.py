@@ -50,7 +50,7 @@ def contact_view(request):
                 ('email@email.com',),
             )
             form.send(fail_silently=True)
-            messages.success(request, 'پیام شما با موفقیت به پشتیبانی سایت ارسال شد', 'success')
+            messages.success(request, 'پیام شما به پشتیبانی سایت ارسال شد')
     return redirect('home:contact')
 
 

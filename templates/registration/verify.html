@@ -1,6 +1,7 @@
 {% extends 'registration/base_registration.html' %}
 
 {% load widget_tweaks %}
+{% load static %}
 
 {% block r_title %}
     <title>تائید شماره موبایل | استوک لپ تاپ استور</title>
@@ -8,17 +9,97 @@
 
 {% block r_content %}
     <div class="login-form">
-        <form action="" method="post">
+        <form action="" method="post" id="verify-form">
             {% csrf_token %}
             <h2>تائید شماره موبایل</h2>
             <div class="form-input-material">
-                {% render_field form.code|append_attr:"required:required" type="number" id="code" placeholder=" " autocomplete="off" class="no-arrow form-control-material" %}
-                <label for="code">کد تائید</label>
+                {% render_field form.code|append_attr:"required:required" oninput="javascript: if (this.value.length > 4) this.value = this.value.slice(0, 4);" type="number" id="verify-input" placeholder=" " autocomplete="off" class="no-arrow form-control-material" %}
+                <label for="verify-input">کد تائید</label>
             </div>
-            {% for error in form.username.errors %}
-                <p class="error">{{ error }}</p>
-            {% endfor %}
-            <button type="submit" class="btn btn-ghost"><h6>ورود</h6></button>
+            <div id="code-box" class="text-end d-none">
+
+            </div>
+            <button type="submit" class="btn btn-ghost d-none" id="verify-button"><h6>ورود</h6></button>
         </form>
+        <div id="resend-code" class="text-center mt-3">
+
+        </div>
     </div>
+    <script src="{% static 'base/js/jquery-1.11.0.min.js' %}"></script>
+    <script>
+        // Set the date we're counting down to
+        var countDownDate = new Date
+        countDownDate.setMinutes(countDownDate.getMinutes() + 3);
+
+        // Update the count down every 1 second
+        var x = setInterval(function () {
+
+            // Get today's date and time
+            var now = new Date().getTime();
+
+            // Find the distance between now and the count down date
+            var distance = countDownDate - now;
+
+            // Time calculations for days, hours, minutes and seconds
+            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // Output the result in an element with id="demo"
+            document.getElementById("resend-code").innerHTML = `<p>${seconds} : ${minutes}  مانده تا دریافت مجدد کد</p>`
+
+            // If the count down is over, write some text
+            if (distance < 0) {
+                clearInterval(x);
+                document.getElementById("resend-code").innerHTML = `<form action="{% url 'accounts:resend-code' %}" method="POST">
+                                                                        {% csrf_token %}
+                                                                        <input class="login-register-link bg-transparent border-0" type="submit"
+                                                                        name="access" value='ارسال مجدد کد'>
+                                                                    </form>`
+            }
+        }, 1000);
+    </script>
+
+    <script>
+        const VerifyForm = document.getElementById('verify-form')
+        const VerifyInput = document.getElementById('verify-input')
+        const VerifyButton = document.getElementById('verify-button')
+        const codeBox = document.getElementById('code-box')
+        const csrf = document.getElementsByName('csrfmiddlewaretoken')[0].value
+
+        const sendCode = (code) => {
+            $.ajax({
+                type: 'POST',
+                url: "{% url 'accounts:verify-check' %}",
+                data: {
+                    'csrfmiddlewaretoken': csrf,
+                    'code': code,
+                },
+                success: (res) => {
+                    const data = res.data
+                    if (data === 'TrueAccess') {
+                        codeBox.classList.add('d-none')
+                        if (VerifyButton.classList.contains('d-none')) {
+                            VerifyButton.classList.remove('d-none')
+                        }
+                    } else {
+                        VerifyButton.classList.add('d-none')
+                        if (VerifyInput.value.length > 0) {
+                            codeBox.innerHTML = `<p class="text-center w-100 border-0 m-auto mt-4">${data}</p>`
+                        } else {
+                            codeBox.classList.add('d-none')
+                        }
+                    }
+                },
+                error: (err) => {
+                    console.log(err)
+                }
+            })
+        }
+        VerifyInput.addEventListener('keyup', e => {
+            if (codeBox.classList.contains('d-none')) {
+                codeBox.classList.remove('d-none')
+            }
+            sendCode(e.target.value)
+        })
+    </script>
 {% endblock %}

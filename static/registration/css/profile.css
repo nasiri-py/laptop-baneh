@@ -23,15 +23,24 @@ body {
 .nav-pills a.nav-link {
 	padding: 15px 20px;
 	border-bottom: 1px solid #ddd;
-	border-radius: 0;
-	color: #333;
+	border-right: 4px solid #ddd;
+	border-radius: 0 3px 5px 0;
 }
+
+.nav-pills a.nav-link:hover {
+	background-color: #f0f0f1;
+}
+
 .nav-pills a.nav-link i {
 	width: 20px;
 }
 
-.nav-pills .active {
-	background-color: #7803e2 !important;
+.nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+	border-radius: 0 3px 5px 0;
+    border-right: 4px solid #7803e2;
+    border-bottom: 1px solid #7803e2;
+    color: #333;
+    background-color: unset;
 }
 
 .img-circle img {
@@ -41,21 +50,36 @@ body {
 	border: 5px solid #fff;
 }
 
-.order-factor, .comment-area {
-	max-height: 500px;
-	overflow: auto;
+.order-tab, .comment-tab {
+	max-height: 380px;
+	overflow-y: auto;
 }
 
-.order-factor div {
+.order-area, .comment-area {
+	max-width: 749px;
+}
+
+.order-area div {
 	font-size: 13px !important;
 }
 
-.ref-id {
+.text-pink {
 	color: #bc1f69 !important;
 }
 
 .between-hr {
 	color: #bc1f69 !important;
 	opacity: 1;
+}
+
+.error {
+    color: #EE6983;
+    margin-top: 10px;
+	font-size: 14px !important;
+}
+
+.accordion-body {
+    max-height: unset !important;
+    overflow: unset !important;
 }
 

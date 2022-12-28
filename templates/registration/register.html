@@ -12,10 +12,10 @@
             {% csrf_token %}
             <h2>ثبت نام در استوک لپ تاپ استور</h2>
             <div class="form-input-material">
-                {% render_field form.phone_number|append_attr:"required:required" type="number" id="phone_number" placeholder=" " autocomplete="off" class="no-arrow form-control-material" %}
+                {% render_field form.phone_number|append_attr:"required:required" oninput="javascript: if (this.value.length > 11) this.value = this.value.slice(0, 11);" type="number" id="phone_number" placeholder=" " autocomplete="off" class="no-arrow form-control-material" %}
                 <label for="phone_number">شماره موبایل</label>
             </div>
-            {% for error in form.username.errors %}
+            {% for error in form.phone_number.errors %}
                 <p class="error">{{ error }}</p>
             {% endfor %}
             <div class="form-input-material">
@@ -27,16 +27,16 @@
             {% endfor %}
             <div class="form-input-material">
                 {% render_field form.password1|append_attr:"required:required" type="password" id="password" placeholder=" " autocomplete="off" class="form-control-material" %}
-                <label for="password">گذر واژه</label>
+                <label for="password">گذرواژه</label>
             </div>
-            {% for error in form.username.errors %}
+            {% for error in form.password1.errors %}
                 <p class="error">{{ error }}</p>
             {% endfor %}
             <div class="form-input-material">
                 {% render_field form.password2|append_attr:"required:required" type="password" id="password_confirm" placeholder=" " autocomplete="off" class="form-control-material" %}
-                <label for="password_confirm">تائید گذر واژه</label>
+                <label for="password_confirm">تائید گذرواژه</label>
             </div>
-            {% for error in form.username.errors %}
+            {% for error in form.password2.errors %}
                 <p class="error">{{ error }}</p>
             {% endfor %}
             <button type="submit" class="btn btn-ghost"><h6>ارسال کد تائید</h6></button>

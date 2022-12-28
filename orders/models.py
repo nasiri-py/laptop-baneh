@@ -5,10 +5,17 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 
 
 class Order(models.Model):
+    CHOICE_STATUS = (
+        ('درحال آماده سازی', 'درحال آماده سازی'),
+        ('ارسال شده', 'ارسال شده'),
+        ('تحویل داده شده', 'تحویل داده شده'),
+        ('لغو شده', 'لغو شده'),
+        ('مرجوع شده', 'مرجوع شده'),
+    )
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='orders', verbose_name='کاربر')
     paid = models.BooleanField(default=False, verbose_name='پرداخت شده')
     ref_id = models.CharField(max_length=255, null=True, blank=True, verbose_name='شماره پیگیری')
-    sent = models.BooleanField(default=False, verbose_name='محصول ارسال شد')
+    status = models.CharField(max_length=50, choices=CHOICE_STATUS, default='درحال آماده سازی', verbose_name='وضعیت سفارش')
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True, verbose_name='زمان سفارش')
     discount = models.IntegerField(blank=True, null=True, default=None, verbose_name='درصد تخفیف')
@@ -39,6 +46,10 @@ class OrderItem(models.Model):
     color = models.ForeignKey(Color, on_delete=models.CASCADE, verbose_name='رنگ')
     price = models.PositiveIntegerField(verbose_name='قیمت')
     quantity = models.IntegerField(default=1, verbose_name='تعداد')
+
+    class Meta:
+        verbose_name = 'محصول'
+        verbose_name_plural = 'محصولات'
 
     def get_cost(self):
         return self.price * self.quantity
@@ -84,5 +95,5 @@ class OrderAddress(models.Model):
 
     def full_address(self):
         if self.unit is not None:
-            return f'{self.state}، {self.city}، {self.address}، پلاک {self.tag}، واحد {self.unit}'
-        return f'{self.state}، {self.city}، {self.address}، پلاک {self.tag}'
+            return f'{self.state}، {self.city}، {self.address}، پلاک {self.tag}، واحد {self.unit}، کدپستی {self.postal_code}'
+        return f'{self.state}، {self.city}، {self.address}، پلاک {self.tag}، کدپستی {self.postal_code}'

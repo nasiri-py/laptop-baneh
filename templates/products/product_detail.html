@@ -709,8 +709,8 @@
                                 </form>
                             {% else %}
                                 <div class="alert alert-info text-center" role="alert">
-                                    برای ارسال نظر لازم است وارد <a href="{% url 'accounts:login' %}"
-                                                                    class="text-decoration-none">حساب کاربری</a> خود
+                                    برای ارسال نظر لازم است وارد <a href="{% url 'accounts:login' %}?next={{ request.path }}"
+                                                                    class="text-decoration-none text-link">حساب کاربری</a> خود
                                     شوید
                                 </div>
                             {% endif %}
@@ -971,11 +971,57 @@
                 }
             }
         }
+        const handleUnSelect = (unselection) => {
+            switch (unselection) {
+                case '1star': {
+                    one_star.classList.remove('text-warning')
+                    two_star.classList.remove('text-warning')
+                    three_star.classList.remove('text-warning')
+                    four_star.classList.remove('text-warning')
+                    five_star.classList.remove('text-warning')
+                    return
+                }
+                case '2star': {
+                    one_star.classList.remove('text-warning')
+                    two_star.classList.remove('text-warning')
+                    three_star.classList.remove('text-warning')
+                    four_star.classList.remove('text-warning')
+                    five_star.classList.remove('text-warning')
+                    return
+                }
+                case '3star': {
+                    one_star.classList.remove('text-warning')
+                    two_star.classList.remove('text-warning')
+                    three_star.classList.remove('text-warning')
+                    four_star.classList.remove('text-warning')
+                    five_star.classList.remove('text-warning')
+                    return
+                }
+                case '4star': {
+                    one_star.classList.remove('text-warning')
+                    two_star.classList.remove('text-warning')
+                    three_star.classList.remove('text-warning')
+                    four_star.classList.remove('text-warning')
+                    five_star.classList.remove('text-warning')
+                    return
+                }
+                case '5star': {
+                    one_star.classList.remove('text-warning')
+                    two_star.classList.remove('text-warning')
+                    three_star.classList.remove('text-warning')
+                    four_star.classList.remove('text-warning')
+                    five_star.classList.remove('text-warning')
+                    return
+                }
+            }
+        }
         const arr = [one_star, two_star, three_star, four_star, five_star]
         arr.forEach(item => item.addEventListener('mouseover', (event) => {
             handleSelect(event.target.id)
         }))
-
+        arr.forEach(item => item.addEventListener('mouseleave', (event) => {
+            handleUnSelect(event.target.id)
+        }))
 
         window.onload = function () {
             slideOne();

@@ -91,8 +91,9 @@ body, ul, li, p, a, label, input, div {
   color: #fff !important;
 
 }
-.btn-buy:hover {opacity: .6 !important;}
+.btn:hover {opacity: .8 !important;}
 .btn-color {width: 30px; height: 30px; border-radius: 50%; border: 1px solid #6c757d !important;}
+.btn-color:hover {opacity: 1 !important;}
 .color-select {border: 3px solid #558fc3 !important; padding: 13px !important;}
 .badge-success {background-color: #69bb7e !important; width: 40px !important;}
 .badge-link {background-color: #7803e2 !important; width: 60px !important; padding: 0.25rem;}
@@ -144,6 +145,9 @@ body, ul, li, p, a, label, input, div {
 }
 .rating-ask {font-weight: bolder; font-size: .7rem !important;}
 .fa-bars {color: #1d242d !important;}
+.profile-nav-link:hover {
+    background-color: #f0f0f1;
+}
 /* Dropdown */
 .dropdown .dropdown-menu {border-radius: 5px; box-shadow: rgba(0, 0, 0, 0.15) 0 15px 25px, rgba(0, 0, 0, 0.05) 0 5px 10px;}
 .dropdown .show {color: #bc1f69 !important;}
@@ -445,13 +449,17 @@ input[type~="text"]:focus, input[type="password"]:focus, input[type="email"]:foc
 .pagination .pag-item span {color: #1d242d;}
 /*Messages*/
 .message-box {
-    margin-bottom: 1rem;
-    position: relative
+    top: 40px;
+    right: 25%;
+    z-index: 1200;
+}
+.message-box .p {
+    background-color: #000;
 }
 
 .message-chi {
     position: absolute;
-    right: 16%;
+    right: 13%;
     top: 5%;
     color: #767676;
     cursor: pointer;

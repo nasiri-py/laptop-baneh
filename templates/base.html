@@ -35,6 +35,7 @@
 </head>
 
 <body>
+{% include 'includes/messages.html' %}
 <!-- Start Top Nav -->
 <nav class="top-header navbar navbar-expand-lg navbar-light d-none d-lg-block" id="templatemo_nav_top">
     <div class="container text-light">
@@ -102,11 +103,12 @@
                        data-bs-toggle="dropdown">
                         <i class="fa fa-user"></i>
                     </a>
-                    <div class="profile-dropdown-menu dropdown-menu dropdown-menu-end mt-1 border-0"
+                    <div class="profile-dropdown-menu dropdown-menu dropdown-menu-end mt-1 border-0 p-0"
                          aria-labelledby="profileDropdownMenuLink">
                         <ul class="list-group p-0 border-0">
-                            <li class="border-0 border-bottom list-group-item text-end"><a class="text-decoration-none text-black" href="{% url 'accounts:profile' %}"><i class="fa fa-user"></i> مشاهده پروفایل</a></li>
-                            <li class="border-0 list-group-item text-end"><a class="text-decoration-none text-black" href="{% url 'accounts:logout' %}?next={{ request.path }}"><i class="fa fa-arrow-circle-right"></i> خروج از حساب</a></li>
+                            <li class="border-0 border-bottom list-group-item text-end profile-nav-link"><a class="text-decoration-none text-black d-flex" href="{% url 'accounts:profile' %}"><i class="fa fa-user-circle"></i><h6 class="me-2 mb-0">مشاهده پروفایل</h6></a></li>
+                            <li class="border-0 border-bottom list-group-item text-end profile-nav-link"><a class="text-decoration-none text-black d-flex" href="{% url 'accounts:password-change' %}"><i class="fa fa-key"></i><h6 class="me-2 mb-0">تغییر گذرواژه</h6></a></li>
+                            <li class="border-0 list-group-item text-end profile-nav-link"><a class="text-decoration-none text-black d-flex" href="{% url 'accounts:logout' %}{% if not request.path == '/accounts/profile/' %}?next={{ request.path }}{% endif %}"><i class="fas fa-sign-out-alt"></i><h6 class="me-2 mb-0">خروج از حساب</h6></a></li>
                         </ul>
                     </div>
                 </div>
@@ -181,7 +183,7 @@
                                 {% endfor %}
                             </div>
                             <div class="col-12 d-flex justify-content-between align-items-center mt-3">
-                                <div class="text-muted">
+                                <div class="text-muted text-end">
                                     <h6>مبلغ قابل پرداخت</h6>
                                     <h6>{{ cart.get_total_price|intcomma }} تومان</h6>
                                 </div>
@@ -237,7 +239,6 @@
     </div>
 </div>
 
-{% include 'includes/messages.html' %}
 
 {% block content %}
 
@@ -369,6 +370,9 @@
                 } else {
                     if (searchInput.value.length > 0) {
                         resultsBox.innerHTML = `<h6 class="text-center my-auto py-5">${data}</h6>`
+                        if (data === 'محصول موردنظر یافت نشد ...') {
+                            searchButton.classList.add('d-none')
+                        }
                     } else {
                         searchButton.classList.add('d-none')
                         resultsBox.classList.add('d-none')
@@ -381,7 +385,6 @@
         })
     }
     searchInput.addEventListener('keyup', e => {
-        console.log(e.target.value)
         if (resultsBox.classList.contains('d-none')) {
             resultsBox.classList.remove('d-none')
         }
