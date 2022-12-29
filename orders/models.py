@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth import get_user_model
 from products.models import Product, Color
 from django.core.validators import MinValueValidator, MaxValueValidator
+from extensions.utils import jalali_converter
 
 
 class Order(models.Model):
@@ -17,7 +18,7 @@ class Order(models.Model):
     ref_id = models.CharField(max_length=255, null=True, blank=True, verbose_name='شماره پیگیری')
     status = models.CharField(max_length=50, choices=CHOICE_STATUS, default='درحال آماده سازی', verbose_name='وضعیت سفارش')
     created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True, verbose_name='زمان سفارش')
+    updated = models.DateTimeField(auto_now=True)
     discount = models.IntegerField(blank=True, null=True, default=None, verbose_name='درصد تخفیف')
     discount_limit = models.IntegerField(blank=True, null=True, default=None, verbose_name='حداکثر مقدار تخفیف')
 
@@ -38,6 +39,11 @@ class Order(models.Model):
                     total_discount = total - self.discount_limit
             return total_discount
         return total
+
+    def j_updated(self):
+        return jalali_converter(self.updated)
+
+    j_updated.short_description = "زمان سفارش"
 
 
 class OrderItem(models.Model):

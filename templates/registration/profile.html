@@ -107,21 +107,21 @@
                             {% for order in user.orders.all %}
                                 <div class="card mb-3">
                                     <div class="row my-4 div-factor px-2">
-                                        <div class="mb-3 col-12 col-lg-3 d-flex align-items-center">
+                                        <div class="mb-3 col-12 col-lg-4 d-flex align-items-center">
                                             <h6 class="m-0 text-muted text-nowrap">شماره پیگیری: </h6>
                                             <h6 class="mb-0 me-1">{{ order.ref_id }}</h6>
                                         </div>
-                                        <div class="mb-3 col-12 col-lg-3 d-flex align-items-center">
+                                        <div class="mb-3 col-12 col-lg-4 d-flex align-items-center">
                                             <h6 class="m-0 text-muted text-nowrap">وضعیت: </h6>
                                             <h6 class="mb-0 me-1">{{ order.status }}</h6>
                                         </div>
-                                        <div class="mb-3 col-12 col-lg-3 d-flex align-items-center">
-                                            <h6 class="m-0 text-muted text-nowrap">تاریخ: </h6>
-                                            <h6 class="mb-0 me-1">{{ order.updated.date }}</h6>
-                                        </div>
-                                        <div class="mb-3 col-12 col-lg-3 d-flex align-items-center">
+                                        <div class="mb-3 col-12 col-lg-4 d-flex align-items-center">
                                             <h6 class="m-0 text-muted text-nowrap">مبلغ کل: </h6>
-                                            <h6 class="mb-0 me-1">{{ order.get_total_cost }}</h6>
+                                            <h6 class="mb-0 me-1">{{ order.get_total_cost }} تومان</h6>
+                                        </div>
+                                        <div class="mb-3 col-12 col-lg-4 d-flex align-items-center">
+                                            <h6 class="m-0 text-muted text-nowrap">تاریخ: </h6>
+                                            <h6 class="mb-0 me-1">{{ order.j_updated }}</h6>
                                         </div>
                                         <div class="mb-3 col-12 d-flex align-items-center">
                                             <h6 class="m-0 text-muted text-nowrap">نام و نام خانوادگی گیرنده: </h6>

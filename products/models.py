@@ -7,6 +7,7 @@ from ckeditor.fields import RichTextField
 from django.core.validators import MinValueValidator
 from star_ratings.models import Rating
 from django.contrib.contenttypes.fields import GenericRelation
+from extensions.utils import jalali_converter
 
 
 class ColorManager(models.Manager):
@@ -93,6 +94,11 @@ class Product(models.Model):
 
     def grade_choice(self):
         return [i[1] for i in self._meta.get_field('grade').choices if i[0] == self.grade][0]
+
+    def j_created(self):
+        return jalali_converter(self.created)
+
+    j_created.short_description = "زمان انتشار"
 
 
 class Color(models.Model):
