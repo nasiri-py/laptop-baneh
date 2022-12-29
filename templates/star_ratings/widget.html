@@ -4,7 +4,7 @@
     <div class="pt-2 mb-1 d-flex align-items-center">
         <h6 class="badge badge-success m-0 pb-0">{{ rating.average|floatformat:"-2" }}</h6>
         {% if rating.count != 0 %}
-            <h6 class="h6 text-muted m-0 me-1 pt-1">{{ rating.count }} نفر</h6>
+            <h6 class="h6 text-muted m-0 me-2 pt-1">از {{ rating.count }} رای</h6>
         {% endif %}
     </div>
 {% endblock %}

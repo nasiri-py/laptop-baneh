@@ -817,6 +817,15 @@
                                     <div class="product-card card">
                                         <img class="card-img rounded-0 rounded-top img-fluid"
                                              src="{{ product.cover.url }}">
+                                        <div class="position-absolute color-list">
+                                            {% for color in product.colors.all|slice:':4' %}
+                                                <h6 class="btn-color mb-1"
+                                                    style="background-color: {{ color.color }};"></h6>
+                                            {% endfor %}
+                                            {% if product.colors.count > 4 %}
+                                                <h6 class="font-weight-bold text-muted"><i class="fa fa-plus-circle"></i></h6>
+                                            {% endif %}
+                                        </div>
                                     </div>
                                     <div class="card-body">
                                         <ul class="list-unstyled p-0">

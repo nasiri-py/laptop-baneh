@@ -162,11 +162,11 @@
                                                                         class="img-fluid rounded-3"
                                                                         alt="{{ item.product.title }}">
                                                             </div>
-                                                            <div class="col-lg-4 col-xl-4 mb-2">
-                                                                <h6 class="text-black">{{ item.product.title }}</h6>
+                                                            <div class="col-lg-7 col-xl-7 mb-2">
+                                                                <h6 class="text-black my-3">{{ item.product.title }}</h6>
                                                                 <div class="d-flex align-items-center w-75">
                                                                     <div>
-                                                                        <h6 class="btn-color"
+                                                                        <h6 class="btn-color color-cart"
                                                                             style="background-color: {{ item.color.color }};"></h6>
                                                                     </div>
                                                                     <div class="mx-2"><h6
@@ -174,15 +174,13 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div class="col-lg-5 col-xl-5 d-flex justify-content-between align-items-center mb-2">
-                                                                <div class="mx-2 p-0">
-                                                                    <h6 class="mb-0">{{ item.get_cost|intcomma }}
-                                                                        تومان</h6>
-                                                                </div>
+                                                            <div class="col-lg-3 col-xl-3 text-start">
+                                                                <h6 class="mb-0">{{ item.get_cost|intcomma }}
+                                                                    تومان</h6>
                                                             </div>
                                                         </div>
                                                         {% if order.items.count > 1 %}
-                                                                <hr class="my-2">
+                                                            <hr class="my-2">
                                                         {% endif %}
                                                     {% endfor %}
                                                 </div>
@@ -197,7 +195,7 @@
                             {% endfor %}
                         </div>
                     </div>
-                    <div class="tab-pane fade comment-tab" id="comment" role="tabpanel"
+                    <div class="tab-pane fade comment-tab card p-2" id="comment" role="tabpanel"
                          aria-labelledby="comment-tab">
                         <div class="comment-area">
                             {% for comment in user.comments.all %}
@@ -206,18 +204,18 @@
                                     <span class="me-1">{{ comment.body }}</span>
                                 </div>
                                 <div class="row mt-3">
-                                    <div class="d-flex col-12 col-md-10">
-                                        <h6 class="m-0 text-nowrap">دیدگاه مربوط به محصول: </h6>
+                                    <div class="d-flex col-12 col-lg-9 mb-2 align-items-baseline">
+                                        <h6 class="mb-0 text-nowrap">دیدگاه مربوط به محصول: </h6>
                                         <a class="me-1 text-link text-decoration-none"
                                            href="{% url 'product:detail' comment.product.slug %}"
-                                           target="_blank">{{ comment.product }} logion5 rtx3050 4gb 16gb 512 ssd</a>
+                                           target="_blank">{{ comment.product|truncatewords:5 }}</a>
                                     </div>
-                                    <a class="col-12 col-md-2 btn btn-danger"
+                                    <a class="col-6 m-auto col-lg-3 btn btn-danger"
                                        href="{% url 'accounts:comment-delete' comment.id %}"
                                        style="height: fit-content;">حذف دیدگاه</a>
                                 </div>
-                                {% if user.comments.count > 1  %}
-                                        <hr class="my-2">
+                                {% if user.comments.count > 1 %}
+                                    <hr class="my-2">
                                 {% endif %}
                             {% empty %}
                                 <div class="alert alert-warning text-center m-4" role="alert">

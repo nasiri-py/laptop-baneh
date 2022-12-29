@@ -6,68 +6,6 @@
     مقایسه
 {% endblock %}
 
-{% block css_link %}
-    <style>
-        .compare {
-            overflow-x: scroll;
-        }
-
-        .compare-caption .specification-caption {
-            font-size: .8rem !important;
-            font-weight: 400 !important;
-        }
-
-        .compare-caption, .compare-search {
-            width: 16%;
-        }
-
-        .compare-title div {
-            width: 298px;
-        }
-
-        .compare-title span {
-            right: 5%;
-        }
-
-        .compare-items {
-            position: sticky;
-            top: 10px;
-        }
-
-        .compare-list {
-            width: 1116px;
-        }
-
-        .compare-caption .specification-header {
-            font-size: .85rem !important;
-        }
-
-        .compare-title h6 {
-            font-size: .8rem !important;
-        }
-
-        .compare-value {
-            width: 84%;
-        }
-
-        .compare-value div {
-            padding-left: 0;
-        }
-
-        .compare-specification-value {
-            margin-bottom: 40px !important;
-        }
-
-        .compare-specification-value .specification-value {
-            font-size: .8rem !important;
-        }
-        #compare-results-box {
-            max-height: 200px;
-            overflow: auto;
-        }
-    </style>
-{% endblock %}
-
 {% block content %}
     <div class="modal fade" id="compareModal" tabindex="-1" role="dialog"
          aria-labelledby="compareModalLabel" aria-hidden="true">

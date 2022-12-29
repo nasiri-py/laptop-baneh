@@ -43,6 +43,10 @@ body, ul, li, p, a, label, input, div {
   font-family: Vazir, sans-serif;
   font-size: 1.5rem !important;
 }
+.h4 {
+  font-family: Vazir, sans-serif;
+  font-size: 1.2rem !important;
+}
 .h6, h6 {
   font-family: Vazir, sans-serif;
   font-size: .9rem !important;
@@ -459,9 +463,21 @@ input[type~="text"]:focus, input[type="password"]:focus, input[type="email"]:foc
     background-color: #000;
 }
 /*Compare*/
-.compare-specification-value .specification-value {
-    font-size: .7rem !important;
-}
+.compare-specification-value .specification-value {font-size: .7rem !important;}
+.compare {overflow-x: scroll;}
+.compare-caption .specification-caption {font-size: .8rem !important;font-weight: 400 !important;}
+.compare-caption, .compare-search {width: 16%;}
+.compare-title div {width: 298px;}
+.compare-title span {right: 2%;font-size: 20px !important;font-weight: 400;}
+.compare-items {position: sticky;top: 10px;}
+.compare-list {width: 1116px;}
+.compare-caption .specification-header {font-size: .85rem !important;}
+.compare-title h6 {font-size: .8rem !important;}
+.compare-value {width: 84%;}
+.compare-value div {padding-left: 0;}
+.compare-specification-value {margin-bottom: 40px !important;}
+.compare-specification-value .specification-value {font-size: .8rem !important;}
+#compare-results-box {max-height: 200px;overflow: auto;}
 /*Cart*/
 .cart-summary {background-color: rgba(188, 31, 105, .2); border-radius: 13px 0 0 13px;}
 .cart-summary div {position: sticky; top: 5%;}
@@ -475,10 +491,10 @@ input[type~="text"]:focus, input[type="password"]:focus, input[type="email"]:foc
 .product-wap .h3, .product-wap li, .product-wap i, .product-wap p {
   font-size: 12px !important;
 }
-.product-wap .product-color-dot {
-  width: 6px;
-  height: 6px;
-}
+.color-list{z-index: 10; top: 10%; right: 2%;}
+.color-list .btn-color {width: .9em;height: .9em;}
+.color-cart {width: 15px;height: 15px;}
+.color-list .fa-plus-circle {font-size: .9em !important;}
 
 /* Swiper media */
 @media (max-width: 992px) {
@@ -509,6 +525,7 @@ input[type~="text"]:focus, input[type="password"]:focus, input[type="email"]:foc
   .h1 { font-size: 2.5em !important;}
   .h2 {font-size: 2em !important;}
   .h3 {font-size: 1.5em !important;}
+  .h5 {font-size: 1.25em !important;}
   .h6, h6 {font-size: .9em !important;}
   .header {position: static;}
   .product-info-tabs>ul {padding: 0 !important;}

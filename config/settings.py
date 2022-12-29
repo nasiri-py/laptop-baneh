@@ -176,3 +176,11 @@ email = 'email@example.com'
 mobile = '09123456789'
 # Important: need to edit for realy server.
 CallbackURL = 'http://127.0.0.1:8000/orders/verify/'
+
+# send email
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = ''
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
