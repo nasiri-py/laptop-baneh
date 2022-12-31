@@ -13,23 +13,30 @@
   </div>
     <b class="d-md-block d-none"><i class="fa fa-sort-amount-down"></i> مرتب سازی: </b>
     <form class="flex-column flex-md-row d-flex">
-        {% sort_input request 4 'جدید ترین' %}
+         <label class="text-muted me-md-3 mb-2 pb-2 sort-icon {% if 'sort=' not in data or 'sort=4' in data %}text-sorted{% endif %}"
+            for="sort_4">جدید ترین<input class="d-none" type="submit" name="sort" value="4"
+             id="sort_4">
+        </label>
         {% sort_input request 8 'پرفروش ترین' %}
+        {% sort_input request 9 'پربازدید ترین' %}
         {% sort_input request 6 'محبوب ترین' %}
         {% sort_input request 1 'گران ترین' %}
         {% sort_input request 2 'ارزان ترین' %}
         <div class="d-none">
-            {{ filter.form.pg }}
-            {{ filter.form.pl }}
-            {{ filter.form.b }}
-            {{ filter.form.g }}
-            {{ filter.form.category }}
+            {% if filter.form.pg.data != min_val_price and filter.form.pg.data != None and filter.form.pg.data != max_val_price and filter.form.pg.data != None %}
+                {{ filter.form.pg }}
+                {{ filter.form.pl }}
+            {% endif %}
+            {{ filter.form.br }}
+            {{ filter.form.gr }}
+            {{ filter.form.ca }}
             {{ filter.form.sz }}
             {{ filter.form.cs }}
             {{ filter.form.gm }}
-            {{ filter.form.gme }}
+            {{ filter.form.gc }}
             {{ filter.form.rc }}
             {{ filter.form.sc }}
+            {{ filter.form.di }}
         </div>
     </form>
 </div>

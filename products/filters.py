@@ -1,6 +1,8 @@
 import django_filters
 from django import forms
-from .models import Brand, Category, CPUSeries, GPUMaker
+from .models import Product, Brand, Category, CPUSeries, GPUMaker
+from datetime import datetime, timedelta
+from django.db.models import Count, Q
 
 
 class ProductFilter(django_filters.FilterSet):
@@ -12,38 +14,48 @@ class ProductFilter(django_filters.FilterSet):
         ('5', 'کم محبوب'),
         ('6', 'محبوب ترین'),
         ('7', 'کم فروش'),
-        ('8', 'پرفروش ترین')
+        ('8', 'پرفروش ترین'),
+        ('0', 'کم بازدید'),
+        ('9', 'پربازدید ترین')
     )
 
     pg = django_filters.NumberFilter(field_name='price', lookup_expr='gte')
     pl = django_filters.NumberFilter(field_name='price', lookup_expr='lte')
 
-    b = django_filters.ModelMultipleChoiceFilter(queryset=Brand.objects.all(),
-                                                 widget=forms.CheckboxSelectMultiple)
+    br = django_filters.ModelMultipleChoiceFilter(queryset=Brand.objects.all(),
+                                                  widget=forms.CheckboxSelectMultiple,
+                                                  field_name='brand')
 
-    g = django_filters.AllValuesMultipleFilter(field_name='grade',
-                                               widget=forms.CheckboxSelectMultiple)
+    gr = django_filters.AllValuesMultipleFilter(field_name='grade',
+                                                widget=forms.CheckboxSelectMultiple)
 
-    category = django_filters.ModelMultipleChoiceFilter(queryset=Category.objects.all(),
-                                                        widget=forms.CheckboxSelectMultiple)
+    ca = django_filters.ModelMultipleChoiceFilter(queryset=Category.objects.all(),
+                                                  widget=forms.CheckboxSelectMultiple,
+                                                  field_name='category')
 
     sz = django_filters.AllValuesMultipleFilter(field_name='specs__screen_size',
                                                 widget=forms.CheckboxSelectMultiple)
 
     cs = django_filters.ModelMultipleChoiceFilter(queryset=CPUSeries.objects.all(),
-                                                  widget=forms.CheckboxSelectMultiple)
+                                                  widget=forms.CheckboxSelectMultiple,
+                                                  field_name='specs__cpu_series')
 
     gm = django_filters.ModelMultipleChoiceFilter(queryset=GPUMaker.objects.all(),
-                                                  widget=forms.CheckboxSelectMultiple)
+                                                  widget=forms.CheckboxSelectMultiple,
+                                                  field_name='specs__gpu_maker')
 
-    gme = django_filters.AllValuesMultipleFilter(field_name='specs__gpu_memory',
-                                                 widget=forms.CheckboxSelectMultiple)
+    gc = django_filters.AllValuesMultipleFilter(field_name='specs__gpu_memory',
+                                                widget=forms.CheckboxSelectMultiple)
 
     rc = django_filters.AllValuesMultipleFilter(field_name='specs__ram_capacity',
                                                 widget=forms.CheckboxSelectMultiple)
 
     sc = django_filters.AllValuesMultipleFilter(field_name='specs__ssd_capacity',
                                                 widget=forms.CheckboxSelectMultiple)
+
+    im = django_filters.AllValuesMultipleFilter(field_name='available')
+
+    di = django_filters.AllValuesMultipleFilter(field_name='has_discount')
 
     sort = django_filters.ChoiceFilter(choices=CHOICE_SORT, method='sort_filter')
 
@@ -62,6 +74,13 @@ class ProductFilter(django_filters.FilterSet):
             data = '-ratings__average'
         elif value == '7':
             data = 'sell'
-        else:
+        elif value == '8':
             data = '-sell'
+        elif value == '0':
+            data = 'hits'
+        else:
+            last_ten_days = datetime.today() - timedelta(days=10)
+            product_popular = Product.objects.annotate(
+                count=Count('hits', filter=Q(articlehit__created__gt=last_ten_days)))
+            return product_popular.order_by('-available', '-count')
         return queryset.order_by('-available', data)

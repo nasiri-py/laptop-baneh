@@ -19,18 +19,33 @@ def product_list_view(request):
     maxi = Product.objects.aggregate(m_price=Max('price'))
     max_price = int(maxi['m_price'])
 
+    min_val_price = request.GET.get('pg')
+    max_val_price = request.GET.get('pl')
+    if min_val_price is None:
+        min_val_price = min_price
+    if max_val_price is None:
+        max_val_price = max_price
+
     filter_object = ProductFilter(request.GET, queryset=products)
     products = filter_object.qs
 
-    paginator = Paginator(products, 18)
+    paginator = Paginator(products, 2)
     page_number = request.GET.get('page')
     data = request.GET.copy()
     if 'page' in data:
         del data['page']
+
+    data_na = data.copy()
+    if 'im' in data_na:
+        del data_na['im']
+
     page_obj = paginator.get_page(page_number)
 
-    context = {'filter': filter_object, 'page_obj': page_obj,
-               'min_price': min_price, 'max_price': max_price, 'data': urlencode(data)}
+    data_url = urlencode(list(data.lists()), doseq=True)
+    data_na_url = urlencode(list(data_na.lists()), doseq=True)
+
+    context = {'filter': filter_object, 'page_obj': page_obj, 'min_price': min_price, 'max_price': max_price,
+               'min_val_price': min_val_price, 'max_val_price': max_val_price, 'data': data_url, 'data_na': data_na_url}
 
     return render(request, 'products/product_list.html', context)
 

@@ -1,39 +1,57 @@
 {% load humanize %}
 
-<div class="offcanvas-md offcanvas-end col-lg-3 col-md-4 col-sm-6 border rounded h-100" tabindex="-1" id="filterOffcanvasRight" aria-labelledby="filterOffcanvasRightLabel">
-   <div class="offcanvas-header d-md-none d-block text-start">
-    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-  </div>
-    <form action="" method="get">
+
+<div class="offcanvas-md offcanvas-end col-lg-3 col-md-4 col-sm-6 border rounded h-100" tabindex="-1"
+     id="filterOffcanvasRight" aria-labelledby="filterOffcanvasRightLabel">
+    <div class="offcanvas-header d-md-none d-block text-start">
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <form action="{% url 'product:list' %}?{{ data }}" method="get">
         <div class="d-flex justify-content-between align-items-baseline pt-3 pb-2">
             <b><i class="fa fa-filter"></i> فیلتر</b>
-            {% if request.GET.urlencode %}
-                <a href="{% url 'product:list' %}" class="text-decoration-none text-link">حذف فیلترها</a>
+            {% if request.GET.urlencode and 'sort=' not in data %}
+                <a href="{% url 'product:list' %}" class="text-decoration-none text-link"
+                   style="font-size: 13px !important;">حذف فیلترها</a>
             {% endif %}
         </div>
-        <div class="accordion accordion-flush" id="accordionFlushExample">
-            <div class="accordion-item pt-3">
-                <div class="accordion-header" id="flush-heading1">
+        {% if 'im=True' in data %}
+            <a class="mt-3 pb-2 border-bottom text-decoration-none d-flex align-items-baseline" href="{% url 'product:list' %}?{{ data_na }}">
+                <div class="switch-available">
+            <span class="slider"></span>
+        </div>
+            <p class="me-2 display6 text-grey">فقط کالاهای موجود</p>
+            </a>
+        {% else %}
+            <a class="mt-3 pb-2 border-bottom text-decoration-none d-flex align-items-baseline" href="{% url 'product:list' %}?{{ data }}&im=True">
+                <div class="switch-available" id="switch-not-available">
+            <span class="slider"></span>
+        </div>
+            <p class="me-2 display6 text-grey">فقط کالاهای موجود</p>
+            </a>
+        {% endif %}
+        <div class="accordion accordion-flush filter-form-accordion" id="accordionPanelsStayOpenExample">
+            <div class="accordion-item py-3">
+                <div class="accordion-header" id="panelsStayOpen-heading1">
                     <div class="d-flex justify-content-between align-items-baseline collapsed" type="button"
-                         data-bs-toggle="collapse" data-bs-target="#flush-collapse1" aria-expanded="false"
-                         aria-controls="flush-collapse1">
-                        <p>
+                         data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse1" aria-expanded="false"
+                         aria-controls="panelsStayOpen-collapse1">
+                        <p class="m-0">
                             بر اساس قیمت
                         </p>
-                        <i class="fa fa-angle-down" aria-hidden="true"></i>
+                        <i class="fa fa-angle-down mx-2" aria-hidden="true"></i>
                     </div>
                 </div>
-                <div id="flush-collapse1" class="accordion-collapse collapse" aria-labelledby="flush-heading1"
-                     data-bs-parent="#accordionFlushExample">
-                    <div class="accordion-body">
-                        <label for="price"></label>
+                <div id="panelsStayOpen-collapse1"
+                     class="accordion-collapse collapse {% if 'pg=' in data or 'pl=' in data %}show{% endif %}"
+                     aria-labelledby="panelsStayOpen-heading1">
+                    <div class="accordion-body pb-0">
                         <div class="price-range">
                             <div class="container">
                                 <div class="slider-track"></div>
-                                <input type="range" name="pg" value="{{ min_price|intcomma }}" step="1"
+                                <input type="range" name="pg" value="{{ min_val_price|intcomma }}" step="1"
                                        oninput="slideOne()" max="{{ max_price|intcomma }}"
                                        min="{{ min_price|intcomma }}" id="slider-1">
-                                <input type="range" name="pl" value="{{ max_price|intcomma }}" step="1"
+                                <input type="range" name="pl" value="{{ max_val_price|intcomma }}" step="1"
                                        oninput="slideTwo()" max="{{ max_price|intcomma }}"
                                        min="{{ min_price|intcomma }}" id="slider-2">
                             </div>
@@ -55,172 +73,216 @@
                     </div>
                 </div>
             </div>
-            <div class="accordion-item pt-3">
-                <div class="accordion-header" id="flush-heading2">
+            <div class="accordion-item py-3">
+                <div class="accordion-header" id="panelsStayOpen-heading2">
                     <div class="d-flex justify-content-between align-items-baseline collapsed" type="button"
-                         data-bs-toggle="collapse" data-bs-target="#flush-collapse2" aria-expanded="false"
-                         aria-controls="flush-collapse2">
-                        <p>
+                         data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse2" aria-expanded="false">
+                        <p class="m-0">
                             شرکت سازنده
                         </p>
-                        <i class="fa fa-angle-down" aria-hidden="true"></i>
+                        <i class="fa fa-angle-down mx-2" aria-hidden="true"></i>
                     </div>
                 </div>
-                <div id="flush-collapse2" class="accordion-collapse collapse" aria-labelledby="flush-heading2"
-                     data-bs-parent="#accordionFlushExample">
-                    <div class="accordion-body">
-                        {{ filter.form.b|title }}
+                <div id="panelsStayOpen-collapse2"
+                     class="accordion-collapse collapse {% if 'br=' in data %}show{% endif %}"
+                     aria-labelledby="panelsStayOpen-heading2">
+                    <div class="accordion-body pb-0">
+                        {{ filter.form.br }}
                     </div>
                 </div>
             </div>
-            <div class="accordion-item pt-3">
-                <div class="accordion-header" id="flush-heading3">
+            <div class="accordion-item py-3">
+                <div class="accordion-header" id="panelsStayOpen-heading3">
                     <div class="d-flex justify-content-between align-items-baseline collapsed" type="button"
-                         data-bs-toggle="collapse" data-bs-target="#flush-collapse3" aria-expanded="false"
-                         aria-controls="flush-collapse3">
-                        <p>
+                         data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse3" aria-expanded="false"
+                         aria-controls="panelsStayOpen-collapse3">
+                        <p class="m-0">
                             گرید
                         </p>
-                        <i class="fa fa-angle-down" aria-hidden="true"></i>
+                        <i class="fa fa-angle-down mx-2" aria-hidden="true"></i>
                     </div>
                 </div>
-                <div id="flush-collapse3" class="accordion-collapse collapse" aria-labelledby="flush-heading3"
-                     data-bs-parent="#accordionFlushExample">
-                    <div class="accordion-body">
-                        <div id="id_g">
-                            <div><label for="id_g_0"><input type="checkbox" name="g" value="n" id="id_g_0">
-                                آکبند</label></div>
-                            <div><label for="id_g_1"><input type="checkbox" name="g" value="o" id="id_g_1">
-                                اپن باکس</label></div>
-                            <div><label for="id_g_2"><input type="checkbox" name="g" value="s" id="id_g_2">
-                                استوک</label></div>
+                <div id="panelsStayOpen-collapse3"
+                     class="accordion-collapse collapse {% if 'gr=' in data %}show{% endif %}"
+                     aria-labelledby="panelsStayOpen-heading3">
+                    <div class="accordion-body pb-0">
+                        <div id="id_gr">
+                            <div>
+                                <label for="id_gr_0"><input type="checkbox" name="gr" value="n" id="id_gr_0"
+                                                            {% if 'gr=n' in data %}checked=""{% endif %}>
+                                    آکبند</label>
+
+                            </div>
+                            <div>
+                                <label for="id_gr_1"><input type="checkbox" name="gr" value="o" id="id_gr_1"
+                                                            {% if 'gr=o' in data %}checked=""{% endif %}>
+                                    اپن باکس</label>
+
+                            </div>
+                            <div>
+                                <label for="id_gr_2"><input type="checkbox" name="gr" value="s" id="id_gr_2"
+                                                            {% if 'gr=s' in data %}checked=""{% endif %}>
+                                    استوک</label>
+
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="accordion-item pt-3">
-                <div class="accordion-header" id="flush-heading4">
+            <div class="accordion-item py-3">
+                <div class="accordion-header" id="panelsStayOpen-heading4">
                     <div class="d-flex justify-content-between align-items-baseline collapsed" type="button"
-                         data-bs-toggle="collapse" data-bs-target="#flush-collapse4" aria-expanded="false"
-                         aria-controls="flush-collapse4">
-                        <p>
+                         data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse4" aria-expanded="false"
+                         aria-controls="panelsStayOpen-collapse4">
+                        <p class="m-0">
                             رده کاری
                         </p>
-                        <i class="fa fa-angle-down" aria-hidden="true"></i>
+                        <i class="fa fa-angle-down mx-2" aria-hidden="true"></i>
                     </div>
                 </div>
-                <div id="flush-collapse4" class="accordion-collapse collapse" aria-labelledby="flush-heading4"
-                     data-bs-parent="#accordionFlushExample">
-                    <div class="accordion-body">
-                        {{ filter.form.category }}
+                <div id="panelsStayOpen-collapse4"
+                     class="accordion-collapse collapse {% if 'ca=' in data %}show{% endif %}"
+                     aria-labelledby="panelsStayOpen-heading4">
+                    <div class="accordion-body pb-0">
+                        {{ filter.form.ca }}
                     </div>
                 </div>
             </div>
-            <div class="accordion-item pt-3">
-                <div class="accordion-header" id="flush-heading5">
+            <div class="accordion-item py-3">
+                <div class="accordion-header" id="panelsStayOpen-heading5">
                     <div class="d-flex justify-content-between align-items-baseline collapsed" type="button"
-                         data-bs-toggle="collapse" data-bs-target="#flush-collapse5" aria-expanded="false"
-                         aria-controls="flush-collapse5">
-                        <p>
+                         data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse5" aria-expanded="false"
+                         aria-controls="panelsStayOpen-collapse5">
+                        <p class="m-0">
                             اندازه صفحه نمایش
                         </p>
-                        <i class="fa fa-angle-down" aria-hidden="true"></i>
+                        <i class="fa fa-angle-down mx-2" aria-hidden="true"></i>
                     </div>
                 </div>
-                <div id="flush-collapse5" class="accordion-collapse collapse" aria-labelledby="flush-heading5"
-                     data-bs-parent="#accordionFlushExample">
-                    <div class="accordion-body">
+                <div id="panelsStayOpen-collapse5"
+                     class="accordion-collapse collapse {% if 'sz=' in data %}show{% endif %}"
+                     aria-labelledby="panelsStayOpen-heading5">
+                    <div class="accordion-body pb-0">
                         {{ filter.form.sz }}
                     </div>
                 </div>
             </div>
-            <div class="accordion-item pt-3">
-                <div class="accordion-header" id="flush-heading6">
+            <div class="accordion-item py-3">
+                <div class="accordion-header" id="panelsStayOpen-heading6">
                     <div class="d-flex justify-content-between align-items-baseline collapsed" type="button"
-                         data-bs-toggle="collapse" data-bs-target="#flush-collapse6" aria-expanded="false"
-                         aria-controls="flush-collapse6">
-                        <p>
+                         data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse6" aria-expanded="false"
+                         aria-controls="panelsStayOpen-collapse6">
+                        <p class="m-0">
                             سری پردازنده
                         </p>
-                        <i class="fa fa-angle-down" aria-hidden="true"></i>
+                        <i class="fa fa-angle-down mx-2" aria-hidden="true"></i>
                     </div>
                 </div>
-                <div id="flush-collapse6" class="accordion-collapse collapse" aria-labelledby="flush-heading6"
-                     data-bs-parent="#accordionFlushExample">
-                    <div class="accordion-body">
-                        {{ filter.form.cs|title }}
+                <div id="panelsStayOpen-collapse6"
+                     class="accordion-collapse collapse {% if 'cs=' in data %}show{% endif %}"
+                     aria-labelledby="panelsStayOpen-heading6">
+                    <div class="accordion-body pb-0">
+                        {{ filter.form.cs }}
                     </div>
                 </div>
             </div>
-            <div class="accordion-item pt-3">
-                <div class="accordion-header" id="flush-heading7">
+            <div class="accordion-item py-3">
+                <div class="accordion-header" id="panelsStayOpen-heading7">
                     <div class="d-flex justify-content-between align-items-baseline collapsed" type="button"
-                         data-bs-toggle="collapse" data-bs-target="#flush-collapse7" aria-expanded="false"
-                         aria-controls="flush-collapse7">
-                        <p>
+                         data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse7" aria-expanded="false"
+                         aria-controls="panelsStayOpen-collapse7">
+                        <p class="m-0">
                             سازنده پردازنده گرافیکی
                         </p>
-                        <i class="fa fa-angle-down" aria-hidden="true"></i>
+                        <i class="fa fa-angle-down mx-2" aria-hidden="true"></i>
                     </div>
                 </div>
-                <div id="flush-collapse7" class="accordion-collapse collapse" aria-labelledby="flush-heading7"
-                     data-bs-parent="#accordionFlushExample">
-                    <div class="accordion-body">
-                        {{ filter.form.gm|title }}
+                <div id="panelsStayOpen-collapse7"
+                     class="accordion-collapse collapse {% if 'gm=' in data %}show{% endif %}"
+                     aria-labelledby="panelsStayOpen-heading7">
+                    <div class="accordion-body pb-0">
+                        {{ filter.form.gm }}
                     </div>
                 </div>
             </div>
-            <div class="accordion-item pt-3">
-                <div class="accordion-header" id="flush-heading8">
+            <div class="accordion-item py-3">
+                <div class="accordion-header" id="panelsStayOpen-heading8">
                     <div class="d-flex justify-content-between align-items-baseline collapsed" type="button"
-                         data-bs-toggle="collapse" data-bs-target="#flush-collapse8" aria-expanded="false"
-                         aria-controls="flush-collapse8">
-                        <p>
+                         data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse8" aria-expanded="false"
+                         aria-controls="panelsStayOpen-collapse8">
+                        <p class="m-0">
                             حافظه اختصاصی گرافیکی
                         </p>
-                        <i class="fa fa-angle-down" aria-hidden="true"></i>
+                        <i class="fa fa-angle-down mx-2" aria-hidden="true"></i>
                     </div>
                 </div>
-                <div id="flush-collapse8" class="accordion-collapse collapse" aria-labelledby="flush-heading8"
-                     data-bs-parent="#accordionFlushExample">
-                    <div class="accordion-body">
-                        {{ filter.form.gme|default_if_none:"" }}
+                <div id="panelsStayOpen-collapse8"
+                     class="accordion-collapse collapse {% if 'gr=' in data %}show{% endif %}"
+                     aria-labelledby="panelsStayOpen-heading8">
+                    <div class="accordion-body pb-0">
+                        <div class="id_gme">
+                            {% for value in filter.form.gr %}
+                                {% if value.data.label != None %}
+                                    <div>
+                                        {{ value }}
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="accordion-item pt-3">
-                <div class="accordion-header" id="flush-heading9">
+            <div class="accordion-item py-3">
+                <div class="accordion-header" id="panelsStayOpen-heading9">
                     <div class="d-flex justify-content-between align-items-baseline collapsed" type="button"
-                         data-bs-toggle="collapse" data-bs-target="#flush-collapse9" aria-expanded="false"
-                         aria-controls="flush-collapse9">
-                        <p>
+                         data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse9" aria-expanded="false"
+                         aria-controls="panelsStayOpen-collapse9">
+                        <p class="m-0">
                             حافظه رم
                         </p>
-                        <i class="fa fa-angle-down" aria-hidden="true"></i>
+                        <i class="fa fa-angle-down mx-2" aria-hidden="true"></i>
                     </div>
                 </div>
-                <div id="flush-collapse9" class="accordion-collapse collapse" aria-labelledby="flush-heading9"
-                     data-bs-parent="#accordionFlushExample">
-                    <div class="accordion-body">
-                        {{ filter.form.rc }}
+                <div id="panelsStayOpen-collapse9"
+                     class="accordion-collapse collapse {% if 'rc=' in data %}show{% endif %}"
+                     aria-labelledby="panelsStayOpen-heading9">
+                    <div class="accordion-body pb-0">
+                        <div class="id_rc">
+                            {% for value in filter.form.rc %}
+                                {% if value.data.label != None %}
+                                    <div>
+                                        {{ value }}
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="accordion-item pt-3">
-                <div class="accordion-header" id="flush-heading10">
+            <div class="accordion-item py-3">
+                <div class="accordion-header" id="panelsStayOpen-heading10">
                     <div class="d-flex justify-content-between align-items-baseline collapsed" type="button"
-                         data-bs-toggle="collapse" data-bs-target="#flush-collapse10" aria-expanded="false"
-                         aria-controls="flush-collapse10">
-                        <p>
+                         data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse10" aria-expanded="false"
+                         aria-controls="panelsStayOpen-collapse10">
+                        <p class="m-0">
                             ظرفیت هارد دیسک
                         </p>
-                        <i class="fa fa-angle-down" aria-hidden="true"></i>
+                        <i class="fa fa-angle-down mx-2" aria-hidden="true"></i>
                     </div>
                 </div>
-                <div id="flush-collapse10" class="accordion-collapse collapse" aria-labelledby="flush-heading10"
-                     data-bs-parent="#accordionFlushExample">
-                    <div class="accordion-body">
-                        {{ filter.form.sc|default_if_none:"" }}
+                <div id="panelsStayOpen-collapse10"
+                     class="accordion-collapse collapse {% if 'sc=' in data %}show{% endif %}"
+                     aria-labelledby="panelsStayOpen-heading10">
+                    <div class="accordion-body pb-0">
+                        <div class="id_sc">
+                            {% for value in filter.form.sc %}
+                                {% if value.data.label != None %}
+                                    <div>
+                                        {{ value }}
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -229,8 +291,10 @@
             <button type="submit" class="btn btn-buy w-100">اعمال فیلتر</button>
         </div>
         <div class="d-none">
-            {{ filter.form.sort }}
+            {% if  filter.form.sort.data != None %}
+                {{ filter.form.sort }}
+            {% endif %}
+            {{ filter.form.di }}
         </div>
     </form>
 </div>
-

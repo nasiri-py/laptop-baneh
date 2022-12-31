@@ -9,7 +9,7 @@ from .models import Order, OrderItem, Coupon, OrderAddress
 from .forms import CouponForm, OrderAddressForm
 from datetime import datetime
 import pytz
-from django.conf import settings
+from config import settings
 import requests
 import json
 from utils import send_sms

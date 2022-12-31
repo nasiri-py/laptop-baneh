@@ -18,6 +18,27 @@
         .tooltip > .tooltip-arrow::before {
             border-top-color: #979797 !important;
         }
+
+        .comment {
+            display: none;
+        }
+
+        #loadLessComment {
+            display: none;
+        }
+
+        #loadMoreComment,
+        #loadLessComment {
+            transition: all 600ms ease-in-out;
+            -webkit-transition: all 600ms ease-in-out;
+            -moz-transition: all 600ms ease-in-out;
+            -o-transition: all 600ms ease-in-out;
+        }
+
+        #loadMoreComment:hover {
+            background-color: #fff;
+            color: #33739E;
+        }
     </style>
 {% endblock %}
 
@@ -225,7 +246,8 @@
                     <li class="nav-item">
                         <a class="text-center text-dark h4 nav-link" id="review-tab" data-toggle="tab" href="#review"
                            role="tab"
-                           aria-controls="review" aria-selected="false">دیدگاه {% if product.comments.count != 0 %}({{ product.comments.count }}){% endif %}</a>
+                           aria-controls="review" aria-selected="false">دیدگاه {% if product.comments.count != 0 %}(
+                            {{ product.comments.count }}){% endif %}</a>
                     </li>
                 </ul>
                 <div class="tab-content rounded" id="myTabContent">
@@ -794,6 +816,14 @@
                                     </div>
                                 {% endif %}
                             {% endfor %}
+                            {% if product.comments.count > 4 %}
+                                <div class="load-comment my-3 text-start">
+                                    <a class="text-decoration-none" href="#" id="loadMoreComment"><h6
+                                            class="m-0 text-grey">مشاهده بیشتر</h6></a>
+                                    <a class="text-decoration-none" href="#" id="loadLessComment"><h6
+                                            class="m-0 text-grey">مشاهده کمتر</h6></a>
+                                </div>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -823,7 +853,8 @@
                                                     style="background-color: {{ color.color }};"></h6>
                                             {% endfor %}
                                             {% if product.colors.count > 4 %}
-                                                <h6 class="font-weight-bold text-muted"><i class="fa fa-plus-circle"></i></h6>
+                                                <h6 class="font-weight-bold text-muted"><i
+                                                        class="fa fa-plus-circle"></i></h6>
                                             {% endif %}
                                         </div>
                                     </div>
@@ -1147,6 +1178,37 @@
             boxHeight: 360,
             marginLeft: 5,
             origin: 'data-origin'
+        });
+    </script>
+    <script>
+        $(function () {
+            $(".comment").slice(0, 4).show();
+            $("#loadMoreComment").on('click', function (e) {
+                e.preventDefault();
+                $(".comment:hidden").slice(0, 4).slideDown();
+                if ($(".comment:hidden").length == 0) {
+                    $("#loadLessComment").fadeIn('slow');
+                    $("#loadMoreComment").hide();
+                    // $("#loadMore").text('Load only the first 4');
+                }
+                $('.review-content').animate({
+                    scrollTop: $(this).offset().top
+                }, 1500);
+            });
+
+            $("#loadLessComment").on('click', function (e) {
+                e.preventDefault();
+                $('.comment:not(:lt(4))').fadeOut();
+                $("#loadMoreComment").fadeIn('slow');
+                $("#loadLessComment").hide();
+
+                desiredHeight = $(window).height();
+
+                $('.review-content').animate({
+                    scrollTop: $(this).offset().top + desiredHeight
+                }, 1500);
+            });
+
         });
     </script>
     <!-- End Article -->

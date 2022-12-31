@@ -11,11 +11,11 @@ from django.contrib import messages
 
 class HomeView(View):
     def get(self, request):
-        product_discount = Product.objects.filter(available=True, discount__isnull=False)
-        product_newest = Product.objects.filter(discount__isnull=True).order_by('-created')[:10]
+        product_discount = Product.objects.filter(available=True, has_discount=True)
+        product_newest = Product.objects.filter(has_discount=False).order_by('-created')[:10]
 
         last_ten_days = datetime.today() - timedelta(days=10)
-        product_popular = Product.objects.filter(discount__isnull=True).annotate(
+        product_popular = Product.objects.filter(has_discount=False).annotate(
             count=Count('hits', filter=Q(articlehit__created__gt=last_ten_days))
         ).order_by('-count', '-created')[:10]
 

@@ -78,13 +78,13 @@
             <div class="flex-fill position-relative">
                 <ul class="nav navbar-nav d-flex justify-content-around p-0 mx-lg-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'home:home' %}">صفحه اصلی</a>
-                    </li>
-                    <li class="nav-item">
                         {% navbar_list %}
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'product:list' %}">فروشگاه</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'product:list' %}?di=True">پیشنهاد شگفت انگیز</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'home:about' %}">درباره ما</a>
@@ -264,10 +264,6 @@
                         |
                         <a class="text-decoration-none" href="tel:0918-874-0812" style="font-size: .9rem !important;">0918-874-0812</a>
                     </li>
-                    <li>
-                        <i class="fa fa-envelope fa-fw"></i>
-                        <a class="text-decoration-none" href="mailto:info@company.com">info@company.com</a>
-                    </li>
                 </ul>
             </div>
             <div class="col-lg-3 col-md-6 col-sm-6 col-12 pt-5">
@@ -363,7 +359,7 @@
                     searchButton.classList.remove('d-none')
                     data.forEach(product => {
                         resultsBox.innerHTML += `<li class="list-group-item border-0">
-                    <a class="row text-dark text-decoration-none" href="{% url 'product:list' %}${product.slug}/%5CZ">
+                    <a class="row text-dark text-decoration-none" href="{% url 'product:list' %}detail/${product.slug}">
                         <img class="col-2" src="${product.cover}" alt="${product.title}">
                         <h6 class="col-8 my-auto">${product.title}</h6>
                     </a>
