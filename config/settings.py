@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'star_ratings',
     'widget_tweaks',
     'django_filters',
+    'django_celery_beat',
 
     # my apps
     'accounts.apps.AccountsConfig',

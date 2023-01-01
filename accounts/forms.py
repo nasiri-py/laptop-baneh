@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
 from django.core.exceptions import ValidationError
+from .models import OtpCode
 
 
 class RegisterForm(UserCreationForm):
@@ -15,6 +16,7 @@ class RegisterForm(UserCreationForm):
             raise ValidationError('فرمت شماره موبایل صحیح نمیباشد.')
         if get_user_model().objects.filter(phone_number=phone_number).exists():
             raise ValidationError('کاربری با آن شماره موبایل وجود دارد.')
+        OtpCode.objects.filter(phone_number=phone_number).delete()
         return phone_number
 
 
