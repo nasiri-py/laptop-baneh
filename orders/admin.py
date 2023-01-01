@@ -22,4 +22,4 @@ class OrderAdmin(admin.ModelAdmin):
 
 @admin.register(Coupon)
 class CouponAdmin(admin.ModelAdmin):
-    list_display = ['code', 'discount', 'discount_limit', 'valid_from', 'valid_to']
+    list_display = ['code', 'discount', 'discount_limit', 'j_valid_from', 'j_valid_to']

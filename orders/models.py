@@ -76,6 +76,16 @@ class Coupon(models.Model):
     def __str__(self):
         return self.code
 
+    def j_valid_from(self):
+        return jalali_converter(self.valid_from)
+
+    j_valid_from.short_description = "زمان شروع"
+
+    def j_valid_to(self):
+        return jalali_converter(self.valid_to)
+
+    j_valid_to.short_description = "زمان پایان"
+
 
 class OrderAddress(models.Model):
     # receiver

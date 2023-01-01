@@ -7,10 +7,8 @@ from .models import (
     Brand,
     Specification,
     Comment,
-    IPAddress,
     CPUSeries,
     GPUMaker,
-    Compare,
 )
 
 
@@ -63,14 +61,6 @@ class ProductAdmin(admin.ModelAdmin):
     exclude = ("sell",)
 
 
-class ImageAdmin(admin.ModelAdmin):
-    list_display = ['image_tag']
-
-
-class ColorAdmin(admin.ModelAdmin):
-    list_display = ['title', 'product', 'color_tag']
-
-
 class CommentAdmin(admin.ModelAdmin):
     list_display = ['product', 'user', 'body', 'is_reply', 'reply']
     raw_id_fields = ['reply']
@@ -80,14 +70,18 @@ class CompareAdmin(admin.ModelAdmin):
     list_display = ['user', 'product', 'session_key']
 
 
+class HiddenModelAdmin(admin.ModelAdmin):
+    def get_model_perms(self, request):
+        """
+        Return empty perms dict thus hiding the model from admin index.
+        """
+        return {}
+
+
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Comment, CommentAdmin)
-admin.site.register(Image, ImageAdmin)
-admin.site.register(Color, ColorAdmin)
-admin.site.register(Compare, CompareAdmin)
-admin.site.register(Specification)
-admin.site.register(CPUSeries)
-admin.site.register(GPUMaker)
-admin.site.register(Category)
-admin.site.register(Brand)
-admin.site.register(IPAddress)
+admin.site.register(CPUSeries, HiddenModelAdmin)
+admin.site.register(GPUMaker, HiddenModelAdmin)
+admin.site.register(Category, HiddenModelAdmin)
+admin.site.register(Brand, HiddenModelAdmin)
+

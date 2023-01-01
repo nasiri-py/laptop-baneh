@@ -744,8 +744,8 @@
                                     <div class="mt-4 p-4 comment">
                                         <div class="row p-0">
                                             {% if comment.user.is_staff %}
-                                                <div class="col-6"><h6 class="comment-user mb-1"
-                                                                       style="color: #7803e2;">{{ comment.user.first_name }}</h6>
+                                                <div class="col-6"><h6 class="comment-user mb-1 text-logo">
+                                                    {{ comment.user.first_name }}</h6>
                                                 </div>
                                             {% else %}
                                                 <div class="col-6">
@@ -798,8 +798,8 @@
                                             <div class="comment-reply mt-3 p-4">
                                                 <div class="row p-0">
                                                     {% if cm.user.is_staff %}
-                                                        <div class="col-6"><h6 class="comment-user mb-1"
-                                                                               style="color: #7803e2;">{{ cm.user.first_name }}</h6>
+                                                        <div class="col-6"><h6 class="comment-user mb-1 text-logo">
+                                                            {{ cm.user.first_name }}</h6>
                                                         </div>
                                                     {% else %}
                                                         <div class="col-6">

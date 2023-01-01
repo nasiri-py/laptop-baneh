@@ -56,6 +56,7 @@ class Product(models.Model):
 
     brand = models.ForeignKey(Brand, on_delete=models.CASCADE, related_name='products', verbose_name='برند')
     title = models.CharField(max_length=255, verbose_name='عنوان')
+    code = models.CharField(max_length=255, unique=True, verbose_name='کد محصول')
     slug = models.SlugField(max_length=255, allow_unicode=True, unique=True, verbose_name='آدرس')
     grade = models.CharField(choices=GRADE_CHOICES, max_length=1, verbose_name='گرید')
     category = models.ManyToManyField(Category, related_name="products", verbose_name='کاربری')
@@ -117,13 +118,6 @@ class Color(models.Model):
     def __str__(self):
         return self.title
 
-    def color_tag(self):
-        return format_html(f"<div style='height:20px; width:20px; border: 2px solid #bab5b5;"
-                           f"border-radius: 50%; background-color:{self.color};'></div>")
-
-    color_tag.short_description = 'رنگ'
-    color_tag.allow_tags = True
-
 
 class Image(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='images', verbose_name='محصول')
@@ -132,11 +126,6 @@ class Image(models.Model):
     class Meta:
         verbose_name = 'عکس'
         verbose_name_plural = 'عکس ها'
-
-    def image_tag(self):
-        return format_html(f"<img width=100 height=75 style='border-radius: 5px; object-fit: contain;' src='{self.image.url}'>")
-
-    image_tag.short_description = 'عکس'
 
 
 class CPUSeries(models.Model):
@@ -248,8 +237,8 @@ class Comment(models.Model):
     created = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        verbose_name = 'نظر'
-        verbose_name_plural = 'نظرات'
+        verbose_name = 'دیدگاه'
+        verbose_name_plural = 'دیدگاه ها'
 
     def __str__(self):
         return self.product.title

@@ -33,3 +33,8 @@ def sort_input(request, sort_val, content):
         "sort_q": f'sort={sort_val}',
         "content": content,
     }
+
+
+@register.filter(name='is_in_list')
+def is_in_list(value, given_list):
+    return True if value in given_list else False

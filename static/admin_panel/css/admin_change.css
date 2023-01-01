@@ -1,0 +1,58 @@
+@import url(../../base/css/fonts.css);
+
+* {
+    font-family: Vazir, sans-serif;
+}
+
+#header {
+    background-color: #7d03e2;
+    color: #ffccfb;
+}
+
+#branding h1 a:link, #branding h1 a:visited {
+    color: rgb(245 102 242);
+}
+
+.module h2, .module caption, .inline-group h2 {
+    background: #624F82;
+}
+
+a:link, a:visited {
+    color: #624F82;
+}
+
+.button.default, input[type=submit].default, .submit-row input.default {
+    background: #3A4F7A;
+}
+
+.button:active, input[type=submit]:active, input[type=button]:active, .button:focus, input[type=submit]:focus, input[type=button]:focus, .button:hover, input[type=submit]:hover, input[type=button]:hover {
+    background: rgba(58, 79, 122, 0.8);
+}
+
+.button, input[type=submit], input[type=button], .submit-row input, a.button {
+    background: rgba(58, 79, 122, 0.7);
+}
+
+div.breadcrumbs {
+    background: #a279c8;
+    color: #e8c4e5;
+}
+
+#nav-sidebar .current-model {
+    background: #f4d4f5;
+}
+
+.calendar td.today a {
+    font-weight: 700;
+    background: rgba(58, 79, 122, 0.3);
+    color: #555;
+}
+
+.calendar td a:focus, .timelist a:focus, .calendar td a:hover, .timelist a:hover {
+    background: rgba(58, 79, 122, 0.8) !important;
+    color: white;
+}
+
+.calendar caption, .calendarbox h2 {
+    background: #f55d95 !important;
+}

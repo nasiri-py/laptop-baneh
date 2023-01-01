@@ -111,17 +111,18 @@
                         <ul class="list-group p-0 border-0">
                             <li class="border-0 border-bottom list-group-item text-end profile-nav-link"><a class="text-decoration-none text-black d-flex" href="{% url 'accounts:profile' %}"><i class="fa fa-user-circle"></i><h6 class="me-2 mb-0">مشاهده پروفایل</h6></a></li>
                             <li class="border-0 border-bottom list-group-item text-end profile-nav-link"><a class="text-decoration-none text-black d-flex" href="{% url 'accounts:password-change' %}"><i class="fa fa-key"></i><h6 class="me-2 mb-0">تغییر گذرواژه</h6></a></li>
-                            <li class="border-0 list-group-item text-end profile-nav-link"><a class="text-decoration-none text-black d-flex" href="{% url 'accounts:logout' %}{% if not request.path == '/accounts/profile/' %}?next={{ request.path }}{% endif %}"><i class="fas fa-sign-out-alt"></i><h6 class="me-2 mb-0">خروج از حساب</h6></a></li>
+                            <li class="border-0 list-group-item text-end profile-nav-link"><a class="text-decoration-none text-black d-flex" href="{% url 'accounts:logout' %}{% if not request.path|is_in_list:'/accounts/profile/, /order/detail/, /order/address/, /order/factor/, /order/verify/' %}?next={{ request.path }}{% endif %}">
+                                <i class="fas fa-sign-out-alt"></i><h6 class="me-2 mb-0">خروج از حساب</h6></a></li>
                         </ul>
                     </div>
                 </div>
             {% else %}
                 <div class="d-flex align-items-center p-1 rounded border me-4">
-                    <a class="nav-icon text-decoration-none text-link me-1"
+                    <a class="nav-icon text-decoration-none text-logo me-1"
                        href="{% url 'accounts:login' %}">
                         <h6 class="m-0">ورود | </h6>
                     </a>
-                    <a class="nav-icon text-decoration-none text-link me-1" href="{% url 'accounts:register' %}">
+                    <a class="nav-icon text-decoration-none text-logo me-1" href="{% url 'accounts:register' %}">
                         <h6 class="m-0 badge badge-link"> ثبت نام</h6>
                     </a>
                 </div>
@@ -252,7 +253,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-3 col-md-8 col-sm-8 col-12 pt-5">
-                <a href="{% url 'home:home' %}" class="text-decoration-none"><h3 class="h3 pb-2 border-light rounded-0 text-link">استوک لپ‌تاپ استور</h3></a>
+                <a href="{% url 'home:home' %}" class="text-decoration-none"><h3 class="h3 pb-2 border-light rounded-0 text-logo">استوک لپ‌تاپ استور</h3></a>
                 <ul class="list-unstyled text-light footer-link-list p-0">
                     <li>
                         <i class="fas fa-map-marker-alt fa-fw"></i>

@@ -64,6 +64,7 @@ body, ul, li, p, a, label, input, div {
 }
 /* General */
 .logo { height: 60px; border-radius: 50%; color: #7803e2;}
+.text-logo { color: #7803e2 !important;}
 .text-warning { color: #ede861 !important;}
 .text-muted { color: #bcbcbc !important;}
 .text-grey { color: #777 !important;}
@@ -124,7 +125,7 @@ body, ul, li, p, a, label, input, div {
     -webkit-appearance: none;
     margin: 0;
 }
-.text-link {color: #7803e2 !important;}
+.text-link {color: #19bfd3 !important;}
 #mapid {z-index: 999}
 /* Nav */
 .top-header {background-color: #7803e2;}
@@ -294,10 +295,10 @@ body, ul, li, p, a, label, input, div {
 .discount-percent {font-size: .8rem !important; background-color: #bc1f69 !important; border-radius: 30%; color: #fff;}
 .price {font-size: .65rem !important;}
 .more-detail {margin: auto;box-shadow: rgba(149, 157, 165, 0.2) 0 8px 24px; background-color: #fff !important; border-radius: 10px !important;}
-.more-detail:hover {box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0; color: #7803e2 !important;}
+.more-detail:hover {box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0; color: #19bfd3 !important;}
 .brands {filter: grayscale(100%);}
-.brands:hover {filter: grayscale(0); color: #7803e2 !important;}
-.fa-arrow-left, .fa-angle-left {color: #7803e2 !important;}
+.brands:hover {filter: grayscale(0); color: #19bfd3 !important;}
+.fa-arrow-left, .fa-angle-left {color: #19bfd3 !important;}
 .leaflet-control a, .leaflet-control { font-size: 10px !important;}
 .form-control { border: 1px solid #e8e8e8;}
 .unavailable {text-align:center ;color: #fff;background-color: hsla(0, 100%, 50%, 0.50); font-size: 1.1rem !important; margin-top: .7rem;}

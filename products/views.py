@@ -29,7 +29,7 @@ def product_list_view(request):
     filter_object = ProductFilter(request.GET, queryset=products)
     products = filter_object.qs
 
-    paginator = Paginator(products, 2)
+    paginator = Paginator(products, 18)
     page_number = request.GET.get('page')
     data = request.GET.copy()
     if 'page' in data:
@@ -119,7 +119,7 @@ def search_view(request):
     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
         res = None
         product = request.GET.get('product')
-        qs = Product.objects.filter(title__icontains=product)[:5]
+        qs = Product.objects.filter(Q(code__icontains=product) | Q(title__icontains=product))[:5]
         if len(qs) > 0 and len(product) > 0:
             data = []
             for pos in qs:
@@ -201,7 +201,7 @@ def compare_search_view(request):
     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
         res = None
         product = request.GET.get('com_product')
-        qs = Product.objects.filter(title__icontains=product)
+        qs = Product.objects.filter(Q(code__icontains=product) | Q(title__icontains=product))
         if len(qs) > 0 and len(product) > 0:
             data = []
             for pos in qs:
