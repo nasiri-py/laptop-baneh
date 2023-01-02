@@ -28,15 +28,6 @@ const swiper3 = new Swiper('#swiper-container3', {
         prevEl: '.right-slide3',
     },
 });
-const swiper4 = new Swiper('#swiper-container4', {
-    slidesPerView: 'auto',
-    paginationClickable: true,
-    spaceBetween: 0,
-    navigation: {
-        nextEl: '.left-slide4',
-        prevEl: '.right-slide4',
-    },
-});
 const swiper_detail = new Swiper('#detail-swiper-container', {
     slidesPerView: 'auto',
     paginationClickable: true,
@@ -46,5 +37,3 @@ const swiper_detail = new Swiper('#detail-swiper-container', {
         prevEl: '.detail-right-slide',
     },
 });
-
-
