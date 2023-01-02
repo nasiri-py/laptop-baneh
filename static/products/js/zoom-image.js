@@ -47,7 +47,8 @@
                 height: boxHeight,
                 overflow: 'hidden',
                 border: '1px solid rgba(0, 0, 0, 0.175)',
-                background: '#FFF'
+                background: '#FFF',
+
             });
             $('body').append(this.$zoomDiv);
         },

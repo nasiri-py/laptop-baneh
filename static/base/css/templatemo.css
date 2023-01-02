@@ -443,6 +443,34 @@ input[type~="text"]:focus, input[type="password"]:focus, input[type="email"]:foc
     border: 1px rgba(250, 128, 114, 0.7) solid !important;
     box-shadow: rgb(232 207 204) 3px 3px 6px 0 inset, rgb(255 255 255 / 50%) -3px -3px 6px 1px inset !important;
 }
+.tooltip > .tooltip-inner {
+    background-color: #979797;
+}
+
+.tooltip > .tooltip-arrow::before {
+    border-top-color: #979797 !important;
+}
+
+.comment {
+    display: none;
+}
+
+#loadLessComment {
+    display: none;
+}
+
+#loadMoreComment,
+#loadLessComment {
+    transition: all 600ms ease-in-out;
+    -webkit-transition: all 600ms ease-in-out;
+    -moz-transition: all 600ms ease-in-out;
+    -o-transition: all 600ms ease-in-out;
+}
+
+#loadMoreComment:hover {
+    background-color: #fff;
+    color: #33739E;
+}
 /* specification */
 .specification-header i {color: #bc1f69 !important;}
 .specification-caption {background-color: #7603e21a;}

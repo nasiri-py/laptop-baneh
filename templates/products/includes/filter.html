@@ -1,5 +1,3 @@
-{% load humanize %}
-
 
 <div class="offcanvas-md offcanvas-end col-lg-3 col-md-4 col-sm-6 border rounded h-100" tabindex="-1"
      id="filterOffcanvasRight" aria-labelledby="filterOffcanvasRightLabel">
@@ -48,23 +46,23 @@
                         <div class="price-range">
                             <div class="container">
                                 <div class="slider-track"></div>
-                                <input type="range" name="pg" value="{{ min_val_price|intcomma }}" step="1"
-                                       oninput="slideOne()" max="{{ max_price|intcomma }}"
-                                       min="{{ min_price|intcomma }}" id="slider-1">
-                                <input type="range" name="pl" value="{{ max_val_price|intcomma }}" step="1"
-                                       oninput="slideTwo()" max="{{ max_price|intcomma }}"
-                                       min="{{ min_price|intcomma }}" id="slider-2">
+                                <input type="range" name="pg" value="{{ min_val_price|stringformat:'s' }}" step="1"
+                                       oninput="slideOne()" max="{{ max_price|stringformat:'s' }}"
+                                       min="{{ min_price|stringformat:'s' }}" id="slider-1">
+                                <input type="range" name="pl" value="{{ max_val_price|stringformat:'s' }}" step="1"
+                                       oninput="slideTwo()" max="{{ max_price|stringformat:'s' }}"
+                                       min="{{ min_price|stringformat:'s' }}" id="slider-2">
                             </div>
                             <div class="values d-flex justify-content-between">
                                 <div>
                                 <span id="range1">
-                                      {{ min_price|intcomma }}
+                                      {{ min_price|pprint }}
                                 </span>
                                     <span>تومان</span>
                                 </div>
                                 <div>
                                 <span id="range2">
-                                      {{ max_price|intcomma }}
+                                      {{ max_price|pprint }}
                                 </span>
                                     <span>تومان</span>
                                 </div>
@@ -217,11 +215,11 @@
                     </div>
                 </div>
                 <div id="panelsStayOpen-collapse8"
-                     class="accordion-collapse collapse {% if 'gr=' in data %}show{% endif %}"
+                     class="accordion-collapse collapse {% if 'gc=' in data %}show{% endif %}"
                      aria-labelledby="panelsStayOpen-heading8">
                     <div class="accordion-body pb-0">
                         <div class="id_gme">
-                            {% for value in filter.form.gr %}
+                            {% for value in filter.form.gc %}
                                 {% if value.data.label != None %}
                                     <div>
                                         {{ value }}

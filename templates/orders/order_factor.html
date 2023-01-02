@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
 
 {% load static %}
-{% load humanize %}
 
 {% block title %}
     فاکتور خرید | استوک لپ تاپ استور
@@ -54,39 +53,39 @@
                                     </div>
                                 </div>
                                 <div class="table-factor">
-                                            <table class="table table-bordered text-gray">
-                                            <thead>
+                                    <table class="table table-bordered text-gray">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col"><h6 class="m-0">ردیف</h6></th>
+                                            <th scope="col"><h6 class="m-0">محصول</h6></th>
+                                            <th scope="col"><h6 class="m-0">رنگ</h6></th>
+                                            <th scope="col"><h6 class="m-0">قیمت واحد</h6></th>
+                                            <th scope="col"><h6 class="m-0">تعداد</h6></th>
+                                            <th scope="col"><h6 class="m-0">قیمت کل</h6></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for item in order.items.all %}
                                             <tr>
-                                                <th scope="col"><h6 class="m-0">ردیف</h6></th>
-                                                <th scope="col"><h6 class="m-0">محصول</h6></th>
-                                                <th scope="col"><h6 class="m-0">رنگ</h6></th>
-                                                <th scope="col"><h6 class="m-0">قیمت واحد</h6></th>
-                                                <th scope="col"><h6 class="m-0">تعداد</h6></th>
-                                                <th scope="col"><h6 class="m-0">قیمت کل</h6></th>
+                                                <th scope="row"><h6 class="m-0">{{ forloop.counter }}</h6></th>
+                                                <td><p class="m-0">{{ item.product }}</p></td>
+                                                <td><p class="m-0">{{ item.color }}</p></td>
+                                                <td><p class="m-0">{{ item.price }} تومان</p></td>
+                                                <td><p class="m-0">{{ item.quantity }}</p></td>
+                                                <td><p class="m-0">{{ item.get_cost }} تومان</p></td>
                                             </tr>
-                                            </thead>
-                                            <tbody>
-                                            {% for item in order.items.all %}
-                                                <tr>
-                                                    <th scope="row"><h6 class="m-0">{{ forloop.counter }}</h6></th>
-                                                    <td><p class="m-0">{{ item.product }}</p></td>
-                                                    <td><p class="m-0">{{ item.color }}</p></td>
-                                                    <td><p class="m-0">{{ item.price|intcomma }} تومان</p></td>
-                                                    <td><p class="m-0">{{ item.quantity }}</p></td>
-                                                    <td><p class="m-0">{{ item.get_cost|intcomma }} تومان</p></td>
-                                                </tr>
-                                            {% endfor %}
-                                            <tr>
-                                                <th scope="row"><h6 class="m-0 text-nowrap">جمع فاکتور</h6></th>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td><p class="m-0">{{ order.get_total_cost|intcomma }} تومان</p></td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
-                                        </div>
+                                        {% endfor %}
+                                        <tr>
+                                            <th scope="row"><h6 class="m-0 text-nowrap">جمع فاکتور</h6></th>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td><p class="m-0">{{ order.get_total_cost }} تومان</p></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>

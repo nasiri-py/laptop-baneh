@@ -70,8 +70,8 @@ class Coupon(models.Model):
     active = models.BooleanField(default=False, verbose_name='فعال است')
 
     class Meta:
-        verbose_name = 'تخفیف'
-        verbose_name_plural = 'تخفیفات'
+        verbose_name = 'کد تخفیف'
+        verbose_name_plural = 'کدهای تخفیف'
 
     def __str__(self):
         return self.code

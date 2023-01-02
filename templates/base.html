@@ -1,7 +1,6 @@
 {% load static %}
 
 {% load base_tags %}
-{% load humanize %}
 
 <!DOCTYPE html>
 <html lang="fa">
@@ -146,17 +145,17 @@
                             <div class="col-12 basket-card">
                                 {% for item in cart %}
                                     <div class="row">
-                                        <div class="col-12 row">
+                                        <div class="col-12 row m-auto">
                                             <a class="col-6"
                                                href="{% url 'product:detail' item.color.product.slug %}"><img
                                                     class="img-fluid rounded-3"
                                                     src="{{ item.color.product.cover.url }}"
                                                     alt="{{ item.color.product.title }}"></a>
-                                            <div class="col-6">
+                                            <div class="col-6 m-auto">
                                                 <h6 class="text-black text-end">{{ item.color.product.title|truncatewords:10 }}</h6>
                                                 <div class="d-flex align-items-center mt-4">
                                                     <div>
-                                                        <h6 class="btn-color"
+                                                        <h6 class="btn-color color-cart"
                                                             style="background-color: {{ item.color.color }};"></h6>
                                                     </div>
                                                     <div class="mx-2"><h6
@@ -164,7 +163,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-12 row align-items-center">
+                                        <div class="col-12 row align-items-center m-auto">
                                             <div class="col-6 text-center">
                                                 <a class="btn btn-buy px-1 py-0 m-1"
                                                    href="{% url 'orders:cart-decrease' item.color.id %}"
@@ -179,7 +178,7 @@
                                                 </a>
                                             </div>
                                             <div class="col-6 text-dark m-0">
-                                                <h6>{{ item.total_price|intcomma }} تومان</h6>
+                                                <h6>{{ item.total_price }} تومان</h6>
                                             </div>
                                         </div>
                                     </div>
@@ -189,7 +188,7 @@
                             <div class="col-12 d-flex justify-content-between align-items-center mt-3">
                                 <div class="text-muted text-end">
                                     <h6>مبلغ قابل پرداخت</h6>
-                                    <h6>{{ cart.get_total_price|intcomma }} تومان</h6>
+                                    <h6>{{ cart.get_total_price }} تومان</h6>
                                 </div>
                                 <div>
                                     {% if user.is_authenticated %}
@@ -391,100 +390,11 @@
         sendSearchData(e.target.value)
     })
 </script>
-<script>
-    const one_star = document.getElementById('1star')
-const two_star = document.getElementById('2star')
-const three_star = document.getElementById('3star')
-const four_star = document.getElementById('4star')
-const five_star = document.getElementById('5star')
 
-const handleSelect = (selection) => {
-    switch (selection) {
-        case '1star': {
-            one_star.classList.add('text-warning')
-            two_star.classList.remove('text-warning')
-            three_star.classList.remove('text-warning')
-            four_star.classList.remove('text-warning')
-            five_star.classList.remove('text-warning')
-            return
-        }
-        case '2star': {
-            one_star.classList.add('text-warning')
-            two_star.classList.add('text-warning')
-            three_star.classList.remove('text-warning')
-            four_star.classList.remove('text-warning')
-            five_star.classList.remove('text-warning')
-            return
-        }
-        case '3star': {
-            one_star.classList.add('text-warning')
-            two_star.classList.add('text-warning')
-            three_star.classList.add('text-warning')
-            four_star.classList.remove('text-warning')
-            five_star.classList.remove('text-warning')
-            return
-        }
-        case '4star': {
-            one_star.classList.add('text-warning')
-            two_star.classList.add('text-warning')
-            three_star.classList.add('text-warning')
-            four_star.classList.add('text-warning')
-            five_star.classList.remove('text-warning')
-            return
-        }
-        case '5star': {
-            one_star.classList.add('text-warning')
-            two_star.classList.add('text-warning')
-            three_star.classList.add('text-warning')
-            four_star.classList.add('text-warning')
-            five_star.classList.add('text-warning')
-            return
-        }
-    }
-}
-const arr = [one_star, two_star, three_star, four_star, five_star]
-arr.forEach(item => item.addEventListener('mouseover', (event) => {
-    handleSelect(event.target.id)
-}))
+{% block js_link %}
 
+{% endblock %}
 
-window.onload = function () {
-    slideOne();
-    slideTwo();
-}
-
-let sliderOne = document.getElementById("slider-1");
-let sliderTwo = document.getElementById("slider-2");
-let displayValOne = document.getElementById("range1");
-let displayValTwo = document.getElementById("range2");
-let minGap = 0;
-let sliderTrack = document.querySelector(".slider-track");
-let sliderMaxValue = document.getElementById("slider-1").max;
-
-function slideOne() {
-    if (parseInt(sliderTwo.value) - parseInt(sliderOne.value) <= minGap) {
-        sliderOne.value = parseInt(sliderTwo.value) - minGap;
-    }
-    displayValOne.textContent = sliderOne.value;
-    fillColor();
-}
-
-function slideTwo() {
-    if (parseInt(sliderTwo.value) - parseInt(sliderOne.value) <= minGap) {
-        sliderTwo.value = parseInt(sliderOne.value) + minGap;
-    }
-    displayValTwo.textContent = sliderTwo.value;
-    fillColor();
-}
-
-function fillColor() {
-    const percent1 = (sliderOne.value / sliderMaxValue) * 100;
-    const percent2 = (sliderTwo.value / sliderMaxValue) * 100;
-    sliderTrack.style.background = `linear-gradient(to right, #dadae5 ${percent1}% , #bc1f69 ${percent1}% , #bc1f69 ${percent2}%, #dadae5 ${percent2}%)`;
-}
-
-
-</script>
 <!-- End Script -->
 </body>
 

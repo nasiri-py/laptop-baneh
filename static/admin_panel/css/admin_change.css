@@ -18,7 +18,7 @@
 }
 
 a:link, a:visited {
-    color: #624F82;
+    color: #8e91e5;
 }
 
 .button.default, input[type=submit].default, .submit-row input.default {
@@ -56,3 +56,22 @@ div.breadcrumbs {
 .calendar caption, .calendarbox h2 {
     background: #f55d95 !important;
 }
+
+#nav-filter {
+    border-radius: 3px;
+}
+
+.module h2, .module caption {
+    border-radius: 5px;
+}
+
+#changelist-filter {
+    border-radius: 5px;
+}
+
+.selector-chosen h2 {
+    background: rgba(98, 79, 130, 0.7) !important;
+    color: var(--header-link-color);
+}
+
+input[type="checkbox"] {accent-color: #bc1f69;}

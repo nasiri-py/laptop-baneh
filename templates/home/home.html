@@ -101,9 +101,9 @@
                                 </div>
                                 <ul class="list-unstyled d-flex flex-column justify-content-between p-0 my-3">
                                     <li class="text-center discount"><span class="mx-1 px-1 discount-percent">{{ product.discount_percent }}%</span>
-                                        {{ product.discount|intcomma }} تومان
+                                        {{ product.discount }} تومان
                                     </li>
-                                    <li class="text-center text-muted text-decoration-line-through price">{{ product.price|intcomma }}</li>
+                                    <li class="text-center text-muted text-decoration-line-through price">{{ product.price }}</li>
                                 </ul>
                             </div>
                         </a>
@@ -166,7 +166,7 @@
                                         <li>
                                             {% if product.available %}
                                                 <ul class="list-unstyled d-flex flex-column justify-content-between p-0">
-                                                    <li class="text-start discount py-2">{{ product.price|intcomma }} تومان</li>
+                                                    <li class="text-start discount py-2">{{ product.price }} تومان</li>
                                                 </ul>
                                             {% else %}
                                                 <div class="w-100 unavailable">ناموجود</div>
@@ -221,7 +221,7 @@
                                         <li>
                                             {% if product.available %}
                                                 <ul class="list-unstyled d-flex flex-column justify-content-between p-0">
-                                                    <li class="text-start discount py-2">{{ product.price|intcomma }} تومان</li>
+                                                    <li class="text-start discount py-2">{{ product.price }} تومان</li>
                                                 </ul>
                                             {% else %}
                                                 <div class="w-100 unavailable">ناموجود</div>

@@ -56,8 +56,8 @@ class Product(models.Model):
 
     brand = models.ForeignKey(Brand, on_delete=models.CASCADE, related_name='products', verbose_name='برند')
     title = models.CharField(max_length=255, verbose_name='عنوان')
-    code = models.CharField(max_length=255, unique=True, verbose_name='کد محصول')
     slug = models.SlugField(max_length=255, allow_unicode=True, unique=True, verbose_name='آدرس')
+    code = models.CharField(max_length=255, unique=True, verbose_name='کد محصول')
     grade = models.CharField(choices=GRADE_CHOICES, max_length=1, verbose_name='گرید')
     category = models.ManyToManyField(Category, related_name="products", verbose_name='کاربری')
     description = RichTextField(blank=True, null=True, verbose_name='توضیحات')
@@ -206,6 +206,7 @@ class Specification(models.Model):
     os = models.CharField(max_length=255, verbose_name='سیستم عامل')
     include_items = models.CharField(max_length=255, verbose_name='اقلام همراه')
     battery = models.CharField(max_length=255, verbose_name='باتری')
+    etc = models.TextField(blank=True, null=True, verbose_name='سایر قابلیت ها')
 
     class Meta:
         verbose_name = 'مشخصات'
@@ -237,8 +238,8 @@ class Comment(models.Model):
     created = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        verbose_name = 'دیدگاه'
-        verbose_name_plural = 'دیدگاه ها'
+        verbose_name = 'نظر'
+        verbose_name_plural = 'نظرات'
 
     def __str__(self):
         return self.product.title

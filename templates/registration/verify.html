@@ -25,6 +25,9 @@
 
         </div>
     </div>
+{% endblock %}
+
+{% block r_js_link %}
     <script src="{% static 'base/js/jquery-1.11.0.min.js' %}"></script>
     <script>
         // Set the date we're counting down to
@@ -58,7 +61,6 @@
             }
         }, 1000);
     </script>
-
     <script>
         const VerifyForm = document.getElementById('verify-form')
         const VerifyInput = document.getElementById('verify-input')

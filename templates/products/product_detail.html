@@ -9,39 +9,6 @@
     {{ product.title }}
 {% endblock %}
 
-{% block css_link %}
-    <style>
-        .tooltip > .tooltip-inner {
-            background-color: #979797;
-        }
-
-        .tooltip > .tooltip-arrow::before {
-            border-top-color: #979797 !important;
-        }
-
-        .comment {
-            display: none;
-        }
-
-        #loadLessComment {
-            display: none;
-        }
-
-        #loadMoreComment,
-        #loadLessComment {
-            transition: all 600ms ease-in-out;
-            -webkit-transition: all 600ms ease-in-out;
-            -moz-transition: all 600ms ease-in-out;
-            -o-transition: all 600ms ease-in-out;
-        }
-
-        #loadMoreComment:hover {
-            background-color: #fff;
-            color: #33739E;
-        }
-    </style>
-{% endblock %}
-
 {% block content %}
     <!-- Open Content -->
     <section class="bg-light">
@@ -95,14 +62,14 @@
                                     <li class="list-inline-item">
                                         {% if product.discount %}
                                             <ul class="list-unstyled d-flex justify-content-between align-items-center p-0">
-                                                <li class="text-start text-muted text-decoration-line-through ms-5">{{ product.price|intcomma }}</li>
-                                                <li class="text-start price position-relative">{{ product.discount|intcomma }}
+                                                <li class="text-start text-muted text-decoration-line-through ms-5">{{ product.price }}</li>
+                                                <li class="text-start price position-relative">{{ product.discount }}
                                                     تومان
                                                     <span class="discount-percent position-absolute">{{ product.discount_percent }}%</span>
                                                 </li>
                                             </ul>
                                         {% else %}
-                                            <p class="price">{{ product.price|intcomma }} تومان</p>
+                                            <p class="price">{{ product.price }} تومان</p>
                                         {% endif %}
                                     </li>
                                 </ul>
@@ -234,20 +201,20 @@
             <div class="product-info-tabs">
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
                     <li class="nav-item">
-                        <a class="text-center text-dark h4 nav-link active" id="description-tab" data-toggle="tab"
+                        <a class="text-center text-dark nav-link active" id="description-tab" data-toggle="tab"
                            href="#description" role="tab"
                            aria-controls="description" aria-selected="true">معرفی</a>
                     </li>
                     <li class="nav-item">
-                        <a class="text-center text-dark h4 nav-link" id="specification-tab" data-toggle="tab"
+                        <a class="text-center text-dark nav-link" id="specification-tab" data-toggle="tab"
                            href="#specification" role="tab"
                            aria-controls="specification" aria-selected="true">مشخصات</a>
                     </li>
                     <li class="nav-item">
-                        <a class="text-center text-dark h4 nav-link" id="review-tab" data-toggle="tab" href="#review"
+                        <a class="text-center text-dark nav-link" id="review-tab" data-toggle="tab" href="#review"
                            role="tab"
-                           aria-controls="review" aria-selected="false">دیدگاه {% if product.comments.count != 0 %}(
-                            {{ product.comments.count }}){% endif %}</a>
+                           aria-controls="review" aria-selected="false">
+                            دیدگاه {% if product.comments.count != 0 %}({{ product.comments.count }}){% endif %}</a>
                     </li>
                 </ul>
                 <div class="tab-content rounded" id="myTabContent">
@@ -866,14 +833,14 @@
                                                     <ul class="list-unstyled d-flex flex-column justify-content-between p-0 mt-3">
                                                         {% if product.discount %}
                                                             <li class="text-start discount"><span
-                                                                    class="mx-1 px-1 discount-percent">{{ product.discount_percent }}%</span> {{ product.discount|intcomma }}
+                                                                    class="mx-1 px-1 discount-percent">{{ product.discount_percent }}%</span> {{ product.discount }}
                                                                 تومان
                                                             </li>
                                                             <li class="text-start text-muted text-decoration-line-through price">
-                                                                {{ product.price|intcomma }}
+                                                                {{ product.price }}
                                                             </li>
                                                         {% else %}
-                                                            <li class="text-start discount">{{ product.price|intcomma }}
+                                                            <li class="text-start discount">{{ product.price }}
                                                                 تومان
                                                             </li>
                                                         {% endif %}
@@ -893,6 +860,10 @@
             <i class="fas fa-chevron-left left-slide2 position-absolute top-50 start-0 h3 chevron-slider"></i>
         </div>
     </section>
+    <!-- End Article -->
+{% endblock %}
+
+{% block js_link %}
     <script>
 
         const colorBtn = document.getElementsByClassName('btn-color')
@@ -912,55 +883,6 @@
             crossorigin="anonymous"></script>
     <script src="{% static 'base/js/jquery-1.11.0.min.js' %}"></script>
     <script type="module" src="{% static 'base/js/templatemo.js' %}"></script>
-
-    <script>
-        const searchForm = document.getElementById('search-form')
-        const searchInput = document.getElementById('search-input')
-        const searchButton = document.getElementById('search-button')
-        const resultsBox = document.getElementById('results-box')
-        const sendSearchData = (product) => {
-            $.ajax({
-                type: 'GET',
-                url: "{% url 'product:search' %}",
-                data: {
-                    'product': product,
-                },
-                success: (res) => {
-                    const data = res.data
-                    if (Array.isArray(data)) {
-                        resultsBox.innerHTML = ""
-                        searchButton.classList.remove('d-none')
-                        data.forEach(product => {
-                            resultsBox.innerHTML += `<li class="list-group-item border-0">
-                    <a class="row text-dark text-decoration-none" href="{% url 'product:list' %}${product.slug}/%5CZ">
-                        <img class="col-2" src="${product.cover}" alt="${product.title}">
-                        <h6 class="col-8 my-auto">${product.title}</h6>
-                    </a>
-                </li>
-                <hr class="mt-0"/>`
-                        })
-                    } else {
-                        if (searchInput.value.length > 0) {
-                            resultsBox.innerHTML = `<h6 class="text-center my-auto py-5">${data}</h6>`
-                        } else {
-                            searchButton.classList.add('d-none')
-                            resultsBox.classList.add('d-none')
-                        }
-                    }
-                },
-                error: (err) => {
-                    console.log(err)
-                }
-            })
-        }
-        searchInput.addEventListener('keyup', e => {
-            console.log(e.target.value)
-            if (resultsBox.classList.contains('d-none')) {
-                resultsBox.classList.remove('d-none')
-            }
-            sendSearchData(e.target.value)
-        })
-    </script>
     <script>
         const one_star = document.getElementById('1star')
         const two_star = document.getElementById('2star')
@@ -1063,105 +985,23 @@
         arr.forEach(item => item.addEventListener('mouseleave', (event) => {
             handleUnSelect(event.target.id)
         }))
-
-        window.onload = function () {
-            slideOne();
-            slideTwo();
-        }
-
-        let sliderOne = document.getElementById("slider-1");
-        let sliderTwo = document.getElementById("slider-2");
-        let displayValOne = document.getElementById("range1");
-        let displayValTwo = document.getElementById("range2");
-        let minGap = 0;
-        let sliderTrack = document.querySelector(".slider-track");
-        let sliderMaxValue = document.getElementById("slider-1").max;
-
-        function slideOne() {
-            if (parseInt(sliderTwo.value) - parseInt(sliderOne.value) <= minGap) {
-                sliderOne.value = parseInt(sliderTwo.value) - minGap;
-            }
-            displayValOne.textContent = sliderOne.value;
-            fillColor();
-        }
-
-        function slideTwo() {
-            if (parseInt(sliderTwo.value) - parseInt(sliderOne.value) <= minGap) {
-                sliderTwo.value = parseInt(sliderOne.value) + minGap;
-            }
-            displayValTwo.textContent = sliderTwo.value;
-            fillColor();
-        }
-
-        function fillColor() {
-            const percent1 = (sliderOne.value / sliderMaxValue) * 100;
-            const percent2 = (sliderTwo.value / sliderMaxValue) * 100;
-            sliderTrack.style.background = `linear-gradient(to right, #dadae5 ${percent1}% , #bc1f69 ${percent1}% , #bc1f69 ${percent2}%, #dadae5 ${percent2}%)`;
-        }
-
-
     </script>
     <script>
         $(function () {
             $('[data-bs-toggle="tooltip"]').tooltip();
         });
     </script>
-    </script>
     <script>
-        'use strict';
-        $(document).ready(function () {
+        $('.product-links-wap a').click(function () {
+            const this_src = $(this).children('img').attr('src');
+            $('#product-detail').attr('src', this_src);
+            $('#product-detail').attr('data-origin', this_src);
+            return false;
+        });
 
-            // Accordion
-            var all_panels = $('.templatemo-accordion > li > ul').hide();
-
-            $('.templatemo-accordion > li > a').click(function () {
-                var target = $(this).next();
-                if (!target.hasClass('active')) {
-                    all_panels.removeClass('active').slideUp();
-                    target.addClass('active').slideDown();
-                }
-                return false;
-            });
-            // End accordion
-
-            // Product detail
-            $('.product-links-wap a').click(function () {
-                const this_src = $(this).children('img').attr('src');
-                $('#product-detail').attr('src', this_src);
-                $('#product-detail').attr('data-origin', this_src);
-                return false;
-            });
-
-            $('.btn-color input').click(function () {
-                const this_num = $(this).attr('size');
-                $('#product-quantity').attr('max', this_num);
-            });
-
-            $('#btn-minus').click(function () {
-                var val = $("#var-value").html();
-                val = (val == '1') ? val : val - 1;
-                $("#var-value").html(val);
-                $("#product-quanity").val(val);
-                return false;
-            });
-            $('#btn-plus').click(function () {
-                var val = $("#var-value").html();
-                val++;
-                $("#var-value").html(val);
-                $("#product-quanity").val(val);
-                return false;
-            });
-            $('.btn-size').click(function () {
-                var this_val = $(this).html();
-                $("#product-size").val(this_val);
-                $(".btn-size").removeClass('btn-secondary');
-                $(".btn-size").addClass('btn-success');
-                $(this).removeClass('btn-success');
-                $(this).addClass('btn-secondary');
-                return false;
-            });
-            // End roduct detail
-
+        $('.btn-color input').click(function () {
+            const this_num = $(this).attr('size');
+            $('#product-quantity').attr('max', this_num);
         });
     </script>
     <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
@@ -1211,5 +1051,4 @@
 
         });
     </script>
-    <!-- End Article -->
 {% endblock %}
