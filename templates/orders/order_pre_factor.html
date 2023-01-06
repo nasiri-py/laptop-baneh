@@ -4,7 +4,7 @@
 {% load humanize %}
 
 {% block title %}
-    پیش فاکتور | استوک لپ تاپ استور
+    پیش فاکتور | فروشگاه لپ تاپ بانه
 {% endblock %}
 
 {% block css_link %}
@@ -28,63 +28,79 @@
                                         <div class="row my-4 pre-factor">
                                             <div class="my-2 col-12 col-md-6 d-flex align-items-center">
                                                 <h6 class="text-muted m-0 text-nowrap">نام و نام خانوادگی: </h6>
-                                                <h6 class="mb-0 me-1 text-gray">{{ order.address.full_name }}</h6>
+                                                <h6 class="mb-0 me-1 text-grey">{{ order.address.full_name }}</h6>
                                             </div>
                                             <div class="my-2 col-12 col-md-6 d-flex align-items-center">
                                                 <h6 class="text-muted m-0 text-nowrap">شماره تماس: </h6>
-                                                <h6 class="mb-0 me-1 text-gray">{{ order.address.phone_number }}</h6>
+                                                <h6 class="mb-0 me-1 text-grey">{{ order.address.phone_number }}</h6>
                                             </div>
                                             <div class="my-2 col-12 col-md-6 d-flex align-items-center">
                                                 <h6 class="text-muted m-0 text-nowrap">تاریخ: </h6>
-                                                <h6 class="mb-0 me-1 text-gray">{{ order.j_updated }}</h6>
+                                                <h6 class="mb-0 me-1 text-grey">{{ order.j_created }}</h6>
                                             </div>
                                             <div class="my-2 col-12 col-md-6 d-flex align-items-center">
                                                 <h6 class="text-muted m-0 text-nowrap">وضعیت پرداخت: </h6>
                                                 {% if order.paid %}
-                                                    <h6 class="mb-0 me-1 text-gray">پرداخت شده</h6>
+                                                    <h6 class="mb-0 me-1 text-grey">پرداخت شده</h6>
                                                 {% else %}
-                                                    <h6 class="mb-0 me-1 text-gray">پرداخت نشده</h6>
+                                                    <h6 class="mb-0 me-1 text-grey">پرداخت نشده</h6>
                                                 {% endif %}
                                             </div>
                                             <div class="my-2 col-12 d-flex align-items-center">
                                                 <h6 class="text-muted m-0 text-nowrap">آدرس: </h6>
-                                                <h6 class="mb-0 me-1 text-gray">{{ order.address.full_address }}</h6>
+                                                <h6 class="mb-0 me-1 text-grey">{{ order.address.full_address }}</h6>
                                             </div>
-
+                                            {% if order.address.description %}
+                                                <div class="my-2 col-12 d-flex align-items-center">
+                                                    <h6 class="text-muted m-0 text-nowrap">توضیحات سفارش: </h6>
+                                                    <h6 class="mb-0 me-1 text-grey">{{ order.address.description }}</h6>
+                                                </div>
+                                            {% endif %}
                                         </div>
                                         <div class="table-factor">
-                                            <table class="table table-bordered text-gray">
-                                            <thead>
-                                            <tr>
-                                                <th scope="col"><h6 class="m-0">ردیف</h6></th>
-                                                <th scope="col"><h6 class="m-0">محصول</h6></th>
-                                                <th scope="col"><h6 class="m-0">رنگ</h6></th>
-                                                <th scope="col"><h6 class="m-0">قیمت واحد</h6></th>
-                                                <th scope="col"><h6 class="m-0">تعداد</h6></th>
-                                                <th scope="col"><h6 class="m-0">قیمت کل</h6></th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            {% for item in order.items.all %}
+                                            <table class="table table-bordered text-grey">
+                                                <thead>
                                                 <tr>
-                                                    <th scope="row"><h6 class="m-0">{{ forloop.counter }}</h6></th>
-                                                    <td><p class="m-0">{{ item.product }}</p></td>
-                                                    <td><p class="m-0">{{ item.color }}</p></td>
-                                                    <td><p class="m-0">{{ item.price }} تومان</p></td>
-                                                    <td><p class="m-0">{{ item.quantity }}</p></td>
-                                                    <td><p class="m-0">{{ item.get_cost }} تومان</p></td>
+                                                    <th scope="col"><h6 class="m-0">ردیف</h6></th>
+                                                    <th scope="col"><h6 class="m-0">محصول</h6></th>
+                                                    <th scope="col"><h6 class="m-0">رنگ</h6></th>
+                                                    <th scope="col"><h6 class="m-0">قیمت واحد</h6></th>
+                                                    <th scope="col"><h6 class="m-0">تعداد</h6></th>
+                                                    <th scope="col"><h6 class="m-0">قیمت کل</h6></th>
                                                 </tr>
-                                            {% endfor %}
-                                            <tr>
-                                                <th scope="row"><h6 class="m-0 text-nowrap">جمع فاکتور</h6></th>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td><p class="m-0">{{ order.get_total_cost }} تومان</p></td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
+                                                </thead>
+                                                <tbody>
+                                                {% for item in order.items.all %}
+                                                    <tr>
+                                                        <th scope="row"><h6 class="m-0">{{ forloop.counter }}</h6></th>
+                                                        <td><p class="m-0">{{ item.product }}</p></td>
+                                                        <td><p class="m-0">{{ item.color }}</p></td>
+                                                        <td><p class="m-0">{{ item.price }} تومان</p></td>
+                                                        <td><p class="m-0">{{ item.quantity }}</p></td>
+                                                        <td><p class="m-0">{{ item.get_cost }} تومان</p></td>
+                                                    </tr>
+                                                {% endfor %}
+                                                <tr>
+                                                    <th scope="row"><h6 class="m-0 text-nowrap">جمع فاکتور</h6></th>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td><p class="m-0">{{ order.get_total_cost }} تومان</p></td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div>
+                                            <h5 class="mb-2 mt-3">نحوه پرداخت</h5>
+                                            <hr class="w-25">
+                                            <h6 class="lh-lg">لطفا مبلغ سفارش را به یکی از حساب های زیر پرداخت کرده و
+                                                سپس <span style="color: #bc1f69 ">شماره پیگیری (مستند)</span> را
+                                                در قسمت "ثبت شماره پیگیری" وارد نمایید.</h6>
+                                            <div class="row">
+                                                <img src="{% static 'orders/img/edrishosseini.jpg' %}" alt="edrishosseini" class="col-12 col-md-6 mt-4 mt-md-2">
+                                                <img src="{% static 'orders/img/zolfaazizi.jpg' %}" alt="zolfaazizi" class="col-12 col-md-6 mt-4 mt-md-2">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -100,12 +116,12 @@
                                         </form>
                                         <hr class="mb-4">
                                         <div class="d-flex justify-content-between mb-3">
-                                            <h6 class="text-uppercase">مبلغ قابل پرداخت</h6>
+                                            <h6 class="text-uppercase text-grey">مبلغ قابل پرداخت</h6>
                                             <h6>{{ order.get_total_cost }} تومان</h6>
                                         </div>
-                                        <a href="{% url 'orders:order-pay' order.id %}" type="submit"
+                                        <a href="{% url 'orders:order-pay' %}" type="submit"
                                            class="btn btn-buy btn-lg w-100"
-                                           data-mdb-ripple-color="dark">پرداخت
+                                           data-mdb-ripple-color="dark">ثبت شماره پیگیری
                                         </a>
                                     </div>
                                 </div>

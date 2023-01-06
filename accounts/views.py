@@ -3,10 +3,9 @@ from django.urls import reverse_lazy
 from .models import User
 from django.views import generic, View
 from .forms import RegisterForm, OtpCodeLoginForm, ProfileForm
-from django.contrib.auth import login, logout
+from django.contrib.auth import login
 from django.contrib.auth.views import PasswordResetConfirmView, PasswordChangeView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.forms import PasswordChangeForm
 from utils import send_sms, send_otp_code
 from .models import OtpCode
 from django.contrib import messages
@@ -38,6 +37,7 @@ class RegisterView(generic.CreateView):
             }
             messages.success(self.request, f'کد تائید به شماره {cd["phone_number"]} ارسال شد')
             return redirect('accounts:verify')
+        return redirect('accounts:register')
 
 
 class VerifyView(generic.CreateView):
@@ -86,6 +86,7 @@ class VerifyView(generic.CreateView):
                         user.backend = 'django.contrib.auth.backends.ModelBackend'
                         login(self.request, user)
                         return redirect('home:home')
+                return redirect('accounts:verify')
         except Exception:
             messages.error(self.request, 'کد وارد شده منقضی شده است. لطفا دوباره تلاش کنید')
             return redirect('accounts:login')
@@ -145,6 +146,7 @@ class OtpCodeLoginView(View):
             except User.DoesNotExist:
                 messages.error(self.request, f"کاربری با شماره موبایل {cd['phone_number']} وجود ندارد")
                 return redirect('accounts:otp-code-login')
+        return render(request, self.template_name, {'form': form})
 
 
 class PasswordResetView(View):
@@ -179,7 +181,7 @@ class PasswordResetView(View):
             }
             messages.success(request, f'لینک بازیابی گذرواژه به شماره موبایل {phone_number} ارسال شد')
             return redirect('accounts:login')
-        return redirect('home:home')
+        return render(request, 'registration/password_reset.html', {'form': form})
 
 
 class PasswordResetConfirm(PasswordResetConfirmView):
@@ -194,11 +196,6 @@ class Profile(LoginRequiredMixin, generic.UpdateView):
 
     def get_object(self):
         return User.objects.get(pk=self.request.user.pk)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['password_change_form'] = PasswordChangeForm(user=self.request.user)
-        return context
 
     def get_form_kwargs(self):
         kwargs = super(Profile, self).get_form_kwargs()
@@ -223,6 +220,7 @@ class Profile(LoginRequiredMixin, generic.UpdateView):
             form.save()
             messages.success(self.request, 'تغییرات به پروفایل شما اعمال شد')
             return redirect('accounts:profile')
+        return render(self.request, self.template_name, {'form': form})
 
 
 class PasswordChange(LoginRequiredMixin, PasswordChangeView):

@@ -33,7 +33,7 @@
 
 </head>
 
-<body>
+<body onload="getPics()">
 {% include 'includes/messages.html' %}
 <!-- Start Top Nav -->
 <nav class="top-header navbar navbar-expand-lg navbar-light d-none d-lg-block" id="templatemo_nav_top">
@@ -41,16 +41,17 @@
         <div class="w-100 d-flex justify-content-between">
             <div>
                 <a class="navbar-sm-brand text-light text-decoration-none mx-1"
-                   href="tel:0918-518-8287">0918-518-8287</a> |
-                <a class="navbar-sm-brand text-light text-decoration-none mx-1" href="tel:0918-874-0812">0918-874-0812</a>
+                   href="tel:0918-874-0812">0918-874-0812</a> |
+                <a class="navbar-sm-brand text-light text-decoration-none mx-1"
+                   href="tel:0918-518-8287">0918-518-8287</a>
                 <i class="fa fa-phone mx-2"></i>
             </div>
             <div>
                 <a class="text-light" href="https://www.instagram.com/stoke_laptop_store" target="_blank"><i
                         class="fab fa-instagram fa-sm fa-fw me-3"></i></a>
                 <a class="text-light" href="https://t.me/stoke_laptop_store" target="_blank"><i
-                        class="fab fa-telegram fa-sm fa-fw me-3"></i></a>
-                <a class="text-light" href="https://www.linkedin.com/" target="_blank"><i
+                        class="fab fa-telegram-plane fa-sm fa-fw me-3"></i></a>
+                <a class="text-light" href="https://wa.me/+989185188287" target="_blank"><i
                         class="fab fa-whatsapp fa-sm fa-fw me-3"></i></a>
             </div>
         </div>
@@ -67,15 +68,18 @@
                  style="font-size: 1rem">
         </a>
 
-        <div class="align-self-center flex-fill d-lg-flex justify-content-lg-between offcanvas offcanvas-start"
+        <div class="align-self-center rounded-start flex-fill d-lg-flex justify-content-lg-between offcanvas offcanvas-end"
              tabindex="-1" id="offcanvasMenu" aria-labelledby="offcanvasMenuLabel">
-            <div class="d-block d-lg-none d-flex justify-content-between align-items-center mb-4 mx-3">
-                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
-                    aria-label="Close"></button>
-                <h5 class="m-0 text-link">استوک لپ تاپ استور</h5>
+            <div class="d-block d-lg-none d-flex justify-content-between mb-4 mx-3">
+                <h5 class="m-0 text-pink">فروشگاه لپ تاپ بانه</h5>
+                <button type="button" class="btn-close text-reset h4" data-bs-dismiss="offcanvas"
+                        aria-label="Close"></button>
             </div>
             <div class="flex-fill position-relative">
                 <ul class="nav navbar-nav d-flex justify-content-around p-0 mx-lg-auto">
+                    <li class="nav-item d-block d-lg-none">
+                        <a class="nav-link" href="{% url 'home:home' %}">صفحه اصلی</a>
+                    </li>
                     <li class="nav-item">
                         {% navbar_list %}
                     </li>
@@ -108,9 +112,17 @@
                     <div class="profile-dropdown-menu dropdown-menu dropdown-menu-end mt-1 border-0 p-0"
                          aria-labelledby="profileDropdownMenuLink">
                         <ul class="list-group p-0 border-0">
-                            <li class="border-0 border-bottom list-group-item text-end profile-nav-link"><a class="text-decoration-none text-black d-flex" href="{% url 'accounts:profile' %}"><i class="fa fa-user-circle"></i><h6 class="me-2 mb-0">مشاهده پروفایل</h6></a></li>
-                            <li class="border-0 border-bottom list-group-item text-end profile-nav-link"><a class="text-decoration-none text-black d-flex" href="{% url 'accounts:password-change' %}"><i class="fa fa-key"></i><h6 class="me-2 mb-0">تغییر گذرواژه</h6></a></li>
-                            <li class="border-0 list-group-item text-end profile-nav-link"><a class="text-decoration-none text-black d-flex" href="{% url 'accounts:logout' %}{% if not request.path|is_in_list:'/accounts/profile/, /order/detail/, /order/address/, /order/factor/, /order/verify/' %}?next={{ request.path }}{% endif %}">
+                            <li class="border-0 border-bottom list-group-item text-end profile-nav-link"><a
+                                    class="text-decoration-none text-grey d-flex"
+                                    href="{% url 'accounts:profile' %}"><i class="fa fa-user-circle"></i><h6
+                                    class="me-2 mb-0">مشاهده پروفایل</h6></a></li>
+                            <li class="border-0 border-bottom list-group-item text-end profile-nav-link"><a
+                                    class="text-decoration-none text-grey d-flex"
+                                    href="{% url 'accounts:password-change' %}"><i class="fa fa-key"></i><h6
+                                    class="me-2 mb-0">تغییر گذرواژه</h6></a></li>
+                            <li class="border-0 list-group-item text-end profile-nav-link"><a
+                                    class="text-decoration-none text-grey d-flex" href="
+                                    {% url 'accounts:logout' %}{% if not request.path|is_in_list:'/accounts/profile/, /order/detail/, /order/address/, /order/factor/, /order/verify/' %}?next={{ request.path }}{% endif %}">
                                 <i class="fas fa-sign-out-alt"></i><h6 class="me-2 mb-0">خروج از حساب</h6></a></li>
                         </ul>
                     </div>
@@ -165,13 +177,13 @@
                                         </div>
                                         <div class="col-12 row align-items-center m-auto">
                                             <div class="col-6 text-center">
-                                                <a class="btn btn-buy px-1 py-0 m-1"
+                                                <a class="btn btn-buy px-1 pt-1 pb-0 m-1"
                                                    href="{% url 'orders:cart-decrease' item.color.id %}"
                                                    onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
                                                     <i class="fas fa-minus"></i>
                                                 </a>
                                                 <span class="btn bg-secondary m-1 text-light">{{ item.quantity }}</span>
-                                                <a class="btn btn-buy px-1 py-0 m-1"
+                                                <a class="btn btn-buy px-1 pt-1 pb-0 m-1"
                                                    href="{% url 'orders:cart-increase' item.color.id %}"
                                                    onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
                                                     <i class="fas fa-plus"></i>
@@ -222,16 +234,14 @@
 <!-- Close Header -->
 
 <!-- Modal -->
-<div class="modal fade bg-white" id="templatemo_search" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+<div class="modal fade" id="templatemo_search" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
      aria-hidden="true">
-    <div class="modal-dialog modal-lg position-relative" role="document">
-        <div class="w-100 pt-1 mb-5 text-right">
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <form id="search-form" class="mb-2 modal-content modal-body border-0 p-0 position-static" role="search"
-              action="{% url 'product:search-list' %}" method="get">
-            <input id="search-input" class="form-control rounded-2" type="text" name="search"
-                   placeholder="محصول موردنظر را جستجو کنید">
+    <div class="modal-dialog modal-lg position-relative mt-5" role="document">
+        <div class="modal-body">
+            <form id="search-form" class="mb-2 modal-content modal-body border-0 p-0 position-static" role="search"
+              action="{% url 'product:search-list' %}" method="get" data-url_root="{% url 'product:search' %}">
+            <input id="search-input" class="form-control rounded-2 p-3" type="text" name="search"
+                   placeholder="نام یا کد محصول موردنظر را وارد کنید" data-url_root="{% url 'product:list' %}">
             <button type="submit" class="position-absolute border-0 my-3 d-none start-0" id="search-button">مشاهده همه
                 موارد
             </button>
@@ -239,6 +249,7 @@
         <ul class="mt-0 list-group d-none p-0 modal-content modal-body border-0"
             id="results-box">
         </ul>
+        </div>
     </div>
 </div>
 
@@ -251,8 +262,9 @@
 <footer id="tempaltemo_footer">
     <div class="container">
         <div class="row">
-            <div class="col-lg-3 col-md-8 col-sm-8 col-12 pt-5">
-                <a href="{% url 'home:home' %}" class="text-decoration-none"><h3 class="h3 pb-2 border-light rounded-0 text-logo">استوک لپ‌تاپ استور</h3></a>
+            <div class="col-lg-3 col-md-6 col-sm-6 col-12 pt-5">
+                <a href="{% url 'home:home' %}" class="text-decoration-none"><h3
+                        class="h3 pb-2 border-light rounded-0 text-pink">فروشگاه لپ تاپ بانه</h3></a>
                 <ul class="list-unstyled text-light footer-link-list p-0">
                     <li>
                         <i class="fas fa-map-marker-alt fa-fw"></i>
@@ -260,19 +272,19 @@
                     </li>
                     <li>
                         <i class="fa fa-phone fa-fw"></i>
-                        <a class="text-decoration-none" href="tel:0918-518-8287" style="font-size: .9rem !important;">0918-518-8287</a>
-                        |
                         <a class="text-decoration-none" href="tel:0918-874-0812" style="font-size: .9rem !important;">0918-874-0812</a>
+                        |
+                        <a class="text-decoration-none" href="tel:0918-518-8287" style="font-size: .9rem !important;">0918-518-8287</a>
                     </li>
                 </ul>
             </div>
             <div class="col-lg-3 col-md-6 col-sm-6 col-12 pt-5">
                 <h5 class="text-light pb-2 border-light">دسترسی سریع</h5>
                 <ul class="list-unstyled text-light footer-link-list px-3">
-                    <li><a  class="text-decoration-none" href="{% url 'product:list' %}">فروشگاه</a></li>
-                    <li><a  class="text-decoration-none" href="{% url 'product:list' %}?grade=n">لپ تاپ آکبند</a></li>
-                    <li><a  class="text-decoration-none" href="{% url 'product:list' %}?grade=o">لپ تاپ اپن باکس</a></li>
-                    <li><a  class="text-decoration-none" href="{% url 'product:list' %}?grade=s">لپ تاپ استوک</a></li>
+                    <li><a class="text-decoration-none" href="{% url 'product:list' %}">فروشگاه</a></li>
+                    <li><a class="text-decoration-none" href="{% url 'product:list' %}?grade=n">لپ تاپ آکبند</a></li>
+                    <li><a class="text-decoration-none" href="{% url 'product:list' %}?grade=o">لپ تاپ اپن باکس</a></li>
+                    <li><a class="text-decoration-none" href="{% url 'product:list' %}?grade=s">لپ تاپ استوک</a></li>
                 </ul>
             </div>
             <div class="col-lg-3 col-md-6 col-sm-6 col-12 pt-5">
@@ -284,8 +296,8 @@
                     <li><a class="text-decoration-none" href="{% url 'home:faq' %}">سوالات متداول</a></li>
                 </ul>
             </div>
-            <div class="col-lg-3 col-md-8 col-sm-8 col-12 pt-5">
-                <h5 class="text-light pb-2 border-light">نشان اعتماد</h5>
+            <div class="col-lg-3 col-md-6 col-sm-6 col-12 pt-5">
+                <h5 class="text-light pb-2 border-light">نمادها</h5>
                 <ul class="list-unstyled text-light footer-link-list px-3">
                     <li><a class="text-decoration-none" href="#"><img src="" alt=""></a></li>
                 </ul>
@@ -305,11 +317,11 @@
                     </li>
                     <li class="list-inline-item border border-light rounded-circle text-center m-1">
                         <a class="text-light text-decoration-none" target="_blank"
-                           href="https://www.instagram.com/stoke_laptop_store"><i
-                                class="fab fa-telegram fa-lg fa-fw" style="vertical-align: -0.2rem;"></i></a>
+                           href="https://t.me/stoke_laptop_store"><i
+                                class="fab fa-telegram-plane fa-lg fa-fw" style="vertical-align: -0.2rem;"></i></a>
                     </li>
                     <li class="list-inline-item border border-light rounded-circle text-center m-1">
-                        <a class="text-light text-decoration-none" target="_blank" href="https://twitter.com/"><i
+                        <a class="text-light text-decoration-none" target="_blank" href="https://wa.me/+989185188287"><i
                                 class="fab fa-whatsapp fa-lg fa-fw" style="vertical-align: -0.2rem;"></i></a>
                     </li>
                 </ul>
@@ -318,10 +330,10 @@
     </div>
     <div class="w-100 bg-black py-3">
         <div class="container">
-            <div class="row pt-2">
+            <div class="row py-2">
                 <div class="col-12">
-                    <p class="text-center text-light">
-                        کپی رایت &copy; تمامی حقوق این وبسایت برای فروشگاه استوک لپ‌تاپ استور محفوظ است.
+                    <p class="text-center text-light m-0">
+                        کپی رایت &copy; تمامی حقوق این وبسایت برای فروشگاه لپ تاپ بانه محفوظ است.
                     </p>
                 </div>
             </div>
@@ -340,9 +352,6 @@
 <script src="{% static 'base/js/jquery-1.11.0.min.js' %}"></script>
 <script type="module" src="{% static 'base/js/templatemo.js' %}"></script>
 <script src="{% static 'base/js/base.js' %}"></script>
-{% block js_link %}
-
-{% endblock %}
 <!-- End Script -->
 </body>
 

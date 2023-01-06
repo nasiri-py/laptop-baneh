@@ -46,12 +46,12 @@ def contact_view(request):
             form = EmailMessage(
                 'فرم ارتباط با ما',
                 body,
-                '',
-                ('email@email.com',),
+                to=('email@email.com',)
             )
             form.send(fail_silently=True)
             messages.success(request, 'پیام شما به پشتیبانی سایت ارسال شد')
-    return redirect('home:contact')
+            return redirect('home:contact')
+        return render(request, 'home/contact.html', {'form': form})
 
 
 def about_view(request):

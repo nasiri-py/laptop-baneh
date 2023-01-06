@@ -4,7 +4,7 @@
 {% load static %}
 
 {% block title %}
-    مقایسه | استوک لپ تاپ استور
+    مقایسه | بانه لپ تاپ شاپ
 {% endblock %}
 
 {% block content %}
@@ -12,17 +12,15 @@
          aria-labelledby="compareModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close border-0 bg-white" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                <div class="modal-header text-center">
+                    <h6 class="m-auto text-grey">افزودن محصول به مقایسه</h6>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body pb-0">
                     <form id="compare-search-form" class="mb-2 modal-content modal-body border-0 p-0"
                           role="search"
                           action="{% url 'product:compare-search' %}" method="get">
                         <input id="compare-search-input" class="form-control rounded-2" type="text" name="search"
-                               placeholder="محصول موردنظر را جستجو کنید">
+                               placeholder="نام یا کد محصول موردنظر را وارد کنید">
                     </form>
                     <ul class="mt-0 list-group d-none p-0 modal-content modal-body border-0"
                         id="compare-results-box">
@@ -32,6 +30,15 @@
         </div>
     </div>
     <div class="container compare d-grid">
+        <ul class="d-flex list-unstyled p-0 text-muted site-map my-4">
+            <li><a href="{% url 'home:home' %}" class="text-decoration-none text-muted"><i class="fa fa-home"></i></a>
+            </li>
+            <li class="me-2">/</li>
+                <li class="me-2"><a href="{% url 'product:list' %}" class="text-decoration-none text-muted map-item">لیست
+                    محصولات</a></li>
+            <li class="me-2">/</li>
+            <li class="me-2 map-item">مقایسه محصولات</li>
+        </ul>
         <div class="compare-items d-flex bg-white">
             <div class="compare-search">
                 <div class="text-center rounded border mx-5 my-3 py-5 {% if max_com %}d-none{% endif %}">
@@ -135,74 +142,77 @@
                 {% for com in data %}
                     <div class="col-4 mt-5 text-center">
                         <div class="compare-specification-value">
-                            <p class="specification-value mb-2 p-2">{{ com.product.specs.name }}</p>
-                            <p class="specification-value mb-2 p-2">{{ com.product.specs.size }}</p>
-                            <p class="specification-value mb-2 p-2">{{ com.product.specs.weight }} کیلوگرم</p>
+                            <p class="specification-value mb-2 p-2">{{ com.product.specs.name|truncatechars:39 }}</p>
+                            <p class="specification-value mb-2 p-2">{{ com.product.specs.size|truncatechars:39 }}</p>
+                            <p class="specification-value mb-2 p-2">{{ com.product.specs.weight|truncatechars:39 }}</p>
                         </div>
                         <div class="compare-specification-value">
-                            <p class="specification-value mb-2 p-2">{{ com.product.specs.screen_size }} اینچ</p>
-                            <p class="specification-value mb-2 p-2">{{ com.product.specs.screen_type }}</p>
-                            <p class="specification-value mb-2 p-2">{{ com.product.specs.screen_resolution }}</p>
+                            <p class="specification-value mb-2 p-2">{{ com.product.specs.screen_size|truncatechars:39 }}</p>
+                            <p class="specification-value mb-2 p-2">{{ com.product.specs.screen_type|truncatechars:39 }}</p>
+                            <p class="specification-value mb-2 p-2">{{ com.product.specs.screen_resolution|truncatechars:39 }}</p>
                             <p class="specification-value mb-2 p-2">{% boolean_icon com.product.specs.screen_matte %}</p>
                             <p class="specification-value mb-2 p-2">{% boolean_icon com.product.specs.screen_touch %}</p>
                         </div>
                         <div class="compare-specification-value">
-                            <p class="specification-value mb-2 p-2">{{ com.product.specs.cpu_maker }}</p>
-                            <p class="specification-value mb-2 p-2">{{ com.product.specs.cpu_series }}</p>
-                            <p class="specification-value mb-2 p-2">{{ com.product.specs.cpu_model }}</p>
+                            <p class="specification-value mb-2 p-2">{{ com.product.specs.cpu_maker|truncatechars:39 }}</p>
+                            <p class="specification-value mb-2 p-2">{{ com.product.specs.cpu_series|truncatechars:39 }}</p>
+                            <p class="specification-value mb-2 p-2">{{ com.product.specs.cpu_model|truncatechars:39 }}</p>
                         </div>
                         <div class="compare-specification-value">
                             <p class="specification-value mb-2 p-2">{% boolean_icon com.product.specs.has_gpu %}</p>
-                            <p class="specification-value mb-2 p-2">{{ com.product.specs.gpu_maker }}</p>
-                            <p class="specification-value mb-2 p-2">{{ com.product.specs.gpu_model }}</p>
+                            <p class="specification-value mb-2 p-2">{{ com.product.specs.gpu_maker|truncatechars:39 }}</p>
+                            <p class="specification-value mb-2 p-2">{{ com.product.specs.gpu_model|truncatechars:39 }}</p>
                             {% if com.product.specs.gpu_memory %}
-                                <p class="specification-value mb-2 p-2">{{ com.product.specs.gpu_memory }} گیگابایت</p>
+                                <p class="specification-value mb-2 p-2">{{ com.product.specs.gpu_memory|truncatechars:39 }}</p>
                             {% else %}
                                 <p class="specification-value mb-2 p-2">&boxh;</p>
                             {% endif %}
                         </div>
                         <div class="compare-specification-value">
-                            <p class="specification-value mb-2 p-2">{{ com.product.specs.ram_capacity }} گیگابایت</p>
-                            <p class="specification-value mb-2 p-2">{{ com.product.specs.ram_type }}</p>
+                            <p class="specification-value mb-2 p-2">{{ com.product.specs.ram_capacity|truncatechars:39 }}</p>
+                            <p class="specification-value mb-2 p-2">{{ com.product.specs.ram_type|truncatechars:39 }}</p>
                         </div>
                         <div class="compare-specification-value">
                             <p class="specification-value mb-2 p-2">{% boolean_icon com.product.specs.has_hdd %}</p>
                             {% if com.product.specs.has_hdd %}
-                                <p class="specification-value mb-2 p-2">{{ com.product.specs.hdd_capacity }}</p>
+                                <p class="specification-value mb-2 p-2">{{ com.product.specs.hdd_capacity|truncatechars:39 }}</p>
                             {% else %}
                                 <p class="specification-value mb-2 p-2">&boxh;</p>
                             {% endif %}
                             <p class="specification-value mb-2 p-2">{% boolean_icon com.product.specs.has_ssd %}</p>
                             {% if com.product.specs.ssd_capacity %}
-                                <p class="specification-value mb-2 p-2">{{ com.product.specs.ssd_capacity }}</p>
+                                <p class="specification-value mb-2 p-2">{{ com.product.specs.ssd_capacity|truncatechars:39 }}</p>
                             {% else %}
                                 <p class="specification-value mb-2 p-2">&boxh;</p>
                             {% endif %}
                         </div>
                         <div class="compare-specification-value">
                             <p class="specification-value mb-2 p-2">{% boolean_icon com.product.specs.optical_drive %}</p>
-                            <p class="specification-value mb-2 p-2">{{ com.product.specs.webcam }}</p>
-                            <p class="specification-value mb-2 p-2">{{ com.product.specs.touchpad_specs }}</p>
-                            <p class="specification-value mb-2 p-2">{{ com.product.specs.keyboard_backlight }}</p>
+                            <p class="specification-value mb-2 p-2">{{ com.product.specs.webcam|truncatechars:39 }}</p>
+                            <p class="specification-value mb-2 p-2">{{ com.product.specs.touchpad_specs|truncatechars:39 }}</p>
+                            <p class="specification-value mb-2 p-2">{{ com.product.specs.keyboard_backlight|truncatechars:39 }}</p>
                             <p class="specification-value mb-2 p-2">{% boolean_icon com.product.specs.fingerprint %}</p>
                             <p class="specification-value mb-2 p-2">{% boolean_icon com.product.specs.sd_card %}</p>
                             <p class="specification-value mb-2 p-2">{% boolean_icon com.product.specs.wifi %}</p>
-                            <p class="specification-value mb-2 p-2">{{ com.product.specs.bluetooth }}</p>
+                            <p class="specification-value mb-2 p-2">{{ com.product.specs.bluetooth|truncatechars:39 }}</p>
                             <p class="specification-value mb-2 p-2">{% boolean_icon com.product.specs.ethernet %}</p>
                             <p class="specification-value mb-2 p-2">{% boolean_icon com.product.specs.vga %}</p>
                             <p class="specification-value mb-2 p-2">{% boolean_icon com.product.specs.hdmi %}</p>
                             {% if com.product.specs.usb2_num %}
-                                <p class="specification-value mb-2 p-2">{{ com.product.specs.usb2_num }} درگاه</p>
+                                <p class="specification-value mb-2 p-2">{{ com.product.specs.usb2_num|truncatechars:39 }}
+                                    درگاه</p>
                             {% else %}
                                 <p class="specification-value mb-2 p-2">&boxh;</p>
                             {% endif %}
                             {% if com.product.specs.usb3_num %}
-                                <p class="specification-value mb-2 p-2">{{ com.product.specs.usb3_num }} درگاه</p>
+                                <p class="specification-value mb-2 p-2">{{ com.product.specs.usb3_num|truncatechars:39 }}
+                                    درگاه</p>
                             {% else %}
                                 <p class="specification-value mb-2 p-2">&boxh;</p>
                             {% endif %}
                             {% if com.product.specs.type_c %}
-                                <p class="specification-value mb-2 p-2">{{ com.product.specs.type_c }} درگاه</p>
+                                <p class="specification-value mb-2 p-2">{{ com.product.specs.type_c|truncatechars:39 }}
+                                    درگاه</p>
                             {% else %}
                                 <p class="specification-value mb-2 p-2">&boxh;</p>
                             {% endif %}
@@ -210,18 +220,16 @@
                             <p class="specification-value mb-2 p-2">{% boolean_icon com.product.specs.jack_3 %}</p>
                         </div>
                         <div class="compare-specification-value">
-                            <p class="specification-value mb-2 p-2">{{ com.product.specs.os }}</p>
-                            <p class="specification-value mb-2 p-2">{{ com.product.specs.include_items }}</p>
-                            <p class="specification-value mb-2 p-2">{{ com.product.specs.battery }}</p>
+                            <p class="specification-value mb-2 p-2">{{ com.product.specs.os|truncatechars:39 }}</p>
+                            <p class="specification-value mb-2 p-2">{{ com.product.specs.include_items|truncatechars:39 }}</p>
+                            <p class="specification-value mb-2 p-2">{{ com.product.specs.battery|truncatechars:39 }}</p>
                         </div>
                     </div>
                 {% endfor %}
             </div>
         </div>
     </div>
-{% endblock %}
 
-{% block js_link %}
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
             integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
             crossorigin="anonymous"></script>

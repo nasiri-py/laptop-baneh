@@ -9,7 +9,7 @@
 <div class="offcanvas-md offcanvas-bottom rounded-top d-flex sort-list text-nowrap" tabindex="-1" id="sortOffcanvasBottom" aria-labelledby="sortOffcanvasBottomLabel">
   <div class="offcanvas-header d-md-none d-flex">
     <h5 class="offcanvas-title" id="sortOffcanvasBottomLabel"><b>مرتب سازی براساس:</b></h5>
-    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    <button type="button" class="btn-close text-reset h4" data-bs-dismiss="offcanvas" data-bs-target="#sortOffcanvasBottom" aria-label="Close"></button>
   </div>
     <b class="d-md-block d-none"><i class="fa fa-sort-amount-down"></i> مرتب سازی: </b>
     <form class="flex-column flex-md-row d-flex">
@@ -23,7 +23,7 @@
         {% sort_input request 1 'گران ترین' %}
         {% sort_input request 2 'ارزان ترین' %}
         <div class="d-none">
-            {% if filter.form.pg.data != min_val_price and filter.form.pg.data != None and filter.form.pg.data != max_val_price and filter.form.pg.data != None %}
+            {% if filter.form.pg.data != None and filter.form.pl.data != None %}
                 {{ filter.form.pg }}
                 {{ filter.form.pl }}
             {% endif %}
@@ -37,6 +37,7 @@
             {{ filter.form.rc }}
             {{ filter.form.sc }}
             {{ filter.form.di }}
+            {{ filter.form.im }}
         </div>
     </form>
 </div>

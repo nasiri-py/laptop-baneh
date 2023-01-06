@@ -50,7 +50,7 @@ class ImageInline(admin.StackedInline):
 
 
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ['title', 'cover_tag', 'category_to_str', 'number', 'available', 'price', 'discount', 'j_created']
+    list_display = ['title', 'cover_tag', 'category_to_str', 'number', 'sell', 'available', 'price', 'discount', 'j_created']
     change_list_template = 'products/product_admin.html'
     prepopulated_fields = {'slug': ('title',)}
     list_filter = (['brand', 'title', 'available'])

@@ -3,36 +3,35 @@
 {% load static %}
 
 {% block title %}
-    سوالات متداول | استوک لپ تاپ استور
+    سوالات متداول | فروشگاه لپ تاپ بانه
 {% endblock %}
 
 {% block content %}
-    <section class="py-5">
+    <section class="py-5 bg-light">
         <div class="container">
             <div class="py-5">
                 <h2 class="text-center">سوالات متداول</h2>
                 <div class="m-5">
                     <div class="accordion accordion-flush" id="accordionFlushExample">
-                        <div class="accordion-item rounded border mb-2">
-                            <div class="accordion-header p-2" id="flush-heading1">
-                                <div class="d-flex justify-content-between align-items-baseline collapsed" type="button"
-                                     data-bs-toggle="collapse" data-bs-target="#flush-collapse1" aria-expanded="false"
-                                     aria-controls="flush-collapse1">
-                                    <h6>
-                                        من چطور می تونم به شما برای خرید آنلاین اعتماد کنم؟
-                                    </h6>
-                                    <i class="fa fa-angle-down" aria-hidden="true"></i>
-                                </div>
-                            </div>
-                            <div id="flush-collapse1" class="accordion-collapse collapse bg-light"
-                                 aria-labelledby="flush-heading1"
-                                 data-bs-parent="#accordionFlushExample">
-                                <div class="accordion-body">
-                                    با توجه به مجوز ها همچون نماد اعتماد الکترونیک و کسب و کارهای مجازی که مجموعه استوک
-                                    لپ تاپ استور دارد پایین سایت میتونید مشاهده کنید.
-                                </div>
-                            </div>
-                        </div>
+{#                        <div class="accordion-item rounded border mb-2">#}
+{#                            <div class="accordion-header p-2" id="flush-heading1">#}
+{#                                <div class="d-flex justify-content-between align-items-baseline collapsed" type="button"#}
+{#                                     data-bs-toggle="collapse" data-bs-target="#flush-collapse1" aria-expanded="false"#}
+{#                                     aria-controls="flush-collapse1">#}
+{#                                    <h6>#}
+{#                                        من چطور می تونم به شما برای خرید آنلاین اعتماد کنم؟#}
+{#                                    </h6>#}
+{#                                    <i class="fa fa-angle-down" aria-hidden="true"></i>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                            <div id="flush-collapse1" class="accordion-collapse collapse bg-muted"#}
+{#                                 aria-labelledby="flush-heading1"#}
+{#                                 data-bs-parent="#accordionFlushExample">#}
+{#                                <div class="accordion-body">#}
+{#                                    با توجه به مجوز ها همچون نماد اعتماد الکترونیک و کسب و کارهای مجازی که فروشگاه لپ تاپ بانه دارد پایین سایت میتونید مشاهده کنید.#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
                         <div class="accordion-item rounded border mb-2">
                             <div class="accordion-header p-2" id="flush-heading2">
                                 <div class="d-flex justify-content-between align-items-baseline collapsed" type="button"
@@ -44,10 +43,10 @@
                                     <i class="fa fa-angle-down" aria-hidden="true"></i>
                                 </div>
                             </div>
-                            <div id="flush-collapse2" class="accordion-collapse collapse bg-light"
+                            <div id="flush-collapse2" class="accordion-collapse collapse bg-muted"
                                  aria-labelledby="flush-heading2"
                                  data-bs-parent="#accordionFlushExample">
-                                <div class="accordion-body bg-light rounded">
+                                <div class="accordion-body rounded">
                                     <p>بله؛ 10 روز می باشد که شامل موارد زیر است :</p>
                                     <ul class="list-unstyled">
                                         <li>
@@ -84,10 +83,10 @@
                                     <i class="fa fa-angle-down" aria-hidden="true"></i>
                                 </div>
                             </div>
-                            <div id="flush-collapse3" class="accordion-collapse collapse bg-light"
+                            <div id="flush-collapse3" class="accordion-collapse collapse bg-muted"
                                  aria-labelledby="flush-heading3"
                                  data-bs-parent="#accordionFlushExample">
-                                <div class="accordion-body bg-light rounded">
+                                <div class="accordion-body rounded">
                                     تمامی کالاها روز بعداز ثبت سفارش ارسال میشوند؛ 1 تا 5 روز کاری زمان میبرد تا کالا به
                                     دستتان برسد.
                                 </div>
@@ -104,10 +103,10 @@
                                     <i class="fa fa-angle-down" aria-hidden="true"></i>
                                 </div>
                             </div>
-                            <div id="flush-collapse4" class="accordion-collapse collapse bg-light"
+                            <div id="flush-collapse4" class="accordion-collapse collapse bg-muted"
                                  aria-labelledby="flush-heading4"
                                  data-bs-parent="#accordionFlushExample">
-                                <div class="accordion-body bg-light rounded">
+                                <div class="accordion-body rounded">
                                     بله، شما هم میتونید به فروشگاه حضوری ما که آدرس آنها در قسمت <a
                                         href="{% url 'home:contact' %}" class="text-decoration-none text-link">ارتباط با ما</a>
                                     درج شده مراجعه کنید و هم میتونید هنگام ثبت سفارش در قسمت توضیحات درج کنید و یا پس از
@@ -127,12 +126,12 @@
                                     <i class="fa fa-angle-down" aria-hidden="true"></i>
                                 </div>
                             </div>
-                            <div id="flush-collapse5" class="accordion-collapse collapse bg-light"
+                            <div id="flush-collapse5" class="accordion-collapse collapse bg-muted"
                                  aria-labelledby="flush-heading5"
                                  data-bs-parent="#accordionFlushExample">
-                                <div class="accordion-body bg-light rounded">
+                                <div class="accordion-body rounded">
                                     بله تمامی سفارش ها شامل فاکتور می شوند شما میتوانید پس از ثبت سفارش در پنل کاربری
-                                    خود از قسمت لیست سفارشات فاکتور خود را مشاهده. در ضمن در صورت نیاز به فاکتور دارای
+                                    خود از قسمت لیست سفارشات فاکتور خود را مشاهده کنید. در ضمن در صورت نیاز به فاکتور دارای
                                     مهر و امضا، فاکتور همراه سفارش شما ارسال خواهد شد.
                                 </div>
                             </div>
@@ -148,10 +147,10 @@
                                     <i class="fa fa-angle-down" aria-hidden="true"></i>
                                 </div>
                             </div>
-                            <div id="flush-collapse6" class="accordion-collapse collapse bg-light"
+                            <div id="flush-collapse6" class="accordion-collapse collapse bg-muted"
                                  aria-labelledby="flush-heading6"
                                  data-bs-parent="#accordionFlushExample">
-                                <div class="accordion-body bg-light rounded">
+                                <div class="accordion-body rounded">
                                     بله شما می توانید در قسمت ثبت سفارش، اطلاعات آدرس شخص تحویل گیرنده شامل آدرس، نام و
                                     نام خانوادگی را وارد نمایید.
                                 </div>
@@ -168,11 +167,11 @@
                                     <i class="fa fa-angle-down" aria-hidden="true"></i>
                                 </div>
                             </div>
-                            <div id="flush-collapse7" class="accordion-collapse collapse bg-light"
+                            <div id="flush-collapse7" class="accordion-collapse collapse bg-muted"
                                  aria-labelledby="flush-heading7"
                                  data-bs-parent="#accordionFlushExample">
-                                <div class="accordion-body bg-light rounded">
-                                    شما می‌توانید با پشتیبانی استوک لپ تاپ استور تماس بگیرید و درخواست ویرایش اطلاعات سفارش را بدهید.
+                                <div class="accordion-body rounded">
+                                    شما می‌توانید با پشتیبانی فروشگاه لپ تاپ بانه تماس بگیرید و درخواست ویرایش اطلاعات سفارش را بدهید.
                                 </div>
                             </div>
                         </div>
@@ -187,10 +186,10 @@
                                     <i class="fa fa-angle-down" aria-hidden="true"></i>
                                 </div>
                             </div>
-                            <div id="flush-collapse8" class="accordion-collapse collapse bg-light"
+                            <div id="flush-collapse8" class="accordion-collapse collapse bg-muted"
                                  aria-labelledby="flush-heading8"
                                  data-bs-parent="#accordionFlushExample">
-                                <div class="accordion-body bg-light rounded">
+                                <div class="accordion-body rounded">
                                     ارسال سفارشات توسط پست، تیپاکس، چاپار و باربری (متناسب با شهر مقصد و مبلغ سفارش) با انتخاب مشتری صورت می پذیرد و نسبت به کالا و نوع باربری هزینه ارسال متفاوت میباشد.
                                 </div>
                             </div>
@@ -206,10 +205,10 @@
                                     <i class="fa fa-angle-down" aria-hidden="true"></i>
                                 </div>
                             </div>
-                            <div id="flush-collapse9" class="accordion-collapse collapse bg-light"
+                            <div id="flush-collapse9" class="accordion-collapse collapse bg-muted"
                                  aria-labelledby="flush-heading9"
                                  data-bs-parent="#accordionFlushExample">
-                                <div class="accordion-body bg-light rounded">
+                                <div class="accordion-body rounded">
                                     بله، با توجه به ارزشمند بودن همه ی کالاها، تمامی آنها با رعایت موارد ایمنی از جمله استفاده از ضربه گیر ارسال میگردد. در ضمن کالاهای ارسالی توسط شرکت های پستی(ارسالی) تحت پوشش بیمه ارسال هستند.
                                 </div>
                             </div>

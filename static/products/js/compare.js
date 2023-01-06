@@ -1,10 +1,10 @@
-
+const comSearchForm = document.getElementById('compare-search-form')
 const comSearchInput = document.getElementById('compare-search-input')
 const comResultsBox = document.getElementById('compare-results-box')
 const sendCompareSearchData = (product) => {
     $.ajax({
         type: 'GET',
-        url: "{% url 'product:compare-search' %}",
+        url: comSearchForm.getAttribute('action'),
         data: {
             'com_product': product,
         },
@@ -19,7 +19,7 @@ const sendCompareSearchData = (product) => {
                     <h6 class="col-10 my-auto">${product.title}</h6>
                 </a>
             </li>
-            <hr class="mt-0"/>`
+            <hr class="m-0"/>`
                 })
             } else {
                 if (comSearchInput.value.length > 0) {

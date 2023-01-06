@@ -15,6 +15,5 @@ urlpatterns = [
     path('address/', views.order_address_view, name='order-address'),
     path('factor/', views.order_pre_factor_view, name='order-pre-factor'),
     path('coupon/<int:order_id>/', views.coupon_view, name='coupon'),
-    path('pay/<int:order_id>/', views.order_pay_view, name='order-pay'),
-    path('verify/', views.order_verify_view, name='order-verify'),
+    path('pay/', views.OrderPayView.as_view(), name='order-pay'),
 ]

@@ -1,7 +1,7 @@
 from django import forms
 from django.forms.models import ModelChoiceField
 from products.models import Color
-from .models import OrderAddress
+from .models import OrderAddress, Pay
 
 
 class AddToCartForm(forms.Form):
@@ -21,3 +21,9 @@ class OrderAddressForm(forms.ModelForm):
 
 class CouponForm(forms.Form):
     code = forms.CharField()
+
+
+class PayForm(forms.ModelForm):
+    class Meta:
+        model = Pay
+        exclude = ['order']

@@ -3,14 +3,14 @@
 {% load widget_tweaks %}
 
 {% block r_title %}
-    ورود به سایت | استوک لپ تاپ استور
+    ورود به سایت | فروشگاه لپ تاپ بانه
 {% endblock %}
 
 {% block r_content %}
     <div class="login-form">
         <form action="" method="post">
             {% csrf_token %}
-            <h2>ورود به استوک لپ تاپ استور</h2>
+            <h2>ورود به فروشگاه لپ تاپ بانه</h2>
             <div class="form-input-material">
                 {% render_field form.username|append_attr:"required:required" type="text" id="phone_number" placeholder=" " autocomplete="off" class="no-arrow form-control-material" %}
                 <label for="phone_number">شماره موبایل یا نام کاربری</label>

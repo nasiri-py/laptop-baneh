@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    جستجو | استوک لپ تاپ استور
+    جستجو | بانه لپ تاپ شاپ
 {% endblock %}
 
 {% block content %}
@@ -45,43 +45,45 @@
                     </a>
                 </div>
             {% empty %}
-                <div class="alert alert-warning text-center m-4" role="alert">
+                <div class="alert alert-warning text-center m-auto mt-3" role="alert">
                     محصولی برای نمایش وجود ندارد.
                 </div>
             {% endfor %}
         </div>
-        <nav aria-label="...">
-            <ul class="pagination justify-content-end">
-                {% if page_obj.has_previous %}
-                    <li class="pag-item">
-                        <a class="pag-link" href="?page=1&{{ data }}">1</a>
-                    </li>
-                    {% if page_obj.previous_page_number != 1 %}
-                        <li class="pag-item"><span>...</span></li>
+        {% if page_obj.paginator.num_pages > 1 %}
+            <nav aria-label="...">
+                <ul class="pagination justify-content-end">
+                    {% if page_obj.has_previous %}
                         <li class="pag-item">
-                            <a class="pag-link" href="?page={{ page_obj.previous_page_number }}&{{ data }}"
-                               tabindex="-1">{{ page_obj.previous_page_number }}</a>
+                            <a class="pag-link" href="?page=1&{{ data }}">1</a>
                         </li>
+                        {% if page_obj.previous_page_number != 1 %}
+                            <li class="pag-item"><span>...</span></li>
+                            <li class="pag-item">
+                                <a class="pag-link" href="?page={{ page_obj.previous_page_number }}&{{ data }}"
+                                   tabindex="-1">{{ page_obj.previous_page_number }}</a>
+                            </li>
+                        {% endif %}
                     {% endif %}
-                {% endif %}
-                <li class="pag-item active">
-                    <a class="pag-link" href="">{{ page_obj.number }}<span class="sr-only">(current)</span></a>
-                </li>
-                {% if page_obj.has_next %}
-                    {% if page_obj.next_page_number != page_obj.paginator.num_pages %}
+                    <li class="pag-item active">
+                        <a class="pag-link" href="">{{ page_obj.number }}<span class="sr-only">(current)</span></a>
+                    </li>
+                    {% if page_obj.has_next %}
+                        {% if page_obj.next_page_number != page_obj.paginator.num_pages %}
+                            <li class="pag-item">
+                                <a class="pag-link"
+                                   href="?page={{ page_obj.next_page_number }}&{{ data }}">{{ page_obj.next_page_number }}</a>
+                            </li>
+                            <li class="pag-item"><span>...</span></li>
+                        {% endif %}
                         <li class="pag-item">
                             <a class="pag-link"
-                               href="?page={{ page_obj.next_page_number }}&{{ data }}">{{ page_obj.next_page_number }}</a>
+                               href="?page={{ page_obj.paginator.num_pages }}&{{ data }}">{{ page_obj.paginator.num_pages }}</a>
                         </li>
-                        <li class="pag-item"><span>...</span></li>
                     {% endif %}
-                    <li class="pag-item">
-                        <a class="pag-link"
-                           href="?page={{ page_obj.paginator.num_pages }}&{{ data }}">{{ page_obj.paginator.num_pages }}</a>
-                    </li>
-                {% endif %}
-            </ul>
-        </nav>
+                </ul>
+            </nav>
+        {% endif %}
     </div>
     <!-- End Content -->
 {% endblock %}

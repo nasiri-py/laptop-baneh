@@ -1,19 +1,18 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.views import View
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 from .cart import Cart
 from products.models import Product, Color
-from .forms import AddToCartForm
+from .forms import AddToCartForm, CouponForm, OrderAddressForm, PayForm
 from django.contrib import messages
-from .models import Order, OrderItem, Coupon, OrderAddress
-from .forms import CouponForm, OrderAddressForm
+from .models import Order, OrderItem, Coupon, OrderAddress, Pay
 from datetime import datetime
 import pytz
-from config import settings
-import requests
-import json
 from utils import send_sms
 from accounts.models import User
+from django.core.mail import EmailMessage
 
 
 def cart_view(request):
@@ -87,11 +86,9 @@ def order_create_view(request):
 @login_required
 def order_detail_view(request):
     order = Order.objects.get(user=request.user, paid=False)
-    coupon_form = CouponForm()
     order_address_form = OrderAddressForm()
     if request.user == order.user:
-        return render(request, 'orders/order_detail.html', {'order': order, 'oder_address_form': order_address_form,
-                                                            'coupon_form': coupon_form})
+        return render(request, 'orders/order_detail.html', {'order': order, 'oder_address_form': order_address_form})
     return redirect('orders:cart')
 
 
@@ -119,14 +116,17 @@ def order_address_view(request):
             )
         if request.user == order.user:
             return redirect('orders:order-pre-factor')
-    return redirect('orders:cart')
+    return render(request, 'orders/order_detail.html', {'form': form})
 
 
 @login_required
 def order_pre_factor_view(request):
     order = Order.objects.get(user=request.user, paid=False)
+    form = PayForm()
+    coupon_form = CouponForm()
     if request.user == order.user:
-        return render(request, 'orders/order_pre_factor.html', {'order': order})
+        return render(request, 'orders/order_pre_factor.html', {'order': order, 'form': form,
+                                                                'coupon_form': coupon_form})
     return redirect('orders:cart')
 
 
@@ -149,87 +149,32 @@ def coupon_view(request, order_id):
     return redirect('orders:order-pre-factor')
 
 
-@login_required
-def order_pay_view(request, order_id):
-    order = Order.objects.get(id=order_id)
-    request.session['order_pay'] = {
-        'order_id': order.id,
-        'user_id': order.user.id,
-    }
-    req_data = {
-        "merchant_id": settings.MERCHANT,
-        "amount": order.get_total_cost() * 10,
-        "callback_url": settings.CallbackURL,
-        "description": settings.description,
-        "metadata": {"mobile": request.user.phone_number, "email": settings.email}
-    }
-    req_header = {"accept": "application/json",
-                  "content-type": "application/json'"}
-    req = requests.post(url=settings.ZP_API_REQUEST, data=json.dumps(
-        req_data), headers=req_header)
-    authority = req.json()['data']['authority']
-    if len(req.json()['errors']) == 0:
-        return redirect(settings.ZP_API_STARTPAY.format(authority=authority))
-    else:
-        e_code = req.json()['errors']['code']
-        e_message = req.json()['errors']['message']
-        err_message = f"Error code: {e_code}, Error Message: {e_message}"
-        return render(request, 'orders/pay_error.html', {'err_message': err_message})
+class OrderPayView(LoginRequiredMixin, View):
+    def get(self, request):
+        form = PayForm()
+        return render(request, 'orders/order_pay.html', {'form': form})
 
-
-@login_required
-def order_verify_view(request):
-    order_id = request.session['order_pay']['order_id']
-    user_id = request.session['order_pay']['user_id']
-    order = Order.objects.get(id=int(order_id), user=int(user_id))
-    t_status = request.GET.get('Status')
-    t_authority = request.GET['Authority']
-    if request.GET.get('Status') == 'OK':
-        req_header = {"accept": "application/json",
-                      "content-type": "application/json'"}
-        req_data = {
-            "merchant_id": settings.MERCHANT,
-            "amount": order.get_total_cost() * 10,
-            "authority": t_authority
-        }
-        req = requests.post(url=settings.ZP_API_VERIFY, data=json.dumps(req_data), headers=req_header)
-        if len(req.json()['errors']) == 0:
-            t_status = req.json()['data']['code']
-            if t_status == 100:
-                admins = User.objects.get(is_staff=True)
-                for admin in admins:
-                    send_sms(admin.phone_number, f'کاربری با شماره موبایل {order.address.phone_number}'
-                                                 f' و نام {order.address.full_name}'
-                                                 f' سفارش با id {order.id} را پرداخت کرد'
-                                                 f'\nشماره پیگیری: {str(req.json()["data"]["ref_id"])} ')
-                send_sms(order.address.phone_number, f'با تشکر از اعتماد شما\nسفارش شما با موفقیت ثبت شد'
-                                                     f'\nشماره پیگیری: {str(req.json()["data"]["ref_id"])} '
-                                                     f'\n\nاستوک لپ تاپ استور')
-                order.paid = True
-                order.ref_id = str(req.json()["data"]["ref_id"])
-                order.save()
-                for item in order.items.all():
-                    item.color.number -= item.quantity
-                    if item.color.number == 0:
-                        item.color.available = False
-                    item.color.product.number -= item.quantity
-                    if item.color.product.number == 0:
-                        item.color.product.available = False
-                    item.color.product.sell += item.quantity
-                    item.color.save()
-                    item.color.product.save()
-                return render(request, 'orders/order_factor.html', {'order': order})
-            elif t_status == 101:
-                err_message = 'عملیات پرداخت قبلا با موفقیت انجام شده است: ' + str(req.json()['data']['message'])
-                return render(request, 'orders/pay_error.html', {'err_message': err_message})
-            else:
-                err_message = 'Transaction failed.\nStatus: ' + str(req.json()['data']['message'])
-                return render(request, 'orders/pay_error.html', {'err_message': err_message})
-        else:
-            e_code = req.json()['errors']['code']
-            e_message = req.json()['errors']['message']
-            err_message = f"Error code: {e_code}, Error Message: {e_message}"
-            return render(request, 'orders/pay_error.html', {'err_message': err_message})
-    else:
-        err_message = 'تراکنش ناموفق بوده یا توسط کاربر لغو شده است'
-        return render(request, 'orders/pay_error.html', {'err_message': err_message})
+    def post(self, request):
+        order = Order.objects.get(user=request.user, paid=False)
+        form = PayForm(request.POST)
+        if form.is_valid():
+            try:
+                Pay.objects.get(order_id=order.id)
+            except Pay.DoesNotExist:
+                Pay.objects.create(
+                    order=order,
+                    price=form.cleaned_data['price'],
+                    pay_ref=form.cleaned_data['pay_ref'],
+                )
+                admins = User.objects.filter(is_staff=True)
+                for admin in admins.all():
+                    order_message = f'ظاهرا کاربری با شماره موبایل {order.address.phone_number}' \
+                                    f' و نام {order.address.full_name}' \
+                                    f' سفارش با id {order.id} را پرداخت کرد'
+                    send_sms(admin.phone_number, order_message)
+                    email = EmailMessage('ثبت سفارش', order_message, to=('email@email.com',))
+                    email.send()
+            if request.user == order.user:
+                messages.success(request, 'سفارش شما ثبت شد و نتیجه آن از طریق پیامک اطلاع رسانی میشود')
+                return redirect('home:home')
+        return render(request, 'orders/order_pay.html', {'form': form})

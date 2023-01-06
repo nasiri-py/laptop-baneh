@@ -48,7 +48,7 @@
             {% if user.is_authenticated %}
                 <p class="rating-ask position-absolute top-100">به این محصول امتیاز دهید</p>
             {% else %}
-                <p class="rating-ask position-absolute top-100">جهت امتیازدهی به این محصول وارد <a class="rating-ask text-decoration-none text-link" href="{% url 'accounts:login' %}?next={{ request.path }}">حساب خود</a> شوید</p>
+                <p class="rating-ask position-absolute top-100">جهت امتیازدهی به این محصول وارد <a class="rating-ask text-decoration-none text-link" href="{% url 'accounts:login' %}?next={{ request.path }}">حساب کاربری</a> خود شوید</p>
             {% endif %}
         </div>
     {% endblock %}

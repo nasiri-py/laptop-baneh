@@ -3,28 +3,35 @@
 {% load widget_tweaks %}
 
 {% block title %}
-    ارتباط با ما | استوک لپ تاپ استور
+    ارتباط با ما | فروشگاه لپ تاپ بانه
 {% endblock %}
 
 {% block css_link %}
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin="" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+          integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+          crossorigin=""/>
 {% endblock %}
 
 {% block content %}
-        <!-- Start Content Page -->
+    <!-- Start Content Page -->
     <div class="container-fluid bg-light pt-5 pb-1">
         <div class="col-md-6 m-auto text-center">
             <h1>ارتباط با ما</h1>
             <p>
-                از اینکه استوک لپ تاپ استور را انتخاب کردید از شما ممنونیم.
+                از اینکه فروشگاه لپ تاپ بانه را انتخاب کردید از شما ممنونیم.
                 <br>
-                سعی ما در مجموعه استوک لپ تاپ استور ارائه بهترین خدمات به شما کاربر گرامی است. در صورت وجود هرگونه سوال یا مشکل در خرید از وب سایت می توانید  با شماره تماس های پایین یا آیدی پشتیبانی تلگرام واتساپ ارتباط برقرار کنید. همچنین می توانید مشکلات خود را از طریق فرم زیر برای ما ارسال کنید تا در اولین فرصت به آن رسیدگی شود.
+                سعی ما در فروشگاه لپ تاپ بانه ارائه بهترین خدمات به شما کاربر گرامی است. در صورت وجود هرگونه سوال یا
+                مشکل در خرید از وب سایت می توانید با شماره تماس های پایین یا آیدی پشتیبانی تلگرام واتساپ ارتباط برقرار
+                کنید. همچنین می توانید مشکلات خود را از طریق فرم زیر برای ما ارسال کنید تا در اولین فرصت به آن رسیدگی
+                شود.
             </p>
             <div class="text-center mt-3">
-            <div><a class="text-link text-decoration-none" href="tel:0918-518-8287">0918-518-8287</a></div>
-            <div><a class="text-link text-decoration-none" href="tel:0918-874-0812">0918-874-0812</a></div>
-            <div><a class="text-link text-decoration-none" href="https://t.me/stoke_laptop_store" target="_blank">پشتیبانی تلگرام</a></div>
-            <div><a class="text-link text-decoration-none" href="https://www.linkedin.com/" target="_blank">پشتیبانی واتساپ</a></div>
+                <div><a class="text-link text-decoration-none" href="tel:0918-518-8287">0918-518-8287</a></div>
+                <div><a class="text-link text-decoration-none" href="tel:0918-874-0812">0918-874-0812</a></div>
+                <div><a class="text-link text-decoration-none" href="https://t.me/stoke_laptop_store" target="_blank">پشتیبانی
+                    تلگرام</a></div>
+                <div><a class="text-link text-decoration-none" href="https://wa.me/+989185188287" target="_blank">پشتیبانی
+                    واتساپ</a></div>
             </div>
         </div>
         <h6 class="text-center mt-3">بانه، پاساژ سافعی مرکزی، پلاک 118</h6>
@@ -32,20 +39,22 @@
 
     <!-- Start Map -->
     <div id="mapid" style="width: 100%; height: 300px;"></div>
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+            integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+            crossorigin=""></script>
     <script>
         var mymap = L.map('mapid').setView([35.99578938249749, 45.88278772766059, 16], 16);
 
         L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
             maxZoom: 18,
-            attribution: 'مجموعه استوک لپ تاپ استور',
+            attribution: 'فروشگاه لپ تاپ بانه',
             id: 'mapbox/streets-v11',
             tileSize: 512,
             zoomOffset: -1
         }).addTo(mymap);
 
         L.marker([35.99578938249749, 45.88278772766059, 16]).addTo(mymap)
-            .bindPopup("<b>استوک لپ تاپ استور</b>").openPopup();
+            .bindPopup("<b>فروشگاه لپ تاپ بانه</b>").openPopup();
 
         mymap.scrollWheelZoom.disable();
         mymap.touchZoom.disable();
@@ -55,25 +64,37 @@
     <!-- Start Contact -->
     <div class="container py-5">
         <div class="row py-5">
-            <form class="col-md-9 m-auto" action="{% url 'home:contact' %}" method="post">
+            <form class="col-md-9 m-auto" action="{% url 'home:contact' %}" method="post" novalidate>
                 {% csrf_token %}
                 <div class="row">
                     <div class="form-group col-md-6 mb-3">
-                        <label for="id_name">نام</label>
+                        <label for="id_name"><h6 class="text-grey me-2">نام<span class="asteriskField">*</span></h6></label>
                         {% render_field form.name|append_attr:"required:required" type="text" id="id_name" placeholder=" " autocomplete="off" class="form-control mt-1" %}
+                    {% for error in form.name.errors %}
+                        <p class="error">{{ error }}</p>
+                    {% endfor %}
                     </div>
                     <div class="form-group col-md-6 mb-3">
-                        <label for="id_email">ایمیل</label>
+                        <label for="id_email"><h6 class="text-grey me-2">ایمیل<span class="asteriskField">*</span></h6></label>
                         {% render_field form.email|append_attr:"required:required" type="email" id="id_email" placeholder=" " autocomplete="off" class="form-control mt-1" %}
+                    {% for error in form.email.errors %}
+                        <p class="error">{{ error }}</p>
+                    {% endfor %}
                     </div>
                 </div>
                 <div class="mb-3">
-                    <label for="id_subject">موضوع</label>
+                    <label for="id_subject"><h6 class="text-grey me-2">موضوع<span class="asteriskField">*</span></h6></label>
                     {% render_field form.subject|append_attr:"required:required" type="text" id="id_subject" placeholder=" " autocomplete="off" class="form-control mt-1" %}
+                {% for error in form.subject.errors %}
+                    <p class="error">{{ error }}</p>
+                {% endfor %}
                 </div>
                 <div class="mb-3">
-                    <label for="id_message">متن پیام</label>
+                    <label for="id_message"><h6 class="text-grey me-2">متن پیام<span class="asteriskField">*</span></h6></label>
                     {% render_field form.message|append_attr:"required:required" id="id_message" placeholder=" " autocomplete="off" class="form-control mt-1" %}
+                {% for error in form.message.errors %}
+                    <p class="error">{{ error }}</p>
+                {% endfor %}
                 </div>
                 <div class="row">
                     <div class="col text-start mt-2">

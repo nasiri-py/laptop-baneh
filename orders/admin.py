@@ -1,10 +1,15 @@
 from django.contrib import admin
-from .models import Order, OrderItem, Coupon, OrderAddress
+from .models import Order, OrderItem, Coupon, OrderAddress, Pay
+
+
+class PayInline(admin.StackedInline):
+    model = Pay
+    readonly_fields = ['price', 'pay_ref']
 
 
 class OrderItemInline(admin.TabularInline):
     model = OrderItem
-    raw_id_fields = ['color']
+    readonly_fields = ['price']
     extra = 0
 
 
@@ -14,10 +19,12 @@ class OrderAddressInline(admin.StackedInline):
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ['id', 'ref_id', 'user', 'paid', 'j_updated']
+    fields = ['user', 'ref_id', 'get_total_cost', 'paid', 'status']
+    readonly_fields = ['user', 'ref_id', 'get_total_cost']
+    list_display = ['id', 'ref_id', 'address', 'paid', 'status', 'j_created', 'get_total_cost']
     list_filter = ['paid']
     search_fields = ['user__phone_number', 'address__phone_number', 'ref_id']
-    inlines = [OrderItemInline, OrderAddressInline]
+    inlines = [PayInline, OrderItemInline, OrderAddressInline]
 
 
 @admin.register(Coupon)

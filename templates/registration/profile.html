@@ -4,7 +4,7 @@
 {% load humanize %}
 
 {% block title %}
-    پروفایل | استوک لپ تاپ استور
+    پروفایل | فروشگاه لپ تاپ بانه
 {% endblock %}
 
 {% block css_link %}
@@ -57,7 +57,7 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>نام</label>
+                                        <label><h6 class="text-grey me-2">نام</h6></label>
                                         <input type="text" name="first_name" class="form-control"
                                                value="{{ user.first_name }}">
                                         {% for error in form.first_name.errors %}
@@ -67,7 +67,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>نام خانوادگی</label>
+                                        <label><h6 class="text-grey me-2">نام خانوادگی</h6></label>
                                         <input type="text" name="last_name" class="form-control"
                                                value="{{ user.last_name }}">
                                         {% for error in form.last_name.errors %}
@@ -77,7 +77,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>شماره موبایل</label>
+                                        <label><h6 class="text-grey me-2">شماره موبایل</h6></label>
                                         <input type="text" name="phone_number" class="form-control"
                                                value="{{ user.phone_number }}">
                                         {% for error in form.phone_number.errors %}
@@ -87,9 +87,9 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>نام کاربری</label>
+                                        <label><h6 class="text-grey me-2">نام کاربری</h6></label>
                                         <input type="text" name="username" class="form-control"
-                                               value="{{ user.username }}" disabled>
+                                               value="{{ user.username }}" {% if not user.is_staff %}disabled{% endif %}>
                                         {% for error in form.username.errors %}
                                             <p class="error">{{ error }}</p>
                                         {% endfor %}
@@ -104,36 +104,36 @@
                     <div class="tab-pane fade order-tab" id="order" role="tabpanel"
                          aria-labelledby="order-tab">
                         <div class="order-area">
-                            {% for order in user.orders.all %}
+                            {% for order in user.orders.is_paid %}
                                 <div class="card mb-3">
                                     <div class="row my-4 div-factor px-2">
                                         <div class="mb-3 col-12 col-lg-4 d-flex align-items-center">
-                                            <h6 class="m-0 text-muted text-nowrap">شماره پیگیری: </h6>
-                                            <h6 class="mb-0 me-1">{{ order.ref_id }}</h6>
+                                            <h6 class="m-0 text-muted text-nowrap">کد سفارش: </h6>
+                                            <h6 class="mb-0 me-1 text-grey">{{ order.ref_id }}</h6>
                                         </div>
                                         <div class="mb-3 col-12 col-lg-4 d-flex align-items-center">
                                             <h6 class="m-0 text-muted text-nowrap">وضعیت: </h6>
-                                            <h6 class="mb-0 me-1">{{ order.status }}</h6>
+                                            <h6 class="mb-0 me-1 text-grey">{{ order.status }}</h6>
                                         </div>
                                         <div class="mb-3 col-12 col-lg-4 d-flex align-items-center">
                                             <h6 class="m-0 text-muted text-nowrap">مبلغ کل: </h6>
-                                            <h6 class="mb-0 me-1">{{ order.get_total_cost }} تومان</h6>
+                                            <h6 class="mb-0 me-1 text-grey">{{ order.get_total_cost }} تومان</h6>
                                         </div>
                                         <div class="mb-3 col-12 col-lg-4 d-flex align-items-center">
                                             <h6 class="m-0 text-muted text-nowrap">تاریخ: </h6>
-                                            <h6 class="mb-0 me-1">{{ order.j_updated }}</h6>
+                                            <h6 class="mb-0 me-1 text-grey">{{ order.j_updated }}</h6>
                                         </div>
                                         <div class="mb-3 col-12 d-flex align-items-center">
                                             <h6 class="m-0 text-muted text-nowrap">نام و نام خانوادگی گیرنده: </h6>
-                                            <h6 class="mb-0 me-1">{{ order.address.full_name }}</h6>
+                                            <h6 class="mb-0 me-1 text-grey">{{ order.address.full_name }}</h6>
                                         </div>
                                         <div class="mb-3 col-12 d-flex align-items-center">
                                             <h6 class="m-0 text-muted text-nowrap">شماره تماس گیرنده: </h6>
-                                            <h6 class="mb-0 me-1">{{ order.address.phone_number }}</h6>
+                                            <h6 class="mb-0 me-1 text-grey">{{ order.address.phone_number }}</h6>
                                         </div>
                                         <div class="mb-3 col-12 d-flex align-items-center">
                                             <h6 class="m-0 text-muted text-nowrap">آدرس گیرنده: </h6>
-                                            <h6 class="mb-0 me-1">{{ order.address.full_address }}</h6>
+                                            <h6 class="mb-0 me-1 text-grey lh-base">{{ order.address.full_address }}</h6>
                                         </div>
                                         <div class="col-12 text-center mt-3">
                                             <div class="accordion-header"
@@ -162,8 +162,8 @@
                                                                         class="img-fluid rounded-3"
                                                                         alt="{{ item.product.title }}">
                                                             </div>
-                                                            <div class="col-lg-7 col-xl-7 mb-2">
-                                                                <h6 class="text-black my-3">{{ item.product.title }}</h6>
+                                                            <div class="col-lg-4 col-xl-4 mb-2">
+                                                                <h6 class="text-grey my-3">{{ item.product.title }}</h6>
                                                                 <div class="d-flex align-items-center w-75">
                                                                     <div>
                                                                         <h6 class="btn-color color-cart"
@@ -175,7 +175,11 @@
                                                                 </div>
                                                             </div>
                                                             <div class="col-lg-3 col-xl-3 text-start">
-                                                                <h6 class="mb-0">{{ item.get_cost|intcomma }}
+                                                                <h6 class="mb-0 text-grey">{{ item.quantity }}
+                                                                    عدد</h6>
+                                                            </div>
+                                                            <div class="col-lg-3 col-xl-3 text-start">
+                                                                <h6 class="mb-0 text-grey">{{ item.get_cost|intcomma }}
                                                                     تومان</h6>
                                                             </div>
                                                         </div>
@@ -200,12 +204,12 @@
                         <div class="comment-area">
                             {% for comment in user.comments.all %}
                                 <div class="d-flex">
-                                    <h6 class="m-0 text-nowrap">متن دیدگاه: </h6>
+                                    <h6 class="m-0 text-nowrap text-grey">متن دیدگاه: </h6>
                                     <span class="me-1">{{ comment.body }}</span>
                                 </div>
                                 <div class="row mt-3">
                                     <div class="d-flex col-12 col-lg-9 mb-2 align-items-baseline">
-                                        <h6 class="mb-0 text-nowrap">دیدگاه مربوط به محصول: </h6>
+                                        <h6 class="mb-0 text-nowrap text-grey">دیدگاه مربوط به محصول: </h6>
                                         <a class="me-1 text-link text-decoration-none"
                                            href="{% url 'product:detail' comment.product.slug %}"
                                            target="_blank">{{ comment.product|truncatewords:5 }}</a>
@@ -228,8 +232,7 @@
             </div>
         </div>
     </section>
-{% endblock %}
 
-{% block js_link %}
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
 {% endblock %}
+

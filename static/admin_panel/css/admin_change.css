@@ -75,3 +75,11 @@ div.breadcrumbs {
 }
 
 input[type="checkbox"] {accent-color: #bc1f69;}
+
+#nav-sidebar .current-app .section:link, #nav-sidebar .current-app .section:visited {
+    color: #f4d4f5;
+}
+
+input, textarea, select, .form-row p, form .button {
+    font-family: Vazir, sans-serif;
+}

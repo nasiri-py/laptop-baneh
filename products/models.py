@@ -24,7 +24,7 @@ class IPAddress(models.Model):
 
 
 class Category(models.Model):
-    title = models.CharField(max_length=255, verbose_name='عنوان')
+    title = models.CharField(max_length=100, verbose_name='عنوان')
 
     class Meta:
         verbose_name = 'کاربری'
@@ -35,7 +35,7 @@ class Category(models.Model):
 
 
 class Brand(models.Model):
-    name = models.CharField(max_length=255, verbose_name='مدل')
+    name = models.CharField(max_length=100, verbose_name='مدل')
     cover = models.ImageField(upload_to='brands', verbose_name='عکس کاور')
     ratings = GenericRelation(Rating)
 
@@ -57,7 +57,7 @@ class Product(models.Model):
     brand = models.ForeignKey(Brand, on_delete=models.CASCADE, related_name='products', verbose_name='برند')
     title = models.CharField(max_length=255, verbose_name='عنوان')
     slug = models.SlugField(max_length=255, allow_unicode=True, unique=True, verbose_name='آدرس')
-    code = models.CharField(max_length=255, unique=True, verbose_name='کد محصول')
+    code = models.CharField(max_length=100, unique=True, verbose_name='کد محصول')
     grade = models.CharField(choices=GRADE_CHOICES, max_length=1, verbose_name='گرید')
     category = models.ManyToManyField(Category, related_name="products", verbose_name='کاربری')
     description = RichTextField(blank=True, null=True, verbose_name='توضیحات')
@@ -71,7 +71,7 @@ class Product(models.Model):
     created = models.DateTimeField(auto_now=True, verbose_name='زمان ایجاد')
     ratings = GenericRelation(Rating)
     hits = models.ManyToManyField(IPAddress, through="ArticleHit", blank=True, related_name='hits')
-    sell = models.IntegerField(default=0)
+    sell = models.IntegerField(default=0, verbose_name='تعداد فروش')
 
     class Meta:
         verbose_name = 'محصول'
@@ -104,9 +104,9 @@ class Product(models.Model):
 
 class Color(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='colors', verbose_name='محصول')
-    title = models.CharField(max_length=255, verbose_name='عنوان')
+    title = models.CharField(max_length=100, verbose_name='عنوان')
     color = ColorField(verbose_name='رنگ')
-    available = models.BooleanField(default=True, verbose_name='این رنگ از محصول موجود است')
+    available = models.BooleanField(default=False, verbose_name='این رنگ از محصول موجود است')
     number = models.IntegerField(default=0, validators=[MinValueValidator(0)], verbose_name='تعداد موجودی این رنگ')
 
     objects = ColorManager()
@@ -129,7 +129,7 @@ class Image(models.Model):
 
 
 class CPUSeries(models.Model):
-    series = models.CharField(max_length=255, verbose_name='سری پردازنده')
+    series = models.CharField(max_length=100, verbose_name='سری پردازنده')
 
     class Meta:
         verbose_name = 'سری پردازنده'
@@ -140,7 +140,7 @@ class CPUSeries(models.Model):
 
 
 class GPUMaker(models.Model):
-    maker = models.CharField(max_length=255, verbose_name='سازنده گرافیک')
+    maker = models.CharField(max_length=100, verbose_name='سازنده گرافیک')
 
     class Meta:
         verbose_name = 'سازنده گرافیک'
@@ -153,47 +153,47 @@ class GPUMaker(models.Model):
 class Specification(models.Model):
     product = models.OneToOneField(Product, on_delete=models.CASCADE, related_name='specs', verbose_name='محصول')
     name = models.CharField(max_length=255, verbose_name='نام مدل')
-    weight = models.DecimalField(max_digits=2, decimal_places=1, verbose_name='وزن')
-    size = models.CharField(max_length=255, verbose_name='ابعاد')
+    weight = models.CharField(max_length=100, verbose_name='وزن')
+    size = models.CharField(max_length=100, verbose_name='ابعاد')
     # screen
-    screen_size = models.DecimalField(max_digits=3, decimal_places=1, verbose_name='ابعاد صفحه نمایش')
-    screen_type = models.CharField(max_length=255, verbose_name='نوع صفحه نمایش')
-    screen_resolution = models.CharField(max_length=255, verbose_name='رزولوشن')
+    screen_size = models.CharField(max_length=100, verbose_name='ابعاد صفحه نمایش')
+    screen_type = models.CharField(max_length=100, verbose_name='نوع صفحه نمایش')
+    screen_resolution = models.CharField(max_length=100, verbose_name='رزولوشن')
     screen_matte = models.BooleanField(default=False, verbose_name='صفحه نمایش مات')
     screen_touch = models.BooleanField(default=False, verbose_name='صفحه نمایش لمسی')
     screen_description = models.TextField(blank=True, null=True, verbose_name='توضیحات صفحه نمایش')
     # cpu
-    cpu_maker = models.CharField(max_length=255, verbose_name='سازنده پردازنده')
+    cpu_maker = models.CharField(max_length=100, verbose_name='سازنده پردازنده')
     cpu_series = models.ForeignKey(CPUSeries, on_delete=models.CASCADE, related_name='cpu_series',
                                    verbose_name='سری پردازنده')
-    cpu_model = models.CharField(max_length=255, verbose_name='مدل پردازنده')
+    cpu_model = models.CharField(max_length=100, verbose_name='مدل پردازنده')
     cpu_description = models.TextField(blank=True, null=True, verbose_name='توضیحات پردازنده')
     # gpu
     has_gpu = models.BooleanField(default=False, verbose_name='گرافیک خارچی دارد')
     gpu_maker = models.ForeignKey(GPUMaker, on_delete=models.CASCADE, related_name='gpu_makers',
                                   verbose_name='سازنده گرافیک')
-    gpu_model = models.CharField(max_length=255, verbose_name='مدل گرافیک')
-    gpu_memory = models.PositiveIntegerField(blank=True, null=True, verbose_name='حافظه گرافیک')
+    gpu_model = models.CharField(max_length=100, verbose_name='مدل گرافیک')
+    gpu_memory = models.CharField(max_length=100, blank=True, null=True, verbose_name='حافظه گرافیک')
     gpu_description = models.TextField(blank=True, null=True, verbose_name='توضیحات گرافیک')
     # ram
-    ram_capacity = models.PositiveIntegerField(verbose_name='حافظه رم')
-    ram_type = models.CharField(max_length=255, verbose_name='نوع رم')
+    ram_capacity = models.CharField(max_length=100, verbose_name='حافظه رم')
+    ram_type = models.CharField(max_length=100, verbose_name='نوع رم')
     ram_description = models.TextField(blank=True, null=True, verbose_name='توضیحات رم')
     # hard
     has_hdd = models.BooleanField(default=False, verbose_name='هارد HDD دارد')
-    hdd_capacity = models.CharField(max_length=255, blank=True, null=True, verbose_name='حافظه HDD')
+    hdd_capacity = models.CharField(max_length=100, blank=True, null=True, verbose_name='حافظه HDD')
     has_ssd = models.BooleanField(default=False, verbose_name='هارد SSD دارد')
-    ssd_capacity = models.CharField(max_length=255, blank=True, null=True, verbose_name='حافظه SSD')
+    ssd_capacity = models.CharField(max_length=100, blank=True, null=True, verbose_name='حافظه SSD')
     hard_description = models.TextField(blank=True, null=True, verbose_name='توضیحات هارد')
     # ports and facilities
     optical_drive = models.BooleanField(default=False, verbose_name='درایو نوری دارد')
-    webcam = models.CharField(max_length=255, verbose_name='وبکم')
-    touchpad_specs = models.CharField(max_length=255, verbose_name='توضیحات تاچ پد')
-    keyboard_backlight = models.CharField(max_length=255, verbose_name='نور پس زمینه کیبورد')
+    webcam = models.CharField(max_length=100, verbose_name='وبکم')
+    touchpad_specs = models.CharField(max_length=100, verbose_name='توضیحات تاچ پد')
+    keyboard_backlight = models.CharField(max_length=100, verbose_name='نور پس زمینه کیبورد')
     fingerprint = models.BooleanField(default=False, verbose_name='سنسور اثرانگشت دارد')
     sd_card = models.BooleanField(default=False, verbose_name='کارت خوان دارد')
     wifi = models.BooleanField(default=False, verbose_name='وای فای دارد')
-    bluetooth = models.CharField(max_length=255, verbose_name='بلوتوث')
+    bluetooth = models.CharField(max_length=100, verbose_name='بلوتوث')
     ethernet = models.BooleanField(default=False, verbose_name='درگاه شبکه دارد')
     vga = models.BooleanField(default=False, verbose_name='درگاه VGA دارد')
     hdmi = models.BooleanField(default=False, verbose_name='درگاه HDMI دارد')
@@ -203,7 +203,7 @@ class Specification(models.Model):
     thunderbolt = models.BooleanField(default=False, verbose_name='درگاه Thunderbolt دارد')
     jack_3 = models.BooleanField(default=False, verbose_name='درگاه جک 3.5 دارد')
     # other
-    os = models.CharField(max_length=255, verbose_name='سیستم عامل')
+    os = models.CharField(max_length=100, verbose_name='سیستم عامل')
     include_items = models.CharField(max_length=255, verbose_name='اقلام همراه')
     battery = models.CharField(max_length=255, verbose_name='باتری')
     etc = models.TextField(blank=True, null=True, verbose_name='سایر قابلیت ها')

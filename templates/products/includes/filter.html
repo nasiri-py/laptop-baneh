@@ -1,32 +1,37 @@
+{% load base_tags %}
 
 <div class="offcanvas-md offcanvas-end col-lg-3 col-md-4 col-sm-6 border rounded h-100" tabindex="-1"
      id="filterOffcanvasRight" aria-labelledby="filterOffcanvasRightLabel">
     <div class="offcanvas-header d-md-none d-block text-start">
-        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        <button type="button" class="btn-close text-reset h4" data-bs-dismiss="offcanvas"
+                data-bs-target="#filterOffcanvasRight"
+                aria-label="Close"></button>
     </div>
     <form action="{% url 'product:list' %}?{{ data }}" method="get">
         <div class="d-flex justify-content-between align-items-baseline pt-3 pb-2">
             <b><i class="fa fa-filter"></i> فیلتر</b>
-            {% if request.GET.urlencode and 'sort=' not in data %}
-                <a href="{% url 'product:list' %}" class="text-decoration-none text-link"
+            {% if request.GET.urlencode and not data|is_in_list:'sort=1, sort=2, sort=4, sort=6, sort=8, sort=9' %}
+                <a href="{% url 'product:list' %}?sort={{ sort_val }}" class="text-decoration-none text-link"
                    style="font-size: 13px !important;">حذف فیلترها</a>
             {% endif %}
         </div>
+            <div class="mt-3 pb-2 border-bottom">
         {% if 'im=True' in data %}
-            <a class="mt-3 pb-2 border-bottom text-decoration-none d-flex align-items-baseline" href="{% url 'product:list' %}?{{ data_na }}">
-                <div class="switch-available">
-            <span class="slider"></span>
-        </div>
-            <p class="me-2 display6 text-grey">فقط کالاهای موجود</p>
-            </a>
+                <a class="text-decoration-none d-flex align-items-baseline" href="{% url 'product:list' %}?{{ data_na }}">
+                    <div class="switch-available">
+                        <span class="slider"></span>
+                    </div>
+                    <p class="me-2 display6 text-grey">فقط کالاهای موجود</p>
+                </a>
         {% else %}
-            <a class="mt-3 pb-2 border-bottom text-decoration-none d-flex align-items-baseline" href="{% url 'product:list' %}?{{ data }}&im=True">
+            <a class="text-decoration-none d-flex align-items-baseline" href="{% url 'product:list' %}?{{ data }}&im=True">
                 <div class="switch-available" id="switch-not-available">
-            <span class="slider"></span>
-        </div>
-            <p class="me-2 display6 text-grey">فقط کالاهای موجود</p>
+                    <span class="slider"></span>
+                </div>
+                <p class="me-2 display6 text-grey">فقط کالاهای موجود</p>
             </a>
         {% endif %}
+            </div>
         <div class="accordion accordion-flush filter-form-accordion" id="accordionPanelsStayOpenExample">
             <div class="accordion-item py-3">
                 <div class="accordion-header" id="panelsStayOpen-heading1">
@@ -54,13 +59,13 @@
                                        min="{{ min_price|stringformat:'s' }}" id="slider-2">
                             </div>
                             <div class="values d-flex justify-content-between">
-                                <div>
+                                <div class="text-start">
                                 <span id="range1">
                                       {{ min_price|pprint }}
                                 </span>
                                     <span>تومان</span>
                                 </div>
-                                <div>
+                                <div class="text-end">
                                 <span id="range2">
                                       {{ max_price|pprint }}
                                 </span>
@@ -74,7 +79,8 @@
             <div class="accordion-item py-3">
                 <div class="accordion-header" id="panelsStayOpen-heading2">
                     <div class="d-flex justify-content-between align-items-baseline collapsed" type="button"
-                         data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse2" aria-expanded="false">
+                         data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse2" aria-expanded="false"
+                         aria-controls="panelsStayOpen-collapse2">
                         <p class="m-0">
                             شرکت سازنده
                         </p>
@@ -293,6 +299,7 @@
                 {{ filter.form.sort }}
             {% endif %}
             {{ filter.form.di }}
+            {{ filter.form.im }}
         </div>
     </form>
 </div>

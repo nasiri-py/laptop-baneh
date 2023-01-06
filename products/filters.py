@@ -1,6 +1,6 @@
 import django_filters
 from django import forms
-from .models import Product, Brand, Category, CPUSeries, GPUMaker
+from .models import Brand, Category, CPUSeries, GPUMaker
 from datetime import datetime, timedelta
 from django.db.models import Count, Q
 
@@ -80,7 +80,7 @@ class ProductFilter(django_filters.FilterSet):
             data = 'hits'
         else:
             last_ten_days = datetime.today() - timedelta(days=10)
-            product_popular = Product.objects.annotate(
+            product_popular = queryset.annotate(
                 count=Count('hits', filter=Q(articlehit__created__gt=last_ten_days)))
             return product_popular.order_by('-available', '-count')
         return queryset.order_by('-available', data)

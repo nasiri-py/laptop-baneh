@@ -5,6 +5,11 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from extensions.utils import jalali_converter
 
 
+class OrderManager(models.Manager):
+    def is_paid(self):
+        return self.filter(paid=True)
+
+
 class Order(models.Model):
     CHOICE_STATUS = (
         ('درحال آماده سازی', 'درحال آماده سازی'),
@@ -15,12 +20,15 @@ class Order(models.Model):
     )
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='orders', verbose_name='کاربر')
     paid = models.BooleanField(default=False, verbose_name='پرداخت شده')
-    ref_id = models.CharField(max_length=255, null=True, blank=True, verbose_name='شماره پیگیری')
-    status = models.CharField(max_length=50, choices=CHOICE_STATUS, default='درحال آماده سازی', verbose_name='وضعیت سفارش')
+    ref_id = models.CharField(max_length=255, null=True, blank=True, unique=True, verbose_name='کد سفارش')
+    status = models.CharField(max_length=50, choices=CHOICE_STATUS, default='درحال آماده سازی',
+                              verbose_name='وضعیت سفارش')
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     discount = models.IntegerField(blank=True, null=True, default=None, verbose_name='درصد تخفیف')
     discount_limit = models.IntegerField(blank=True, null=True, default=None, verbose_name='حداکثر مقدار تخفیف')
+
+    objects = OrderManager()
 
     class Meta:
         ordering = ('-paid', '-updated')
@@ -37,13 +45,15 @@ class Order(models.Model):
             if self.discount_limit is not None:
                 if total - total_discount >= self.discount_limit:
                     total_discount = total - self.discount_limit
-            return total_discount
+            return int(total_discount)
         return total
 
-    def j_updated(self):
-        return jalali_converter(self.updated)
+    get_total_cost.short_description = 'مبلغ کل سفارش'
 
-    j_updated.short_description = "زمان سفارش"
+    def j_created(self):
+        return jalali_converter(self.created)
+
+    j_created.short_description = "زمان سفارش"
 
 
 class OrderItem(models.Model):
@@ -89,13 +99,13 @@ class Coupon(models.Model):
 
 class OrderAddress(models.Model):
     # receiver
-    first_name = models.CharField(max_length=255, verbose_name='نام')
-    last_name = models.CharField(max_length=255, verbose_name='نام خانوادگی')
+    first_name = models.CharField(max_length=100, verbose_name='نام')
+    last_name = models.CharField(max_length=100, verbose_name='نام خانوادگی')
     phone_number = models.CharField(max_length=11, verbose_name='شماره موبایل')
     # address
     order = models.OneToOneField(Order, on_delete=models.CASCADE, related_name='address')
-    state = models.CharField(max_length=255, verbose_name='استان')
-    city = models.CharField(max_length=255, verbose_name='شهر')
+    state = models.CharField(max_length=100, verbose_name='استان')
+    city = models.CharField(max_length=100, verbose_name='شهر')
     address = models.CharField(max_length=512, verbose_name='نشانی پستی')
     tag = models.IntegerField(verbose_name='پلاک')
     unit = models.IntegerField(blank=True, null=True, verbose_name='واحد')
@@ -103,8 +113,11 @@ class OrderAddress(models.Model):
     description = models.TextField(blank=True, null=True, verbose_name='توضیحات')
 
     class Meta:
-        verbose_name = 'آدرس'
-        verbose_name_plural = 'آدرس ها'
+        verbose_name = 'گیرنده'
+        verbose_name_plural = 'گیرنده ها'
+
+    def __str__(self):
+        return f'{self.first_name} {self.last_name}'
 
     def full_name(self):
         return f'{self.first_name} {self.last_name}'
@@ -113,3 +126,16 @@ class OrderAddress(models.Model):
         if self.unit is not None:
             return f'{self.state}، {self.city}، {self.address}، پلاک {self.tag}، واحد {self.unit}، کدپستی {self.postal_code}'
         return f'{self.state}، {self.city}، {self.address}، پلاک {self.tag}، کدپستی {self.postal_code}'
+
+
+class Pay(models.Model):
+    order = models.OneToOneField(Order, on_delete=models.CASCADE, related_name='pay')
+    price = models.CharField(max_length=255, verbose_name='مبلغ تراکنش')
+    pay_ref = models.CharField(max_length=255, verbose_name='شماره پیگیری (مستند)')
+
+    def __str__(self):
+        return self.pay_ref
+
+    class Meta:
+        verbose_name = 'اطلاعات پرداخت'
+        verbose_name_plural = 'اطلاعات پرداخت'

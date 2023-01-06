@@ -3,14 +3,14 @@
 {% load widget_tweaks %}
 
 {% block r_title %}
-    ثبت نام در سایت | استوک لپ تاپ استور
+    ثبت نام در سایت | فروشگاه لپ تاپ بانه
 {% endblock %}
 
 {% block r_content %}
     <div class="login-form">
-        <form action="" method="post">
+        <form action="" method="post" novalidate>
             {% csrf_token %}
-            <h2>ثبت نام در استوک لپ تاپ استور</h2>
+            <h2>ثبت نام در فروشگاه لپ تاپ بانه</h2>
             <div class="form-input-material">
                 {% render_field form.phone_number|append_attr:"required:required" oninput="javascript: if (this.value.length > 11) this.value = this.value.slice(0, 11);" type="number" id="phone_number" placeholder=" " autocomplete="off" class="no-arrow form-control-material" %}
                 <label for="phone_number">شماره موبایل</label>

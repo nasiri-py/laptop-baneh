@@ -1,5 +1,4 @@
-
-<div class="shop-dropdown nav-item dropdown position-static">
+<div class="shop-dropdown nav-item dropdown position-static d-none d-lg-block">
     <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href=""> دسته بندی
         محصولات </a>
     <div class="shop-dropdown-menu dropdown-menu dropdown-menu-end w-100 py-4 pe-3 border-0">
@@ -9,7 +8,8 @@
                     <p class="dropdown-item-header">براساس شرکت سازنده</p>
                     <ul class="list-unstyled p-0">
                         {% for brand in brands %}
-                            <li class="dropdown-item-link"><a href="{% url 'product:list' %}?br={{ brand.id }}">لپ تاپ {{ brand.name|title }}</a></li>
+                            <li class="dropdown-item-link"><a href="{% url 'product:list' %}?br={{ brand.id }}">لپ
+                                تاپ {{ brand.name|title }}</a></li>
                         {% endfor %}
                     </ul>
                 </li>
@@ -24,19 +24,26 @@
                 <li class="col-12 col-lg-2 p-0">
                     <p class="dropdown-item-header">براساس قیمت</p>
                     <ul class="list-unstyled p-0">
-                        <li class="dropdown-item-link"><a href="{% url 'product:list' %}?pl=10000000">لپ تاپ تا 10 میلیون</a></li>
-                        <li class="dropdown-item-link"><a href="{% url 'product:list' %}?pl=20000000">لپ تاپ تا 20 میلیون</a></li>
-                        <li class="dropdown-item-link"><a href="{% url 'product:list' %}?pl=30000000">لپ تاپ تا 30 میلیون</a></li>
-                        <li class="dropdown-item-link"><a href="{% url 'product:list' %}?pl=40000000">لپ تاپ تا 40 میلیون</a></li>
-                        <li class="dropdown-item-link"><a href="{% url 'product:list' %}?pl=50000000">لپ تاپ تا 50 میلیون</a></li>
-                        <li class="dropdown-item-link"><a href="{% url 'product:list' %}?pg=50000000">لپ تاپ بالای 50 میلیون</a></li>
+                        <li class="dropdown-item-link"><a href="{% url 'product:list' %}?pl=10000000">لپ تاپ تا 10
+                            میلیون</a></li>
+                        <li class="dropdown-item-link"><a href="{% url 'product:list' %}?pl=20000000">لپ تاپ تا 20
+                            میلیون</a></li>
+                        <li class="dropdown-item-link"><a href="{% url 'product:list' %}?pl=30000000">لپ تاپ تا 30
+                            میلیون</a></li>
+                        <li class="dropdown-item-link"><a href="{% url 'product:list' %}?pl=40000000">لپ تاپ تا 40
+                            میلیون</a></li>
+                        <li class="dropdown-item-link"><a href="{% url 'product:list' %}?pl=50000000">لپ تاپ تا 50
+                            میلیون</a></li>
+                        <li class="dropdown-item-link"><a href="{% url 'product:list' %}?pg=50000000">لپ تاپ بالای 50
+                            میلیون</a></li>
                     </ul>
                 </li>
                 <li class="col-12 col-lg-2 p-0">
                     <p class="dropdown-item-header">براساس کاربری</p>
                     <ul class="list-unstyled p-0">
                         {% for category in categories %}
-                            <li class="dropdown-item-link"><a href="{% url 'product:list' %}?ca={{ category.id }}">لپ تاپ {{ category.title }}</a></li>
+                            <li class="dropdown-item-link"><a href="{% url 'product:list' %}?ca={{ category.id }}">لپ
+                                تاپ {{ category.title }}</a></li>
                         {% endfor %}
                     </ul>
                 </li>
@@ -44,7 +51,9 @@
                     <p class="dropdown-item-header">براساس پردازنده</p>
                     <ul class="list-unstyled p-0">
                         {% for cpu in cpu_series %}
-                            <li class="dropdown-item-link"><a href="{% url 'product:list' %}?cs={{ cpu.id }}">پردازنده {{ cpu.series|title }}</a></li>
+                            <li class="dropdown-item-link"><a
+                                    href="{% url 'product:list' %}?cs={{ cpu.id }}">پردازنده {{ cpu.series|title }}</a>
+                            </li>
                         {% endfor %}
                     </ul>
                 </li>
@@ -52,11 +61,211 @@
                     <p class="dropdown-item-header">براساس پردازنده گرافیکی</p>
                     <ul class="list-unstyled p-0">
                         {% for gpu in gpu_makers %}
-                            <li class="dropdown-item-link"><a href="{% url 'product:list' %}?gm={{ gpu.id }}">{{ gpu.maker|title }}</a></li>
+                            <li class="dropdown-item-link"><a
+                                    href="{% url 'product:list' %}?gm={{ gpu.id }}">{{ gpu.maker|title }}</a></li>
                         {% endfor %}
                     </ul>
                 </li>
             </ul>
         </form>
+    </div>
+</div>
+
+
+<div class="accordion-lg d-block d-lg-none" id="accordionPanelsStayOpenExample">
+    <div>
+        <div class="accordion-header" id="panelsStayOpen-headingNav">
+            <div class="d-flex justify-content-between align-items-baseline collapsed" type="button"
+                 data-bs-toggle="collapse" data-bs-target="#flush-collapseNav" aria-expanded="false"
+                 aria-controls="flush-collapseNav">
+                <p class="nav-link m-0"> دسته بندی
+                    محصولات </p>
+                <i class="fa fa-angle-down mx-2" aria-hidden="true"></i>
+            </div>
+        </div>
+        <div id="flush-collapseNav"
+             class="accordion-collapse collapse p-2 accordion-nav"
+             aria-labelledby="panelsStayOpen-headingNav">
+            <div class="accordion-body">
+                <div class="accordion-lg accordion-flush d-block d-lg-none" id="accordionFlushExample">
+                    <div class="accordion-item border-bottom pb-2 pt-3">
+                        <div class="accordion-header" id="flush-headingOne">
+                            <div class="d-flex justify-content-between align-items-baseline collapsed" type="button"
+                                 data-bs-toggle="collapse" data-bs-target="#flush-collapseOne"
+                                 aria-expanded="false"
+                                 aria-controls="flush-collapseOne">
+                                <p class="m-0 dropdown-item-header">
+                                    براساس شرکت سازنده
+                                </p>
+                                <i class="fa fa-angle-down mx-2" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                        <div id="flush-collapseOne"
+                             class="accordion-collapse collapse"
+                             aria-labelledby="flush-headingOne"
+                             data-bs-parent="#accordionFlushExample">
+                            <div class="accordion-body p-2 pt-3">
+                                <ul class="list-unstyled p-0">
+                                    {% for brand in brands %}
+                                        <li class="dropdown-item-link pb-2"><a
+                                                href="{% url 'product:list' %}?br={{ brand.id }}">لپ
+                                            تاپ {{ brand.name|title }}</a></li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item border-bottom pb-2 pt-3">
+                        <div class="accordion-header" id="flush-headingTwo">
+                            <div class="d-flex justify-content-between align-items-baseline collapsed" type="button"
+                                 data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo"
+                                 aria-expanded="false"
+                                 aria-controls="flush-collapseTwo">
+                                <p class="m-0 dropdown-item-header">
+                                    براساس گرید
+                                </p>
+                                <i class="fa fa-angle-down mx-2" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                        <div id="flush-collapseTwo"
+                             class="accordion-collapse collapse"
+                             aria-labelledby="flush-headingTwo"
+                             data-bs-parent="#accordionFlushExample">
+                            <div class="accordion-body p-2 pt-3">
+                                <ul class="list-unstyled p-0">
+                                    <li class="dropdown-item-link pb-2"><a href="{% url 'product:list' %}?gr=n">لپ تاپ
+                                        آکبند</a></li>
+                                    <li class="dropdown-item-link pb-2"><a href="{% url 'product:list' %}?gr=o">لپ تاپ اپن
+                                        باکس</a></li>
+                                    <li class="dropdown-item-link pb-2"><a href="{% url 'product:list' %}?gr=s">لپ تاپ
+                                        استوک</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item border-bottom pb-2 pt-3">
+                        <div class="accordion-header" id="flush-headingThree">
+                            <div class="d-flex justify-content-between align-items-baseline collapsed" type="button"
+                                 data-bs-toggle="collapse" data-bs-target="#flush-collapseThree"
+                                 aria-expanded="false"
+                                 aria-controls="flush-collapseThree">
+                                <p class="m-0 dropdown-item-header">
+                                    براساس قیمت
+                                </p>
+                                <i class="fa fa-angle-down mx-2" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                        <div id="flush-collapseThree"
+                             class="accordion-collapse collapse"
+                             aria-labelledby="flush-headingThree"
+                             data-bs-parent="#accordionFlushExample">
+                            <div class="accordion-body p-2 pt-3">
+                                <ul class="list-unstyled p-0">
+                                    <li class="dropdown-item-link pb-2"><a href="{% url 'product:list' %}?pl=10000000">لپ تاپ
+                                        تا 10
+                                        میلیون</a></li>
+                                    <li class="dropdown-item-link pb-2"><a href="{% url 'product:list' %}?pl=20000000">لپ تاپ
+                                        تا 20
+                                        میلیون</a></li>
+                                    <li class="dropdown-item-link pb-2"><a href="{% url 'product:list' %}?pl=30000000">لپ تاپ
+                                        تا 30
+                                        میلیون</a></li>
+                                    <li class="dropdown-item-link pb-2"><a href="{% url 'product:list' %}?pl=40000000">لپ تاپ
+                                        تا 40
+                                        میلیون</a></li>
+                                    <li class="dropdown-item-link pb-2"><a href="{% url 'product:list' %}?pl=50000000">لپ تاپ
+                                        تا 50
+                                        میلیون</a></li>
+                                    <li class="dropdown-item-link pb-2"><a href="{% url 'product:list' %}?pg=50000000">لپ تاپ
+                                        بالای 50
+                                        میلیون</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item border-bottom pb-2 pt-3">
+                        <div class="accordion-header" id="flush-headingFour">
+                            <div class="d-flex justify-content-between align-items-baseline collapsed" type="button"
+                                 data-bs-toggle="collapse" data-bs-target="#flush-collapseFour"
+                                 aria-expanded="false"
+                                 aria-controls="flush-collapseFour">
+                                <p class="m-0 dropdown-item-header">
+                                    براساس کاربری
+                                </p>
+                                <i class="fa fa-angle-down mx-2" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                        <div id="flush-collapseFour"
+                             class="accordion-collapse collapse"
+                             aria-labelledby="flush-headingFour"
+                             data-bs-parent="#accordionFlushExample">
+                            <div class="accordion-body p-2 pt-3">
+                                <ul class="list-unstyled p-0">
+                                    {% for category in categories %}
+                                        <li class="dropdown-item-link pb-2"><a
+                                                href="{% url 'product:list' %}?ca={{ category.id }}">لپ
+                                            تاپ {{ category.title }}</a></li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item border-bottom pb-2 pt-3">
+                        <div class="accordion-header" id="flush-headingFive">
+                            <div class="d-flex justify-content-between align-items-baseline collapsed" type="button"
+                                 data-bs-toggle="collapse" data-bs-target="#flush-collapseFive"
+                                 aria-expanded="false"
+                                 aria-controls="flush-collapseFive">
+                                <p class="m-0 dropdown-item-header">
+                                    براساس پردازنده
+                                </p>
+                                <i class="fa fa-angle-down mx-2" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                        <div id="flush-collapseFive"
+                             class="accordion-collapse collapse"
+                             aria-labelledby="flush-headingFive"
+                             data-bs-parent="#accordionFlushExample">
+                            <div class="accordion-body p-2 pt-3">
+                                <ul class="list-unstyled p-0">
+                                    {% for cpu in cpu_series %}
+                                        <li class="dropdown-item-link pb-2"><a
+                                                href="{% url 'product:list' %}?cs={{ cpu.id }}">پردازنده {{ cpu.series|title }}</a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item border-bottom pb-2 pt-3">
+                        <div class="accordion-header" id="flush-headingSix">
+                            <div class="d-flex justify-content-between align-items-baseline collapsed" type="button"
+                                 data-bs-toggle="collapse" data-bs-target="#flush-collapseSix"
+                                 aria-expanded="false"
+                                 aria-controls="flush-collapseSix">
+                                <p class="m-0 dropdown-item-header">
+                                    براساس پردازنده گرافیکی
+                                </p>
+                                <i class="fa fa-angle-down mx-2" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                        <div id="flush-collapseSix"
+                             class="accordion-collapse collapse"
+                             aria-labelledby="flush-headingSix"
+                             data-bs-parent="#accordionFlushExample">
+                            <div class="accordion-body p-2 pt-3">
+                                <ul class="list-unstyled p-0">
+                                    {% for gpu in gpu_makers %}
+                                        <li class="dropdown-item-link pb-2"><a
+                                                href="{% url 'product:list' %}?gm={{ gpu.id }}">{{ gpu.maker|title }}</a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

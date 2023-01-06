@@ -1,5 +1,6 @@
 from django import template
 from products.models import Product, Brand, Category, CPUSeries, GPUMaker
+from urllib.parse import urlencode
 
 register = template.Library()
 
@@ -38,3 +39,14 @@ def sort_input(request, sort_val, content):
 @register.filter(name='is_in_list')
 def is_in_list(value, given_list):
     return True if value in given_list else False
+
+
+@register.simple_tag
+def defilter(request, k, v):
+    updated = request.GET.copy()
+    d = dict(updated.lists())
+    try:
+        d[k].remove(str(v))
+    except KeyError:
+        pass
+    return urlencode(d, doseq=True)

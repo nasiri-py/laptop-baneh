@@ -3,7 +3,7 @@
 {% load static %}
 
 {% block title %}
-    ثبت سفارش | استوک لپ تاپ استور
+    ثبت سفارش | فروشگاه لپ تاپ بانه
 {% endblock %}
 
 {% block css_link %}
@@ -17,7 +17,7 @@
                 <div class="col-12">
                     <div class="card card-registration card-registration-2" style="border-radius: 15px;">
                         <div class="card-body p-0">
-                            <form action="{% url 'orders:order-address' %}" method="post">
+                            <form action="{% url 'orders:order-address' %}" method="post" novalidate>
                                 <div class="row g-0">
                                     <div class="col-lg-8">
                                         <div class="p-5">
@@ -33,33 +33,45 @@
                                                     <div class="col-12 col-md-6 mb-2">
                                                         <div id="div_id_first_name" class="mb-3">
                                                             <label for="id_first_name" class="form-label requiredField">
-                                                                نام<span class="asteriskField">*</span>
+                                                                <h6 class="text-grey mb-0 me-2">نام<span
+                                                                        class="asteriskField">*</span></h6>
                                                             </label>
                                                             <input type="text" name="first_name" maxlength="255"
                                                                    class="textinput textInput form-control" required=""
                                                                    id="id_first_name" value="{{ user.first_name }}">
+                                                            {% for error in form.first_name.errors %}
+                                                                <p class="error">{{ error }}</p>
+                                                            {% endfor %}
                                                         </div>
                                                     </div>
                                                     <div class="col-12 col-md-6 mb-2">
                                                         <div id="div_id_last_name" class="mb-3">
                                                             <label for="id_last_name" class="form-label requiredField">
-                                                                نام خانوادگی<span class="asteriskField">*</span>
+                                                                <h6 class="text-grey mb-0 me-2">نام خانوادگی<span
+                                                                        class="asteriskField">*</span></h6>
                                                             </label>
                                                             <input type="text" name="last_name" maxlength="255"
                                                                    class="textinput textInput form-control" required=""
                                                                    id="id_last_name" value="{{ user.last_name }}">
+                                                        {% for error in form.last_name.errors %}
+                                                            <p class="error">{{ error }}</p>
+                                                        {% endfor %}
                                                         </div>
                                                     </div>
                                                     <div class="col-12 col-md-6">
                                                         <div id="div_id_phone_number" class="mb-3">
                                                             <label for="id_phone_number"
                                                                    class="form-label requiredField">
-                                                                شماره موبایل<span class="asteriskField">*</span>
+                                                                <h6 class="text-grey mb-0 me-2">شماره موبایل<span
+                                                                        class="asteriskField">*</span></h6>
                                                             </label>
                                                             <input type="number" name="phone_number" maxlength="11"
                                                                    class="textinput textInput form-control no-arrow"
                                                                    required=""
                                                                    id="id_phone_number" value="{{ user.phone_number }}">
+                                                        {% for error in form.phone_number.errors %}
+                                                            <p class="error">{{ error }}</p>
+                                                        {% endfor %}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -69,75 +81,101 @@
                                                     <div class="col-12 col-md-6 mb-2">
                                                         <div id="div_id_state" class="mb-3">
                                                             <label for="id_state" class="form-label requiredField">
-                                                                استان<span class="asteriskField">*</span>
+                                                                <h6 class="text-grey mb-0 me-2">استان<span
+                                                                        class="asteriskField">*</span></h6>
                                                             </label>
                                                             <input type="text" name="state" maxlength="255"
                                                                    class="textinput textInput form-control" required=""
                                                                    id="id_state">
+                                                        {% for error in form.state.errors %}
+                                                            <p class="error">{{ error }}</p>
+                                                        {% endfor %}
                                                         </div>
                                                     </div>
                                                     <div class="col-12 col-md-6 mb-2">
                                                         <div id="div_id_city" class="mb-3">
                                                             <label for="id_city" class="form-label requiredField">
-                                                                شهر<span class="asteriskField">*</span>
+                                                                <h6 class="text-grey mb-0 me-2">شهر<span
+                                                                        class="asteriskField">*</span></h6>
                                                             </label>
                                                             <input type="text" name="city" maxlength="255"
                                                                    class="textinput textInput form-control" required=""
                                                                    id="id_city">
+                                                        {% for error in form.city.errors %}
+                                                            <p class="error">{{ error }}</p>
+                                                        {% endfor %}
                                                         </div>
                                                     </div>
                                                     <div class="col-12 mb-2">
                                                         <div id="div_id_address" class="mb-3">
                                                             <label for="id_address" class="form-label requiredField">
-                                                                نشانی پستی<span class="asteriskField">*</span>
+                                                                <h6 class="text-grey mb-0 me-2">نشانی پستی<span
+                                                                        class="asteriskField">*</span></h6>
                                                             </label>
                                                             <input type="text" name="address" maxlength="255"
                                                                    class="textinput textInput form-control" required=""
                                                                    id="id_address">
+                                                        {% for error in form.address.errors %}
+                                                            <p class="error">{{ error }}</p>
+                                                        {% endfor %}
                                                         </div>
                                                     </div>
                                                     <div class="col-12 col-md-4 mb-2">
                                                         <div id="div_id_tag" class="mb-3">
                                                             <label for="id_tag" class="form-label requiredField">
-                                                                پلاک<span class="asteriskField">*</span>
+                                                                <h6 class="text-grey mb-0 me-2">پلاک<span
+                                                                        class="asteriskField">*</span></h6>
                                                             </label>
                                                             <input type="number" name="tag" maxlength="255"
                                                                    class="textinput textInput form-control no-arrow"
                                                                    required=""
                                                                    id="id_tag">
+                                                        {% for error in form.tag.errors %}
+                                                            <p class="error">{{ error }}</p>
+                                                        {% endfor %}
                                                         </div>
                                                     </div>
                                                     <div class="col-12 col-md-4 mb-2">
                                                         <div id="div_id_unit" class="mb-3">
                                                             <label for="id_unit" class="form-label">
-                                                                واحد
+                                                                <h6 class="text-grey mb-0 me-2">واحد</h6>
                                                             </label>
                                                             <input type="number" name="unit" maxlength="255"
                                                                    class="textinput textInput form-control no-arrow"
                                                                    id="id_unit">
+                                                        {% for error in form.unit.errors %}
+                                                            <p class="error">{{ error }}</p>
+                                                        {% endfor %}
                                                         </div>
                                                     </div>
                                                     <div class="col-12 col-md-4 mb-2">
                                                         <div id="div_id_postal_code" class="mb-3">
                                                             <label for="id_postal_code"
                                                                    class="form-label requiredField">
-                                                                کد پستی<span class="asteriskField">*</span>
+                                                                <h6 class="text-grey mb-0 me-2">کد پستی<span
+                                                                        class="asteriskField">*</span></h6>
                                                             </label>
                                                             <input type="number" name="postal_code" maxlength="10"
                                                                    class="textinput textInput form-control no-arrow"
                                                                    required=""
                                                                    id="id_postal_code">
+                                                        {% for error in form.postal_code.errors %}
+                                                            <p class="error">{{ error }}</p>
+                                                        {% endfor %}
                                                         </div>
                                                     </div>
                                                     <div class="col-12 mb-2">
                                                         <div id="div_id_description" class="mb-3">
                                                             <label for="id_description"
                                                                    class="form-label">
-                                                                توضیحات
+                                                                <h6 class="text-grey mb-0 me-2">توضیحات</h6>
                                                             </label>
                                                             <textarea name="description"
                                                                       class="textinput textInput form-control"
                                                                       id="id_description"></textarea>
+                                                        {% for error in form.description.errors %}
+                                                            <p class="error">{{ error }}</p>
+                                                        {% endfor %}
                                                         </div>
                                                     </div>
                                                 </div>

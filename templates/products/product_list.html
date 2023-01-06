@@ -1,18 +1,125 @@
 {% extends 'base.html' %}
 
 {% load static %}
+{% load base_tags %}
 
 {% block title %}
-    محصولات | استوک لپ تاپ استور
+    محصولات | بانه لپ تاپ شاپ
 {% endblock %}
 
 {% block content %}
     <!-- Start Content -->
-    <div class="container py-5">
-        <div class="row">
+    <div class="container pt-4 pb-5">
+        <ul class="d-flex list-unstyled p-0 text-muted site-map mb-4">
+            <li><a href="{% url 'home:home' %}" class="text-decoration-none text-muted"><i class="fa fa-home"></i></a>
+            </li>
+            <li class="me-2">/</li>
+            {% if 'di=True' in data %}
+                <li class="me-2"><a href="{% url 'product:list' %}" class="text-decoration-none text-muted map-item">لیست
+                    محصولات</a></li>
+                <li class="me-2">/</li>
+                <li class="me-2 map-item">پیشنهاد شگفت انگیز</li>
+            {% else %}
+                <li class="me-2 map-item">لیست محصولات</li>
+            {% endif %}
+        </ul>
+        <div class="row px-2">
             {% include 'products/includes/filter.html' %}
             <div class="col-lg-9 col-md-8">
                 {% include 'products/includes/sort.html' %}
+                <div class="defilter mb-2">
+                    {% if 'br=' in data %}
+                            {% for data in filter.form.br %}
+                                {% if data.data.selected %}
+                                    <a class="defilter-item text-nowrap text-decoration-none me-2 mt-2 text-grey" href="{% url 'product:list' %}?{% defilter request 'br' data.data.value %}">
+                                        {{ data.data.label }} &times;
+                                    </a>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                        {% if 'gr=' in data %}
+                            {% for data in filter.form.gr %}
+                                {% if data.data.selected %}
+                                    {% if data.data.value == 'n' %}
+                                        <a class="defilter-item text-nowrap text-decoration-none me-2 mt-2 text-grey" href="{% url 'product:list' %}?{% defilter request 'gr' data.data.value %}">
+                                            آکبند &times;
+                                        </a>
+                                    {% elif data.data.value == 'o' %}
+                                        <a class="defilter-item text-nowrap text-decoration-none me-2 mt-2 text-grey" href="{% url 'product:list' %}?{% defilter request 'gr' data.data.value %}">
+                                            اپن باکس &times;
+                                        </a>
+                                    {% else %}
+                                        <a class="defilter-item text-nowrap text-decoration-none me-2 mt-2 text-grey" href="{% url 'product:list' %}?{% defilter request 'gr' data.data.value %}">
+                                            استوک &times;
+                                        </a>
+                                    {% endif %}
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                        {% if 'ca=' in data %}
+                            {% for data in filter.form.ca %}
+                                {% if data.data.selected %}
+                                    <a class="defilter-item text-nowrap text-decoration-none me-2 mt-2 text-grey" href="{% url 'product:list' %}?{% defilter request 'ca' data.data.value %}">
+                                        {{ data.data.label }} &times;
+                                    </a>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                        {% if 'sz=' in data %}
+                            {% for data in filter.form.sz %}
+                                {% if data.data.selected %}
+                                    <a class="defilter-item text-nowrap text-decoration-none me-2 mt-2 text-grey" href="{% url 'product:list' %}?{% defilter request 'sz' data.data.value %}">
+                                        {{ data.data.label }} &times;
+                                    </a>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                        {% if 'cs=' in data %}
+                            {% for data in filter.form.cs %}
+                                {% if data.data.selected %}
+                                    <a class="defilter-item text-nowrap text-decoration-none me-2 mt-2 text-grey" href="{% url 'product:list' %}?{% defilter request 'cs' data.data.value %}">
+                                        پردازنده {{ data.data.label }} &times;
+                                    </a>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                        {% if 'gm=' in data %}
+                            {% for data in filter.form.gm %}
+                                {% if data.data.selected %}
+                                    <a class="defilter-item text-nowrap text-decoration-none me-2 mt-2 text-grey" href="{% url 'product:list' %}?{% defilter request 'gm' data.data.value %}">
+                                        گرافیک {{ data.data.label }} &times;
+                                    </a>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                        {% if 'gc=' in data %}
+                            {% for data in filter.form.gc %}
+                                {% if data.data.selected %}
+                                    <a class="defilter-item text-nowrap text-decoration-none me-2 mt-2 text-grey" href="{% url 'product:list' %}?{% defilter request 'gc' data.data.value %}">
+                                        حافظه گرافیکی {{ data.data.label }} &times;
+                                    </a>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                        {% if 'rc=' in data %}
+                            {% for data in filter.form.rc %}
+                                {% if data.data.selected %}
+                                    <a class="defilter-item text-nowrap text-decoration-none me-2 mt-2 text-grey" href="{% url 'product:list' %}?{% defilter request 'rc' data.data.value %}">
+                                        حافظه رم {{ data.data.label }} &times;
+                                    </a>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                        {% if 'sc=' in data %}
+                            {% for data in filter.form.sc %}
+                                {% if data.data.selected %}
+                                    <a class="defilter-item text-nowrap text-decoration-none me-2 mt-2 text-grey" href="{% url 'product:list' %}?{% defilter request 'sc' data.data.value %}">
+                                        ظرفیت هارد دیسک{{ data.data.label }} &times;
+                                    </a>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    </div>
                 <div class="row">
                     {% for product in page_obj %}
                         <div class="mb-4 col-12 col-sm-6 col-lg-4 product-list">
@@ -62,51 +169,93 @@
                             </a>
                         </div>
                     {% empty %}
-                        <div class="alert alert-warning text-center m-4" role="alert">
-                            محصولی برای نمایش وجود ندارد
+                        <div class="alert alert-warning text-center m-auto mt-3" role="alert">
+                            محصولی برای نمایش وجود ندارد.
                         </div>
                     {% endfor %}
                 </div>
             </div>
             {% if page_obj.paginator.num_pages > 1 %}
                 <nav aria-label="...">
-                <ul class="pagination justify-content-end">
-                    {% if page_obj.has_previous %}
-                        <li class="pag-item">
-                            <a class="pag-link" href="?page=1&{{ data }}">1</a>
-                        </li>
-                        {% if page_obj.previous_page_number != 1 %}
-                            <li class="pag-item"><span>...</span></li>
+                    <ul class="pagination justify-content-end">
+                        {% if page_obj.has_previous %}
                             <li class="pag-item">
-                                <a class="pag-link" href="?page={{ page_obj.previous_page_number }}&{{ data }}"
-                                   tabindex="-1">{{ page_obj.previous_page_number }}</a>
+                                <a class="pag-link" href="?page=1&{{ data }}">1</a>
                             </li>
+                            {% if page_obj.previous_page_number != 1 %}
+                                <li class="pag-item"><span>...</span></li>
+                                <li class="pag-item">
+                                    <a class="pag-link" href="?page={{ page_obj.previous_page_number }}&{{ data }}"
+                                       tabindex="-1">{{ page_obj.previous_page_number }}</a>
+                                </li>
+                            {% endif %}
                         {% endif %}
-                    {% endif %}
-                    <li class="pag-item active">
-                        <a class="pag-link" href="">{{ page_obj.number }}<span class="sr-only">(current)</span></a>
-                    </li>
-                    {% if page_obj.has_next %}
-                        {% if page_obj.next_page_number != page_obj.paginator.num_pages %}
+                        <li class="pag-item active">
+                            <a class="pag-link" href="">{{ page_obj.number }}<span class="sr-only">(current)</span></a>
+                        </li>
+                        {% if page_obj.has_next %}
+                            {% if page_obj.next_page_number != page_obj.paginator.num_pages %}
+                                <li class="pag-item">
+                                    <a class="pag-link"
+                                       href="?page={{ page_obj.next_page_number }}&{{ data }}">{{ page_obj.next_page_number }}</a>
+                                </li>
+                                <li class="pag-item"><span>...</span></li>
+                            {% endif %}
                             <li class="pag-item">
                                 <a class="pag-link"
-                                   href="?page={{ page_obj.next_page_number }}&{{ data }}">{{ page_obj.next_page_number }}</a>
+                                   href="?page={{ page_obj.paginator.num_pages }}&{{ data }}">{{ page_obj.paginator.num_pages }}</a>
                             </li>
-                            <li class="pag-item"><span>...</span></li>
                         {% endif %}
-                        <li class="pag-item">
-                            <a class="pag-link"
-                               href="?page={{ page_obj.paginator.num_pages }}&{{ data }}">{{ page_obj.paginator.num_pages }}</a>
-                        </li>
-                    {% endif %}
-                </ul>
-            </nav>
+                    </ul>
+                </nav>
             {% endif %}
         </div>
     </div>
     <!-- End Content -->
+
+    <script src="{% static 'base/js/jquery-1.11.0.min.js' %}"></script>
+    {#    <script src="{% static 'products/js/product_list.js' %}"></script>#}
+    <script>
+
+        window.onload = function () {
+            slideOne();
+            slideTwo();
+        }
+        let sliderOne = document.getElementById("slider-1");
+        let sliderTwo = document.getElementById("slider-2");
+        let displayValOne = document.getElementById("range1");
+        let displayValTwo = document.getElementById("range2");
+        let minGap = 0;
+        let sliderTrack = document.querySelector(".slider-track");
+        let sliderMaxValue = document.getElementById("slider-1").max;
+        let sliderMinValue = document.getElementById("slider-1").min;
+
+        function slideOne() {
+            if (parseInt(sliderTwo.value) - parseInt(sliderOne.value) <= minGap) {
+                sliderOne.value = parseInt(sliderTwo.value) - minGap;
+            }
+            displayValOne.textContent = sliderOne.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+            fillColor();
+        }
+
+        function slideTwo() {
+            if (parseInt(sliderTwo.value) - parseInt(sliderOne.value) <= minGap) {
+                sliderTwo.value = parseInt(sliderOne.value) + minGap;
+            }
+            displayValTwo.textContent = sliderTwo.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+            fillColor();
+        }
+
+        function fillColor() {
+            const percent1 = (sliderOne.value / sliderMaxValue) * 100 - (sliderMinValue / sliderMaxValue) * 50;
+            const percent2 = (sliderTwo.value / sliderMaxValue) * 100 - (sliderMinValue / sliderMaxValue) * 50;
+            sliderTrack.style.background = `linear-gradient(to right, #dadae5 ${percent1}% , #bc1f69 ${percent1}% , #bc1f69 ${percent2}%, #dadae5 ${percent2}%)`;
+        }
+
+
+        const inputCheck = $('.filter-form-accordion input[type="checkbox"]:checked')
+        inputCheck.parent('label').addClass('filter-checked');
+
+    </script>
 {% endblock %}
 
-{% block js_link %}
-    <script src="{% static 'products/js/product_list.js' %}"></script>
-{% endblock %}

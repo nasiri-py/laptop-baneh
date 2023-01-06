@@ -46,7 +46,6 @@ INSTALLED_APPS = [
     'star_ratings',
     'widget_tweaks',
     'django_filters',
-    'django_celery_beat',
 
     # my apps
     'accounts.apps.AccountsConfig',
@@ -172,17 +171,8 @@ LOGOUT_REDIRECT_URL = 'home:home'
 # star ratings
 STAR_RATINGS_RERATE = False
 
-# zarinpal
-MERCHANT = config('MERCHANT')
-ZP_API_REQUEST = "https://api.zarinpal.com/pg/v4/payment/request.json"
-ZP_API_VERIFY = "https://api.zarinpal.com/pg/v4/payment/verify.json"
-ZP_API_STARTPAY = "https://www.zarinpal.com/pg/StartPay/{authority}"
-
-description = "تراکنش خرید لپ تاپ. استوک لپ تاپ استور"
-email = 'email@example.com'
-mobile = '09123456789'
-# Important: need to edit for realy server.
-CallbackURL = 'http://127.0.0.1:8000/orders/verify/'
+# kavenegar
+KAVENEGAR_API = ''
 
 # send email
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

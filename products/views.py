@@ -35,6 +35,15 @@ def product_list_view(request):
     if 'page' in data:
         del data['page']
 
+    if ('pg' in data and 'pl' in data) and (data['pg'] == str(min_price) and data['pl'] == str(max_price)):
+        del data['pg']
+        del data['pl']
+
+    if 'sort' in data:
+        sort_val = data['sort']
+    else:
+        sort_val = 4
+
     data_na = data.copy()
     if 'im' in data_na:
         del data_na['im']
@@ -45,7 +54,8 @@ def product_list_view(request):
     data_na_url = urlencode(list(data_na.lists()), doseq=True)
 
     context = {'filter': filter_object, 'page_obj': page_obj, 'min_price': min_price, 'max_price': max_price,
-               'min_val_price': min_val_price, 'max_val_price': max_val_price, 'data': data_url, 'data_na': data_na_url}
+               'min_val_price': min_val_price, 'max_val_price': max_val_price, 'data': data_url, 'data_na': data_na_url,
+               'sort_val': sort_val}
 
     return render(request, 'products/product_list.html', context)
 

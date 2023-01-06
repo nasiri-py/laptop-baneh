@@ -103,12 +103,13 @@ arr.forEach(item => item.addEventListener('mouseleave', (event) => {
 
 const colorBtn = document.getElementsByClassName('btn-color')
 for (let i = 0; i < colorBtn.length; i++) {
-    colorBtn[i].addEventListener("mouseup", function () {
+    colorBtn[i].addEventListener("click", function () {
         const current = document.getElementsByClassName("color-select");
         current[0].className = current[0].className.replace(" color-select", "");
         this.className += " color-select";
     });
 }
+
 
 $(function () {
     $(".comment").slice(0, 4).show();
@@ -141,26 +142,32 @@ $(function () {
 });
 
 
-const imageZoom = document.getElementsByClassName('imgBox')
-const mediaQuery = window.matchMedia('(max-width: 992px)')
-if (mediaQuery.matches) {
-    imageZoom.classList.remove('imgBox')
-}
-
-
 $(function () {
     $('[data-bs-toggle="tooltip"]').tooltip();
 });
 
 
-$('.product-links-wap a').click(function () {
-    const this_src = $(this).children('img').attr('src');
-    $('#product-detail').attr('src', this_src);
-    $('#product-detail').attr('data-origin', this_src);
-    return false;
-});
+const productImageWap = document.getElementsByClassName('a-wap')
+const productImage = document.getElementById('product-detail')
+for (let i = 0; i < productImageWap.length; i++) {
+    productImageWap[i].addEventListener("click", function () {
+        const this_src = $(this).children('img').attr('src');
+        productImage.setAttribute('src', this_src);
+        productImage.setAttribute('data-origin', this_src);
+    })
+}
+
 
 $('.btn-color input').click(function () {
     const this_num = $(this).attr('size');
     $('#product-quantity').attr('max', this_num);
+});
+
+function getPics() {}
+const imgZoom = document.getElementById('product-detail');
+const fullPage = document.getElementById('fullpage');
+const fullImg = document.getElementById('full-image')
+imgZoom.addEventListener('click', function () {
+    fullImg.style.backgroundImage = 'url(' + imgZoom.src + ')';
+    fullPage.style.display = 'block';
 });
