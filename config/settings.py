@@ -45,13 +45,17 @@ INSTALLED_APPS = [
     'ckeditor',
     'star_ratings',
     'widget_tweaks',
-    'django_filters',
+    'django_filters',    
+    'rest_framework',
+    'rest_framework_simplejwt',
+    'drf_spectacular',
 
     # my apps
     'accounts.apps.AccountsConfig',
     'products.apps.ProductsConfig',
     'home.apps.HomeConfig',
     'orders.apps.OrdersConfig',
+    'api.apps.ApiConfig',
     'extensions',
 ]
 
@@ -187,3 +191,28 @@ USE_THOUSAND_SEPARATOR = True
 THOUSAND_SEPARATOR = ','
 DECIMAL_SEPARATOR = '.'
 NUMBER_GROUPING = 3
+
+# rest framework
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
+    'DEFAULT_THROTTLE_CLASSES': [
+        'rest_framework.throttling.AnonRateThrottle',
+        'rest_framework.throttling.UserRateThrottle'
+    ],
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '10/hour',
+        'user': '100/hour'
+    },
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer'
+    ]
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Laptop Baneh',
+    'DESCRIPTION': 'API for users and products',
+    'VERSION': '1.0.0',
+}
