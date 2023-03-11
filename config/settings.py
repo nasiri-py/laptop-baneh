@@ -45,7 +45,8 @@ INSTALLED_APPS = [
     'ckeditor',
     'star_ratings',
     'widget_tweaks',
-    'django_filters',    
+    'django_filters',
+    'django_celery_beat',
     'rest_framework',
     'rest_framework_simplejwt',
     'drf_spectacular',
@@ -99,10 +100,10 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'stokelaptopstore',
+        'NAME': 'laptopbaneh',
         'USER': 'postgres',
         'PASSWORD': 'postgres',
-        'HOST': '127.0.0.1',
+        'HOST': 'db',
         'PORT': '5432',
     }
 }
@@ -216,3 +217,6 @@ SPECTACULAR_SETTINGS = {
     'DESCRIPTION': 'API for users and products',
     'VERSION': '1.0.0',
 }
+
+# celery
+BROKER_URL = 'amqp://rabbitmq:5672/'

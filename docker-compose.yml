@@ -1,0 +1,75 @@
+services:
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:latest
+    networks:
+      - main
+    ports:
+      - "5672:5672"
+    restart: always
+
+  db:
+    container_name: db
+    image: postgres:latest
+    environment:
+      - "POSTGRES_DB=${DATABASE_NAME}"
+      - "POSTGRES_USER=${DATABASE_USER}"
+      - "POSTGRES_PASSWORD=${DATABASE_PASSWORD}"
+    networks:
+      - main
+    ports:
+      - "5432:5432"
+    restart: always
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  celery_worker:
+    container_name: celery_worker
+    command: celery -A config worker -l INFO
+    depends_on:
+      - web
+      - rabbitmq
+      - db
+    build: .
+    environment:
+      - C_FORCE_ROOT="true"
+    networks:
+      - main
+    restart: always
+
+  celery_beat:
+    container_name: celery_beat
+    command: celery -A config beat -l INFO --scheduler django_celery_beat.schedulers:DatabaseScheduler
+    depends_on:
+      - web
+      - rabbitmq
+      - db
+      - celery_worker
+    build: .
+    ports: []
+    environment:
+      - C_FORCE_ROOT="true"
+    networks:
+      - main
+    restart: always
+
+  web:
+    container_name: web
+    build: .
+    command: "python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - .:/code
+    depends_on:
+      - rabbitmq
+      - db
+    ports:
+      - "8000:8000"
+    networks:
+      - main
+    restart: always
+
+networks:
+  main:
+
+volumes:
+  postgres_data:
