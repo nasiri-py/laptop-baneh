@@ -14,6 +14,8 @@ from django.http import JsonResponse
 
 def product_list_view(request):
     products = Product.objects.all().order_by('-available')
+
+    # get min and max price of products
     mini = Product.objects.aggregate(m_price=Min('price'))
     min_price = int(mini['m_price'])
     maxi = Product.objects.aggregate(m_price=Max('price'))
@@ -26,6 +28,7 @@ def product_list_view(request):
     if max_val_price is None:
         max_val_price = max_price
 
+    # apply filters
     filter_object = ProductFilter(request.GET, queryset=products)
     products = filter_object.qs
 
@@ -68,10 +71,14 @@ class ProductDetailView(generic.DetailView):
         slug = self.kwargs.get('slug')
         product = get_object_or_404(Product, slug=slug)
         self.colors = product.colors.filter(available=True)
+
+        # offer products by category
         self.similar_products = Product.objects.filter(category__in=product.category.all()).exclude(id=product.id). \
                                     order_by('-available')[:10]
+
         product_id = {'product_id': product.id}
         self.order_form = AddToCartForm(**product_id)
+
         ip_address = self.request.user.ip_address
         if ip_address not in product.hits.all():
             product.hits.add(ip_address)
@@ -125,6 +132,7 @@ class CommentReplyView(LoginRequiredMixin, View):
         return redirect('product:detail', product.slug)
 
 
+# live search
 def search_view(request):
     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
         res = None
@@ -207,6 +215,7 @@ def compare_delete_view(request, pk):
     return redirect('product:compare')
 
 
+# live search
 def compare_search_view(request):
     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
         res = None

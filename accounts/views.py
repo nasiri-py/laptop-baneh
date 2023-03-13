@@ -47,6 +47,8 @@ class VerifyView(generic.CreateView):
 
     def get(self, request, *args, **kwargs):
         try:
+
+            # user can be redirected here only from specific views (RegisterView, ResendCodeView, OtpCodeLoginView, Profile)
             user_session = request.session['user_registration']
             if user_session['url']:
                 del user_session['url']
@@ -58,16 +60,22 @@ class VerifyView(generic.CreateView):
     def form_valid(self, form):
         user_session = self.request.session['user_registration']
         try:
+
+            # check otp code time out
             code_instance = OtpCode.objects.get(phone_number=user_session['phone_number'])
             if code_instance.created + timedelta(minutes=3) < datetime.now(tz=pytz.timezone('Asia/Tehran')):
                 code_instance.delete()
                 messages.error(self.request, 'کد وارد شده منقضی شده است. لطفا دوباره تلاش کنید')
                 return redirect('accounts:login')
+
             if form.is_valid():
                 cd = form.cleaned_data
+                # check received code from user
                 if int(cd['code']) == int(code_instance.code):
+                    # for login by otp code
                     if User.objects.filter(phone_number=user_session['phone_number']).exists():
                         user = User.objects.get(phone_number=user_session['phone_number'])
+                    # for change user number
                     elif user_session['phone_number_old']:
                         user = User.objects.get(phone_number=user_session['phone_number_old'])
                         user.phone_number = user_session['phone_number']
@@ -76,6 +84,7 @@ class VerifyView(generic.CreateView):
                         user.save()
                         messages.success(self.request, f'تغییرات به پروفایل شما اعمال شد')
                         return redirect('accounts:profile')
+                    # for crate user
                     else:
                         user = User.objects.create_user(user_session['phone_number'],
                                                         user_session['username'],
@@ -112,6 +121,8 @@ class ResendCodeView(View):
         return redirect('accounts:login')
 
     def post(self, request):
+
+        # user can request only by resend code form (input name = access)
         if request.POST['access']:
             user_session = self.request.session['user_registration']
             user_session['url'] = self.request.path
@@ -166,6 +177,8 @@ class PasswordResetView(View):
             except User.DoesNotExist:
                 messages.error(self.request, f"کاربری با شماره موبایل {phone_number} وجود ندارد")
                 return redirect('accounts:password-reset')
+
+            # send password reset address to user
             current_site = get_current_site(self.request)
             token_generator = self.token_generator()
             message = render_to_string('registration/password_reset_sms.html', {
@@ -198,6 +211,7 @@ class Profile(LoginRequiredMixin, generic.UpdateView):
         return User.objects.get(pk=self.request.user.pk)
 
     def get_form_kwargs(self):
+        # send user to kwargs
         kwargs = super(Profile, self).get_form_kwargs()
         kwargs.update({'user': self.request.user})
         return kwargs
@@ -206,6 +220,8 @@ class Profile(LoginRequiredMixin, generic.UpdateView):
         if form.is_valid():
             phone_number_new = form.cleaned_data['phone_number']
             phone_number_old = self.request.user.phone_number
+
+            # if user change phone number, redirect to VerifyView
             if phone_number_new != phone_number_old:
                 self.request.session['user_registration'] = {
                     'phone_number': phone_number_new,
@@ -217,6 +233,7 @@ class Profile(LoginRequiredMixin, generic.UpdateView):
                 send_otp_code(phone_number_new)
                 messages.success(self.request, f'کد تائید به شماره {phone_number_new} ارسال شد')
                 return redirect('accounts:verify')
+
             form.save()
             messages.success(self.request, 'تغییرات به پروفایل شما اعمال شد')
             return redirect('accounts:profile')
@@ -227,6 +244,8 @@ class PasswordChange(LoginRequiredMixin, PasswordChangeView):
 
     def form_valid(self, form):
         form.save()
+
+        # change password
         update_session_auth_hash(self.request, form.user)
         messages.success(self.request, 'گذرواژه شما تغییر کرد')
         return redirect('accounts:profile')

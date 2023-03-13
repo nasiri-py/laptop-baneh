@@ -208,7 +208,7 @@ body {
     right: 25%;
     z-index: 1200;
 }
-.message-box .p {
+.message-box p {
     background-color: #000;
 }
 

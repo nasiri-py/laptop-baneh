@@ -32,6 +32,8 @@ class OtpCodeLoginForm(forms.Form):
 
 class ProfileForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
+
+        # get user from kwargs
         self.user = kwargs.pop('user')
         super(ProfileForm, self).__init__(*args, **kwargs)
         if not self.user.is_staff:

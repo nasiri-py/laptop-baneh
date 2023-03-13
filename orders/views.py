@@ -67,9 +67,13 @@ def cart_clear_view(request):
 @login_required
 def order_create_view(request):
     cart = Cart(request)
+
+    # get order it's not pay if it is exists
     order_not_pay = Order.objects.filter(user=request.user, paid=False)
     if order_not_pay.exists():
         order_not_pay.delete()
+
+    # create order
     order = Order.objects.create(user=request.user)
     for item in cart:
         color = Color.objects.get(id=item['color'].id)

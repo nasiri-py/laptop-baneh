@@ -19,6 +19,8 @@ class ProductFilter(django_filters.FilterSet):
         ('9', 'پربازدید ترین')
     )
 
+
+    # filters
     pg = django_filters.NumberFilter(field_name='price', lookup_expr='gte')
     pl = django_filters.NumberFilter(field_name='price', lookup_expr='lte')
 
@@ -59,6 +61,7 @@ class ProductFilter(django_filters.FilterSet):
 
     sort = django_filters.ChoiceFilter(choices=CHOICE_SORT, method='sort_filter')
 
+    # sorts
     def sort_filter(self, queryset, name, value):
         if value == '1':
             data = '-price'
@@ -79,6 +82,8 @@ class ProductFilter(django_filters.FilterSet):
         elif value == '0':
             data = 'hits'
         else:
+
+            # popular products in last 10 days
             last_ten_days = datetime.today() - timedelta(days=10)
             product_popular = queryset.annotate(
                 count=Count('hits', filter=Q(articlehit__created__gt=last_ten_days)))

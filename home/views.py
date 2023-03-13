@@ -11,14 +11,20 @@ from django.contrib import messages
 
 class HomeView(View):
     def get(self, request):
+
+        # get products with discount
         product_discount = Product.objects.filter(available=True, has_discount=True)
+
+        # get 10 newest products
         product_newest = Product.objects.filter(has_discount=False).order_by('-created')[:10]
 
+        # get 10 popular products in 10 last days
         last_ten_days = datetime.today() - timedelta(days=10)
         product_popular = Product.objects.filter(has_discount=False).annotate(
             count=Count('hits', filter=Q(articlehit__created__gt=last_ten_days))
         ).order_by('-count', '-created')[:10]
 
+        # get 6 high star brands
         content_type_id = ContentType.objects.get(app_label='products', model='brand').id
         brand_hot = Brand.objects.annotate(
             max=Max('ratings__average', filter=Q(ratings__content_type_id=content_type_id))

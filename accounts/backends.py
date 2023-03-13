@@ -1,6 +1,7 @@
 from .models import User
 
 
+# login by username or phone number
 class PhoneNumberBackend:
     def authenticate(self, request, username=None, password=None):
         try:
