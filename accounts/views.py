@@ -28,7 +28,9 @@ class RegisterView(generic.CreateView):
     def form_valid(self, form):
         if form.is_valid():
             cd = form.cleaned_data
-            send_otp_code(cd['phone_number'])
+            from_client = self.request.POST.get('from_client')
+            if from_client is None:
+                send_otp_code(cd['phone_number'])
             self.request.session['user_registration'] = {
                 'phone_number': cd['phone_number'],
                 'username': cd['username'],
